@@ -22,8 +22,8 @@
 }
 
 .language-button img {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: auto;
     border: none; /* 이미지 테두리 제거 */
     display: block; /* 이미지 여백 제거 */
 }

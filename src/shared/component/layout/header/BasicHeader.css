@@ -2,10 +2,11 @@
    공통 헤더 스타일
    ========================================================================== */
 .basic-header {
-    position: fixed;
+    /*position: fixed;*/
     top: 0;
     left: 0;
     width: 100%;
+    height: 70px;
     background-color: #ffffff;
     color: rgba(7, 7, 7, 0.68);
     z-index: 1000;
@@ -17,11 +18,12 @@
     display: flex;
     align-items: center;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: -7px auto;
     padding: 1rem;
     position: relative;
     width: 100%; /* 부모 요소 너비 100% 보장 */
     box-sizing: border-box; /* 패딩이 너비에 영향을 주지 않도록 */
+
 }
 
 /* ==========================================================================
@@ -30,7 +32,7 @@
 .left-section {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     width: 100%; /* 스마트폰에서 너비 100% 보장 */
 }
 
@@ -43,7 +45,7 @@
 
 /* 로고 이미지 : 프로젝트 이미지 태그*/
 .logo-img {
-    width: 30px;
+    width: 40px;
     height: auto;
 }
 
@@ -103,8 +105,8 @@ nav ul li a {
 }
 
 .user-profile-image {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: auto;
     border-radius: 50%;
     border: 1px solid rgba(0, 0, 0, 0.35);
 }

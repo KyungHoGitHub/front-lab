@@ -1,10 +1,12 @@
 import React from "react";
-
+import './Home.css';
 
 const Home:React.FC =()=>{
 
     return(
-        <p>This is the main content.</p>
+        <main className="home-page-main">
+
+        </main>
     )
 }
 export default Home;
