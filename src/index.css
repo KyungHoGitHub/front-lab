@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Yangjinche';
+    font-weight: normal;
+    src: url("./fonts/yangjinche.otf") format("opentype");
+}
+body {
+    margin: 0;
+    padding: 0;
+}

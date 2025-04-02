@@ -1,0 +1,264 @@
+/* ==========================================================================
+   공통 헤더 스타일
+   ========================================================================== */
+.basic-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    color: rgba(7, 7, 7, 0.68);
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 헤더 영역: 전체 헤더 wrap */
+.header-container {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    position: relative;
+    width: 100%; /* 부모 요소 너비 100% 보장 */
+    box-sizing: border-box; /* 패딩이 너비에 영향을 주지 않도록 */
+}
+
+/* ==========================================================================
+   공통 헤더 왼쪽 섹션 스타일
+   ========================================================================== */
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%; /* 스마트폰에서 너비 100% 보장 */
+}
+
+/* 로고 섹션 : 프로젝트의 이미지나 텍스트 영역 */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* 로고 이미지 : 프로젝트 이미지 태그*/
+.logo-img {
+    width: 30px;
+    height: auto;
+}
+
+/* 로고 타이틀 : 프로젝트 텍스트 태그*/
+.logo-title {
+    font-size: 1.0rem;
+    font-weight: bold;
+    font-family: 'Yangjinche', sans-serif;
+    margin: 0;
+}
+
+/* 로고 타이틀 : 제목 */
+.logo-title a {
+    color: rgba(7, 7, 7, 0.68);
+    text-decoration: none !important;
+}
+
+/* 토글 버튼  : 버튼 스타일 */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: rgba(7, 7, 7, 0.68);
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+/* ==========================================================================
+   공통 헤더 오른쪽 섹션 스타일
+   ========================================================================== */
+.right-section {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: rgba(7, 7, 7, 0.68);
+    text-decoration: none;
+    font-family: 'Yangjinche', sans-serif;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-profile-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.user-id {
+    font-size: 1rem;
+    font-family: 'Yangjinche', sans-serif;
+}
+
+
+
+.nav-toggle:hover {
+    /*color: rgba(7, 7, 7, 1);*/
+}
+
+.nav-toggle:focus {
+    /*outline: 2px solid rgba(7, 7, 7, 0.68);*/
+    outline-offset: 2px;
+}
+
+/* 태블릿 (768px ~ 1024px) */
+@media (max-width: 1024px) {
+    .header-container {
+        padding: 0.75rem;
+    }
+
+    .left-section {
+        gap: 0.75rem;
+    }
+
+    .logo-section {
+        gap: 0.3rem;
+    }
+
+    .logo-img {
+        width: 120px;
+        height: auto;
+    }
+
+    .logo {
+        font-size: 0.9rem;
+    }
+
+    nav ul {
+        gap: 1rem;
+    }
+
+    .user-profile-image {
+        width: 36px;
+        height: 36px;
+    }
+
+    .user-id {
+        font-size: 0.9rem;
+    }
+}
+
+/* 스마트폰 (768px 이하) */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 0.5rem;
+    }
+
+    .left-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .logo-section {
+        gap: 0.3rem;
+    }
+
+    .logo-img {
+        width: 80px;
+        height: auto;
+    }
+
+    .logo {
+        font-size: 0.8rem;
+    }
+
+    .nav-toggle {
+        display: block;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+    }
+
+    /* nav와 right-section 숨김 */
+    nav {
+        display: none;
+        width: 100%;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        margin: 0; /* 불필요한 마진 제거 */
+    }
+
+    nav.open {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        text-align: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.1); /* <ul> 위쪽 구분선 */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* <ul> 아래쪽 구분선 */
+        margin: 0; /* 불필요한 마진 제거 */
+        padding: 0; /* 불필요한 패딩 제거 */
+        box-sizing: border-box; /* 패딩이 너비에 영향을 주지 않도록 */
+    }
+
+    nav ul li a {
+        font-size: 0.9rem;
+        display: block;
+        padding: 0.5rem 0;
+    }
+
+    .right-section {
+        display: none;
+        margin-left: 0;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+        width: 100%;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .right-section.open {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .user-info {
+        gap: 8px;
+    }
+
+    .user-profile-image {
+        width: 32px;
+        height: 32px;
+    }
+
+    .user-id {
+        font-size: 0.8rem;
+    }
+}

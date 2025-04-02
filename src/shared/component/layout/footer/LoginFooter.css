@@ -1,0 +1,49 @@
+
+.login-footer {
+    padding: 15px;
+    background-color: #f8f9fa;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    line-height: 1.5;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-family: 'nanumche', sans-serif;
+}
+
+
+.footer-text {
+    margin: 0;
+    white-space: pre-line;
+}
+.login-footer-options{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.login-footer-button{
+    display: flex;
+    width: 100%;
+    max-width: 160px;
+    font-family: 'nanumche', sans-serif;
+    align-items: center; /* 아이콘과 텍스트 수직 중앙 정렬 */
+    gap: 12px; /* 아이콘과 텍스트 간 간격 */
+    /*background-color: #e6f0fa; !* 연한 블루 배경 *!*/
+    /*border: 1px solid #cce5ff; !* 테두리 추가로 깔끔하게 *!*/
+    color: #007bff; /* 텍스트 색상 유지 */
+    font-size: 14px;
+    padding: 6px 12px; /* 내부 여백 추가 */
+    border: none; /* 둥근 모서리 */
+    cursor: pointer;
+    text-decoration: none; /* 밑줄 제거 */
+    transition: background-color 0.3s, transform 0.1s; /* 부드러운 전환 */
+}
+
+.login-footer-button:hover {
+    background-color: #cce5ff; /* 호버 시 더 진한 연한 블루 */
+    transform: translateY(-1px); /* 살짝 위로 이동 */
+}
+
+.login-button-icon {
+    font-size: 14px; /* 아이콘 크기 조정 */
+}

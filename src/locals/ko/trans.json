@@ -1,0 +1,13 @@
+{
+  "header": {
+    "title": "Oops",
+    "menu1": "메뉴1",
+    "menu2": "메뉴2",
+    "menu3": "메뉴3"
+  },
+  "userInfo": {
+    "account_settings": "계정설정",
+    "mode_select": "모드 선택",
+    "logout": "로그아웃"
+  }
+}

@@ -1,0 +1,137 @@
+
+/* ==========================================================================
+   login form 공통 스타일
+   ========================================================================== */
+.login-form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'nanumche', sans-serif;
+}
+
+/* 제목 : 로그인폼 타이틀 */
+.login-form-title {
+    font-size: 34px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+/* 제목 : 로그인폼 부 제목 */
+.login-form-sub {
+    font-size: 13px; /* 작고 읽기 쉬운 크기 */
+    color: #666; /* 회색 톤 */
+    text-align: center; /* 중앙 정렬 */
+    line-height: 1.5; /* 줄 간격으로 자연스러운 줄 바꿈 */
+    margin-bottom: 20px; /* 아래 요소와 간격 */
+    white-space: pre-line; /* 코드에서 줄 바꿈 반영 */
+}
+
+/* 로그인 폼 : 로그인 입력 폼 */
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    height: 24px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s; /* 전환 효과 추가 */
+}
+
+.form-group input.input-error {
+    border-color: #ff4d4f; /* 에러 시 빨간 테두리 */
+    box-shadow: 0 0 3px rgba(255, 77, 79, 0.5); /* 선택적: 약간의 그림자 효과 */
+}
+
+.form-group input:focus {
+    border: 1px solid #ccc;/* 포커스 시 초록 테두리 */
+    outline: none;
+}
+
+.form-group .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px; /* 입력 필드와 간격 */
+    display: block; /* 블록 요소로 설정 */
+    text-align: left !important;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-left: 15px;
+    max-width: 318px;
+}
+
+/* 공통 버튼 스타일 */
+button {
+    width: 100%; /* 폼 너비에 맞춤 */
+    max-width:  318px; /* 버튼 너비 제한 */
+    padding: 12px 20px; /* 적당한 내부 여백 */
+    font-size: 16px; /* 읽기 쉬운 크기 */
+    border-radius: 8px; /* 둥근 모서리 */
+    cursor: pointer; /* 클릭 가능 표시 */
+    transition: background-color 0.3s, transform 0.1s; /* 부드러운 전환 */
+}
+
+.login-form-leftButton {
+    background-color: #007bff; /* 파란색 강조 */
+    color: #fff; /* 흰색 텍스트 */
+    border: none;
+    font-family: 'nanumche', sans-serif;
+}
+
+.login-form-leftButton:hover:not(:disabled) {
+    background-color: #0056b3; /* 호버 시 더 진한 파랑 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+}
+
+.login-form-leftButton:disabled {
+    background-color: #b0c4de; /* 비활성화 시 회색 */
+    cursor: not-allowed;
+}
+
+/* 회원가입 버튼 */
+.login-form-rightButton {
+    background-color: #edf5ff; /* 투명 배경 */
+    color: #007bff; /* 파란색 텍스트 */
+    border: none; /* 파란색 테두리 */
+    margin-top: 10px; /* 위 버튼과 간격 (inline padding 대체) */
+    font-family: 'nanumche', sans-serif;
+}
+
+.login-form-rightButton:hover:not(:disabled) {
+    background-color: #e6f0fa; /* 호버 시 연한 파랑 배경 */
+    transform: translateY(-2px);
+}
+
+.login-form-rightButton:disabled {
+    color: #b0c4de;
+    border-color: #b0c4de;
+    cursor: not-allowed;
+}
+
+.error {
+    font-size: 12px;
+    font-family: 'nanumche', sans-serif;
+    color: #ff4d4f;
+    margin-bottom: 10px;
+    text-align: center;
+}

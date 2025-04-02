@@ -1,0 +1,67 @@
+.user-avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-avatar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.user-avatar span {
+    font-size: 1rem;
+    font-family: 'Yangjinche', sans-serif;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 130%;
+    right: -15px; /* 아바타 오른쪽에 정렬 */
+
+    width: 200px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 4px;
+    padding: 0;
+    list-style: none;
+    z-index: 1000;
+    font-family: 'Yangjinche', sans-serif;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+/* 마지막 아이템의 구분선 제거 */
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+.dropdown-item:last-child {
+    color: rgba(241, 57, 57, 0.87); /* 호버 시에도 빨간색 유지 */
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+/* 스마트폰 (768px 이하) */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        display: none;
+    }
+}
