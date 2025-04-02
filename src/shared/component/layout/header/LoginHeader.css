@@ -35,3 +35,8 @@
     width: 40px;
     height: auto;
 }
+
+.login-right-section{
+    position: relative;
+    display: inline-block;
+}
