@@ -2,6 +2,7 @@ import {useForm} from "react-hook-form";
 import React, {useState} from "react";
 import './SignupForm.css';
 import PasswordStrengthBar from "./PasswordStrengthBar.tsx";
+import {FaEye} from "react-icons/fa";
 
 interface SignupFormProps {
     title: string,
@@ -11,6 +12,7 @@ type FormData = {
     email: string,
     password: string,
     userId: string,
+    confirmPassword: string,
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({title}) => {
@@ -23,13 +25,18 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
             email: "",
             userId: "",
             password: "",
+            confirmPassword: "",
         },
         mode: "onSubmit",
         reValidateMode: "onChange",
     })
 
-
     const [loading, setLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showConfirmPassword, setConfirmShowPassword] = useState<boolean>(false);
+
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
     const password = watch("password") || "";
     return (
         <div className="signup-form-container">
@@ -41,7 +48,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
 
             <form className="signup-form">
                 <div className="form-group">
-                    <label htmlFor="email"></label>
+                    <label htmlFor="email">Email</label>
                     <input
                         className={errors.email ? "input-error" : ""}
                         type="email"
@@ -53,7 +60,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="userId"></label>
+                    <label htmlFor="userId">ID</label>
                     <input
                         className={errors.userId ? "input-error" : ""}
                         type="text"
@@ -66,18 +73,35 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                 </div>
                 {errors.userId && <span className="error">{errors.userId.message}</span>}
                 <div className="form-group">
-                    <label htmlFor="password"></label>
-                    <input
-                        type="password"
-                        id="password"
-                        {...register("password", {
-                            required: "패스워드 입력은 필수 입니다."
-                        })}
-                        placeholder="패스워드를 입력하세요"
-                    />
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            {...register("password", {
+                                required: "패스워드 입력은 필수 입니다."
+                            })}
+                            placeholder="패스워드를 입력하세요"
+
+                        />
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
+
                 <PasswordStrengthBar password={password}/>
+
+                <div className="form-group">
+                    <label htmlFor="confirmPassword">Refeat Password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        {...register("confirmPassword", {
+                            required: "패스워드 입력은 필수 입니다.",
+                            validate: (value) =>
+                                value === watch("password") || "비밀번호가 일치하지 않습니다."
+                        })}
+                        placeholder="패스워드 확인 입력"
+                    />
+                </div>
+                {errors.confirmPassword && <span className="error">{errors.confirmPassword.message}</span>}
 
                 <div className="button-container">
                     <button className="login-form-rightButton" disabled={loading}>

@@ -35,6 +35,9 @@
 }
 
 .form-group label {
+    font-size: 13px; /* 작고 읽기 쉬운 크기 */
+    color: #666; /* 회색 톤 */
+    text-align: left; /* 중앙 정렬 */
     display: block;
     margin-bottom: 5px;
 }

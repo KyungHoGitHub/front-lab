@@ -15,13 +15,14 @@
     margin: 0;
     white-space: pre-line;
 }
-.login-footer-options{
+
+.login-footer-options {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-.login-footer-button{
+.login-footer-button {
     display: flex;
     width: 100%;
     max-width: 160px;
@@ -46,4 +47,11 @@
 
 .login-button-icon {
     font-size: 14px; /* 아이콘 크기 조정 */
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .login-footer {
+        display: none;
+    }
 }
