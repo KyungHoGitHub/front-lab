@@ -1,19 +1,22 @@
 import {useForm} from "react-hook-form";
 import React, {useState} from "react";
 import './SignupForm.css';
+import PasswordStrengthBar from "./PasswordStrengthBar.tsx";
 
 interface SignupFormProps {
     title: string,
 }
-type FormData ={
+
+type FormData = {
     email: string,
     password: string,
     userId: string,
 }
 
-const SignupForm: React.FC<SignupFormProps> =({title})=>{
+const SignupForm: React.FC<SignupFormProps> = ({title}) => {
     const {
         register,
+        watch,
         formState: {errors},
     } = useForm<FormData>({
         defaultValues: {
@@ -27,7 +30,7 @@ const SignupForm: React.FC<SignupFormProps> =({title})=>{
 
 
     const [loading, setLoading] = useState<boolean>(false);
-
+    const password = watch("password") || "";
     return (
         <div className="signup-form-container">
             <div className="signup-form-title">{title}</div>
@@ -74,12 +77,9 @@ const SignupForm: React.FC<SignupFormProps> =({title})=>{
                     />
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
-
+                <PasswordStrengthBar password={password}/>
 
                 <div className="button-container">
-                    <button className="login-form-leftButton" type="submit" disabled={loading}>
-                        {loading ? "로그인중" : "로그인"}
-                    </button>
                     <button className="login-form-rightButton" disabled={loading}>
                         회원가입
                     </button>

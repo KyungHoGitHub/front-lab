@@ -15,7 +15,8 @@
 .login-container {
     display: flex;
     align-items: center;
-    max-width: 1200px;
+    justify-content: space-between; /* 로고 세션과 오른쪽 영역 세션을 양쪽으로 위치 */
+    max-width: 1700px;
     margin: 0 auto;
     padding: 1rem;
     position: relative;
@@ -37,6 +38,66 @@
 }
 
 .login-right-section{
-    position: relative;
+    /*position: relative;*/
     display: inline-block;
+}
+.signup-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #007bff, #00c4ff);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'nanumche', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.signup-button:hover {
+    background: linear-gradient(135deg, rgba(0, 86, 179, 0.74), #0099cc);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.signup-button.active {
+    background: linear-gradient(135deg, rgba(0, 61, 128, 0.57), #006699);
+}
+
+.signup-icon {
+    font-size: 16px;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #007bff, #00c4ff);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'nanumche', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, rgba(0, 86, 179, 0.74), #0099cc);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.login-button.active {
+    background: linear-gradient(135deg, rgba(0, 61, 128, 0.57), #006699);
+}
+
+
+.login-icon {
+    font-size: 16px;
 }
