@@ -5,6 +5,7 @@ import Login from "./pages/Login.tsx";
 import LoginForm from "./features/login/components/LoginForm.tsx";
 import SignupForm from "./features/signup/components/SignupForm.tsx";
 import LoginSignupPage from "./pages/LoginSignupPage.tsx";
+import Mypage from "./pages/Mypage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -25,21 +26,16 @@ export const router = createBrowserRouter([
         children : [
             {
                 index: true,
+                path:'test',
                 element: <Home/>,
-            }
-        ]
-    },
-    {
-        path: '/test',
-        element: <App/>,
-        children : [
+            },
             {
                 index: true,
-                element: <Home/>,
-            }
+                path:'mypage',
+                element: <Mypage/>,
+            },
         ]
     },
-
     {
         path: '*',
         element: <div>not foud 404</div>

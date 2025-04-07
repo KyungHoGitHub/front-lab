@@ -32,7 +32,7 @@
 .left-section {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 2.0rem;
     width: 100%; /* 스마트폰에서 너비 100% 보장 */
 }
 

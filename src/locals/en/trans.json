@@ -1,12 +1,12 @@
 {
   "header": {
     "title": "Oops",
-    "menu1": "Menu 1",
-    "menu2": "Menu 2",
-    "menu3": "Menu 3"
+    "menu1": "Usage Status",
+    "menu2": "User Info",
+    "menu3": "Status Info"
   },
   "userInfo": {
-    "account_settings":  "Account Settings",
+    "user_settings":  "User Settings",
     "mode_select":  "Account Settings",
     "logout": "Logout"
   }

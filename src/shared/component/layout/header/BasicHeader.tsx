@@ -31,7 +31,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
         {name: 'peng', img: ''}
 
     const dropdownItems = [
-        {title: t('userInfo.account_settings'), path: '/home'},
+        {title: t('userInfo.user_settings'), path: '/mypage'},
         {title: t('userInfo.mode_select'), path: '/homedsd'},
         {title: t('userInfo.logout'), path: '/homdde'},
     ]
