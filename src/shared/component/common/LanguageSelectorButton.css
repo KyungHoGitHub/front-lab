@@ -13,8 +13,8 @@
     padding: 8px; /* 내부 여백 */
     cursor: pointer; /* 손가락 커서 */
     transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 미세한 그림자 */
-    border: 1px solid rgba(0, 0, 0, 0.35);
+    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); !* 미세한 그림자 *!*/
+    /*border: 1px solid rgba(0, 0, 0, 0.35);*/
 }
 
 .language-button:hover {
@@ -31,7 +31,7 @@
 /* 포커스 상태 (접근성) */
 .language-button:focus {
     outline: none; /* 기본 윤곽선 제거 */
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* 포커스 시 파란색 윤곽 */
+    /*box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); !* 포커스 시 파란색 윤곽 *!*/
 }
 
 .language-dropdown-menu {
