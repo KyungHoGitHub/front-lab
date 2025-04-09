@@ -1,35 +1,33 @@
 import React from "react";
-import './Mypage.css';
-import Card from "../shared/component/common/Card.tsx";
-import Avatar from "../shared/component/common/Avatar.tsx";
-import userIcon from '@assets/userRed.png';
-import Description from "../shared/component/common/Description.tsx";
+import CustomLineChart from "../shared/component/common/CustomLineChart.tsx";
+import Statistic from "../features/usage/components/Statistic.tsx";
+import './Usage.css';
+import {FcClock, FcConferenceCall, FcExpand, FcLowPriority} from "react-icons/fc";
 import Table, {Column} from "../shared/component/common/Table.tsx";
-import {useNavigate} from "react-router";
 
-interface UserActivity {
-    id: number;
-    name: string;
-    action: string;
-    initDate: string;
-    currentDate: string;
+interface MonthlyUsage {
+    month: string; // 예: "2023-01"
+    usage: number; // 사용량
 }
 
-const Mypage: React.FC = () => {
-    const navigate = useNavigate();
-
-    const userInfo: { label: string; value: string }[] = [
-        { label: 'ID', value: 'user123' },
-        { label: '이름', value: '홍길동' },
-        { label: '휴대폰번호', value: '010-****-1234' },
+const Usage: React.FC = () => {
+// 월별 사용량 데이터 (예시)
+    const monthlyUsageData: MonthlyUsage[] = [
+        {month: '2023-01', usage: 120},
+        {month: '2023-02', usage: 150},
+        {month: '2023-03', usage: 80},
+        {month: '2023-04', usage: 200},
+        {month: '2023-05', usage: 170},
+        {month: '2023-06', usage: 130},
+        {month: '2023-07', usage: 220},
+        {month: '2023-08', usage: 190},
+        {month: '2023-09', usage: 90},
+        {month: '2023-10', usage: 250},
+        {month: '2023-11', usage: 210},
+        {month: '2023-12', usage: 180},
     ];
 
-    const companyInfo: { label: string; value: string }[] = [
-        { label: '기관명', value: '웹테스트' },
-        { label: '부서명', value: '개발팀' },
-    ];
-
-    const activityData: UserActivity[] = [
+    const activityData= [
         { id: 1, name: '김길동',action: '로그인', initDate: '2023-10-01' ,currentDate:'2025-04-08'},
         { id: 2,name: '홍길동', action: '프로필 업데이트', initDate: '2023-10-02',currentDate:'2025-04-08' },
         { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
@@ -47,14 +45,8 @@ const Mypage: React.FC = () => {
         { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
     ];
 
-    // 상세 페이지로 이동하는 핸들러
-    const handleCellClick = (record: UserActivity) => {
-        navigate(`/activity/${record.id}`); // 예: /activity/1로 이동
-        // 또는 간단히 테스트용으로 alert 사용:
-        // alert(`Clicked activity: ${record.action} (ID: ${record.id})`);
-    };
 
-    const activityColumns: Column<UserActivity>[] = [
+    const activityColumns = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -64,7 +56,6 @@ const Mypage: React.FC = () => {
             title : '이름',
             dataIndex: 'name',
             sorter: (a, b) => a.id - b.id, // 숫자 정렬
-            onCellClick: handleCellClick,
         },
         {
 
@@ -82,27 +73,27 @@ const Mypage: React.FC = () => {
             dataIndex: 'currentDate',
         }
     ];
-    const handleAvatarChange = () => {
-        alert('이미지 변경 로직을 여기에 추가하세요!');
-        // 실제로는 파일 업로드 로직 등 구현
-    };
+
     return (
+        <>
+            <div className="statistic-grid">
+                <Statistic title="월별접속현황" value="120" prefix={<FcExpand/>} suffix="건"/>
+                <Statistic title="평균접속시간" value="1시간 20" prefix={<FcClock/>} suffix="분"/>
+                <Statistic title="다운로드수" value="120" prefix={<FcLowPriority/>} suffix="회"/>
+                <Statistic title="총 사용자" value="1200" prefix={<FcConferenceCall/>} suffix="명"/>
 
-        <Card title={"my page"}>
-            <Avatar size={100} src={userIcon} onChange={handleAvatarChange}></Avatar>
-            <span style={{padding: "10px"}}/>
-            <Card title={"기본정보"}>
-                <Description items={userInfo}/>
-            </Card>
-            <span style={{padding: "10px"}}/>
-            <Card title={"기관정보"}>
-                <Description items={companyInfo}/>
-            </Card>
-
-            {/*<Card>*/}
-            {/*    <Table columns={activityColumns} dataSource={activityData} />*/}
-            {/*</Card>*/}
-        </Card>
+            </div>
+            <CustomLineChart
+                data={monthlyUsageData}
+                width={700}
+                height={350}
+                lineColor="#10b981"
+                xAxisFormatter={(value) => `${parseInt(value.split('-')[1])}월`} // "1월" 형식
+                showMonthSelector={true}
+            />
+            <div className="padding" style={{padding: "10px"}}/>
+            <Table columns={activityColumns} dataSource={activityData}/>
+        </>
     )
 }
-export default Mypage;
+export default Usage;

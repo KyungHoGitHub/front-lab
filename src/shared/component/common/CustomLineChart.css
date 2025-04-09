@@ -1,0 +1,181 @@
+.custom-line-chart-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+
+.custom-line-chart-title{
+    font-family: 'nanumche', sans-serif;
+    font-size: 24px;
+}
+
+.custom-line-chart-container:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+    font-family: 'nanumche', sans-serif;
+    font-size: 12px;
+    color: #1f2937;
+}
+
+.recharts-surface {
+    width: 600px;
+    overflow: visible;
+}
+
+.month-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.month-button {
+    width: 34px;
+    height: 34px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.month-button:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+    color: #4b5563;
+}
+
+.month-button:active {
+    background-color: #d1d5db;
+}
+
+.month-display {
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-family: 'nanumche', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+    text-align: center;
+}
+
+.month-display:hover {
+    border-color: #9ca3af;
+    background-color: #f9fafb;
+}
+
+/* 데이터피커 스타일 */
+.datepicker-wrapper {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+.custom-datepicker {
+    font-family: 'nanumche', sans-serif;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* 하위 뎁스 직접 타겟팅 */
+.react-datepicker__month-container {
+    padding: 10px; /* 과도한 100px 대신 적절한 값 */
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.react-datepicker__header  {
+    text-align: center;
+    background-color: rgba(240, 240, 240, 0);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.99);
+    border-top-left-radius: 0.3rem;
+    padding: 8px 0;
+    position: relative;
+}
+
+
+.react-datepicker__month-text {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #4b5563;
+    transition: all 0.2s ease;
+}
+
+.react-datepicker__month-text:hover {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    border-radius: 4px;
+}
+
+.react-datepicker__month--selected,
+.react-datepicker__month--keyboard-selected {
+    background-color: #10b981;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.react-datepicker__navigation {
+    top: 10px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: transparent;
+    color: #6b7280;
+    transition: all 0.2s ease;
+}
+
+.react-datepicker__navigation:hover {
+    color: #4b5563;
+}
+
+.react-datepicker__month-text--in-range,
+.react-datepicker__month-text--in-selecting-range {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+/* 커스텀 툴팁 스타일 */
+.custom-tooltip {
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'nanumche', sans-serif;
+    font-size: 12px;
+    color: #1f2937;
+}
+
+.custom-tooltip p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.custom-tooltip p:nth-child(2) {
+    color: #10b981; /* 사용량에 그린 컬러 */
+    font-weight: 600;
+}

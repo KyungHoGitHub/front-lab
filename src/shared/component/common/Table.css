@@ -42,6 +42,36 @@
     font-size: 14px;
     color: #1f2937;
     border-bottom: 1px solid #e5e7eb;
+    position: relative;
+    overflow: hidden;
+}
+
+.table-cell.clickable {
+    cursor: pointer;
+}
+
+/*.table-cell.clickable:hover {*/
+/*    background-color: rgb(255, 255, 255);*/
+/*}*/
+
+.table-cell.clickable .detail-text {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 6px;
+    background-color: rgba(218, 98, 80, 0.92);
+    border-radius: 4px;
+    left: 70px;
+    right: auto;
+}
+
+.table-cell.clickable:hover .detail-text {
+    display: inline-block;
+    animation: wiggle 0.8s ease-in-out infinite; /* 주기 1초, ease-in-out 적용 */
 }
 
 .table-row:last-child .table-cell {
@@ -62,7 +92,6 @@
     color: #1f2937;
 }
 
-/* 현대적인 페이징 스타일 */
 .table-container {
     margin: 0 auto;
 }
@@ -105,17 +134,17 @@
 .page-controls {
     display: flex;
     align-items: center;
-    gap: 12px; /* 버튼과 텍스트 간격 넓힘 */
+    gap: 12px;
 }
 
 .page-controls button {
     width: 36px;
     height: 36px;
-    font-size: 20px; /* 22px → 18px로 줄임 */
-    color: rgba(7, 7, 7, 0.68);
+    font-size: 18px;
+    color: #6b7280;
     background-color: #fff;
     border: 1px solid #d1d5db;
-    border-radius:10%;
+    border-radius: 10%;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -136,4 +165,29 @@
 .page-info {
     font-weight: 500;
     color: #4b5563;
+}
+
+/* 5% 단위로 세분화된 자연스러운 좌우 흔들기 애니메이션 */
+@keyframes wiggle {
+    0% { transform: translateY(-50%) translateX(0); }
+    5% { transform: translateY(-50%) translateX(-0.5px); }
+    10% { transform: translateY(-50%) translateX(-1px); }
+    15% { transform: translateY(-50%) translateX(-1.5px); }
+    20% { transform: translateY(-50%) translateX(-2px); }
+    25% { transform: translateY(-50%) translateX(-2.5px); }
+    30% { transform: translateY(-50%) translateX(-3px); }
+    35% { transform: translateY(-50%) translateX(-2.5px); }
+    40% { transform: translateY(-50%) translateX(-2px); }
+    45% { transform: translateY(-50%) translateX(-1.5px); }
+    50% { transform: translateY(-50%) translateX(-1px); }
+    55% { transform: translateY(-50%) translateX(-0.5px); }
+    60% { transform: translateY(-50%) translateX(0); }
+    65% { transform: translateY(-50%) translateX(0.5px); }
+    70% { transform: translateY(-50%) translateX(1px); }
+    75% { transform: translateY(-50%) translateX(1.5px); }
+    80% { transform: translateY(-50%) translateX(2px); }
+    85% { transform: translateY(-50%) translateX(2.5px); }
+    90% { transform: translateY(-50%) translateX(3px); }
+    95% { transform: translateY(-50%) translateX(2px); }
+    100% { transform: translateY(-50%) translateX(0); }
 }

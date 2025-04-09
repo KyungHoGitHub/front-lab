@@ -23,9 +23,9 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
 
     const menuItems = [
-        {menuName: t('header.menu1'), path: '/home'},
-        {menuName: t('header.menu2'), path: '/homedsd'},
-        {menuName: t('header.menu3'), path: '/homdde'},
+        {menuName: t('header.menu1'), path: '/usage'},
+        {menuName: t('header.menu2'), path: '/user-info'},
+        {menuName: t('header.menu3'), path: '/statistics-page'},
     ];
     const userData =
         {name: 'peng', img: ''}

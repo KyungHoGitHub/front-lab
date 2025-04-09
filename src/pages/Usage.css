@@ -1,0 +1,7 @@
+
+.statistic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열, 각 열이 동일한 너비(25%) */
+    gap: 16px; /* 열 간 간격 */
+    margin-bottom: 20px; /* 차트와의 간격 */
+}

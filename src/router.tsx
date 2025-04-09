@@ -6,6 +6,7 @@ import LoginForm from "./features/login/components/LoginForm.tsx";
 import SignupForm from "./features/signup/components/SignupForm.tsx";
 import LoginSignupPage from "./pages/LoginSignupPage.tsx";
 import Mypage from "./pages/Mypage.tsx";
+import Usage from "./pages/Usage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -25,15 +26,32 @@ export const router = createBrowserRouter([
         element: <App/>,
         children : [
             {
-                index: true,
+                index: true, // 인덱스 어디에 사용되는 값인지 확인
                 path:'test',
                 element: <Home/>,
             },
             {
                 index: true,
+                path: 'usage',
+                element : <Usage/>,
+            },
+            {
+                index: true,
+                path: 'user-info',
+                element : <Usage/>,
+            },
+            {
+                index: true,
+                path: 'statistics-page',
+                element : <Usage/>,
+            },
+
+            {
+                index: true,
                 path:'mypage',
                 element: <Mypage/>,
             },
+
         ]
     },
     {

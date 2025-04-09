@@ -1,0 +1,38 @@
+.custom-statistic {
+    font-family: 'nanumche', sans-serif; /* 기존 코드와 일치 */
+    display: inline-block;
+    text-align: left;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+.custom-statistic:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.custom-statistic-title {
+    font-size: 14px;
+    color: #6b7280; /* 회색 톤 */
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.custom-statistic-content {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* 요소 간 간격 */
+}
+
+.custom-statistic-value {
+    font-size: 24px; /* 큰 숫자 강조 */
+    font-weight: 600;
+    color: #1f2937; /* 진한 색상 */
+}
+
+.custom-statistic-prefix,
+.custom-statistic-suffix {
+    font-size: 16px;
+    color: #4b5563; /* 보조 색상 */
+}

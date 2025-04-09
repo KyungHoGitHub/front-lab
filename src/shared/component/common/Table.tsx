@@ -4,10 +4,6 @@ import {
     MdArrowUpward,
     MdArrowDownward,
     MdSort,
-    MdFirstPage,
-    MdChevronLeft,
-    MdChevronRight,
-    MdLastPage
 } from 'react-icons/md';
 
 export interface Column<T> {
@@ -15,6 +11,7 @@ export interface Column<T> {
     dataIndex: keyof T;
     render?: (value: any, record: T) => React.ReactNode;
     sorter?: (a: T, b: T) => number;
+    onCellClick?: (record: T) => void;
 }
 
 export interface TableProps<T> {
@@ -36,12 +33,18 @@ const Table = <T, >(props: TableProps<T>): React.ReactElement => {
     const sortedData = React.useMemo(() => {
         if (!sortState.key || !sortState.direction) return [...dataSource];
 
+        // dataIndex 가 userName
+
         const column = columns.find(col => col.dataIndex === sortState.key);
+
+        // 정렬 속성값이 없으면 데이터 그대로 리턴
         if (!column?.sorter) return [...dataSource];
 
         const sorted = [...dataSource].sort(column.sorter);
+
         return sortState.direction === 'desc' ? sorted.reverse() : sorted;
     }, [dataSource, sortState, columns]);
+
 
     const paginatedData = React.useMemo(() => {
         const startIndex = (currentPage - 1) * rowsPerPage;
@@ -57,11 +60,16 @@ const Table = <T, >(props: TableProps<T>): React.ReactElement => {
         const key = column.dataIndex;
         let direction: 'asc' | 'desc' | null = 'asc';
 
+        // 테이블에 th 헤더에 컬럼중 title 이름 dataIndex 인 userName을 클리갛면
+        // key = 'userName'; 선택한  컬럼이 userName 인 경우
         if (sortState.key === key) {
+            // 현재 정렬이 오름차순이면
             if (sortState.direction === 'asc') direction = 'desc';
             else if (sortState.direction === 'desc') direction = null;
             else direction = 'asc';
         }
+
+        // 클릭시 key 컬럼인덱스 , 정렬순서 셋 해준다
         setSortState({key, direction});
         setCurrentPage(1);
     };
@@ -107,10 +115,14 @@ const Table = <T, >(props: TableProps<T>): React.ReactElement => {
                 {paginatedData.map((record, rowIndex) => (
                     <tr key={rowIndex} className="table-row">
                         {columns.map((column, colIndex) => (
-                            <td key={colIndex} className="table-cell">
+                            <td key={colIndex} className={`table-cell ${column.onCellClick ? 'clickable' : ''}`}
+                                onClick={() => column.onCellClick && column.onCellClick(record)} // 클릭 이벤트 추가
+                                style={{ cursor: column.onCellClick ? 'pointer' : 'default' }} // 클릭 가능 시 커서 변경
+                            >
                                 {column.render
                                     ? column.render(record[column.dataIndex], record)
                                     : String(record[column.dataIndex] ?? '')}
+                                {column.onCellClick && <span className="detail-text">상세보기</span>} {/* 호버 시 표시 */}
                             </td>
                         ))}
                     </tr>
