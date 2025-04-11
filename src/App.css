@@ -9,23 +9,80 @@
     font-weight: normal;
     src: url("./fonts/NanumSquareR.otf") format("opentype");
 }
-
-.main-layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-main {
-    flex: 1;
-    padding: 1rem;
-    max-width: 1200px; /* 추가 */
-    margin: 0 auto;   /* 추가 */
-    width: 100%;      /* 추가 */
-    box-sizing: border-box; /* 추가 */
-}
-
 body {
     margin: 0;
     padding: 0;
+}
+/* 전체 레이아웃 */
+.main-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가운데 정렬 */
+}
+
+/* 콘텐츠 행 */
+.content-row {
+    display: flex;
+    width: 90%; /* 좌우 여백을 위해 90% 너비 */
+    max-width: 1850px; /* 최대 너비 증가 */
+    margin: 20px auto; /* 상하 마진과 좌우 가운데 정렬 */
+    gap: 20px; /* 영역 간 간격 */
+}
+
+/* 왼쪽 사이드바 */
+.left-sidebar {
+    flex: 1; /* 약 20% 정도 */
+    padding: 20px;
+    background-color: #f9fafb;
+    margin-left: 55px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 250px; /* 최대 너비 제한 */
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+    flex: 3; /* 약 60% 정도 */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 오른쪽 사이드바 */
+.right-sidebar {
+    flex: 1; /* 약 20% 정도 */
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 300px; /* WeatherInfo에 적합한 너비 */
+    display: flex;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1280px) {
+    .content-row {
+        flex-direction: column;
+        width: 95%;
+    }
+    .right-sidebar{
+        display: none;
+    }
+    .left-sidebar{
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-row {
+        gap: 15px;
+    }
+    .right-sidebar{
+        display: none;
+    }
+    .left-sidebar{
+        display: none;
+    }
 }

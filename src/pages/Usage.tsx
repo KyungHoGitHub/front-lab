@@ -4,6 +4,8 @@ import Statistic from "../features/usage/components/Statistic.tsx";
 import './Usage.css';
 import {FcClock, FcConferenceCall, FcExpand, FcLowPriority} from "react-icons/fc";
 import Table, {Column} from "../shared/component/common/Table.tsx";
+import {useNavigate} from "react-router";
+import WeatherWidget from "../features/widget/components/WeatherWidget.tsx";
 
 interface MonthlyUsage {
     month: string; // 예: "2023-01"
@@ -11,6 +13,7 @@ interface MonthlyUsage {
 }
 
 const Usage: React.FC = () => {
+    const navigate = useNavigate();
 // 월별 사용량 데이터 (예시)
     const monthlyUsageData: MonthlyUsage[] = [
         {month: '2023-01', usage: 120},
@@ -44,6 +47,12 @@ const Usage: React.FC = () => {
         { id: 2,name: '홍길동', action: '프로필 업데이트', initDate: '2023-10-02',currentDate:'2025-04-08' },
         { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
     ];
+    // 상세 페이지로 이동하는 핸들러
+    const handleCellClick = (record) => {
+        navigate(`/activity/${record.id}`); // 예: /activity/1로 이동
+        // 또는 간단히 테스트용으로 alert 사용:
+        // alert(`Clicked activity: ${record.action} (ID: ${record.id})`);
+    };
 
 
     const activityColumns = [
@@ -56,6 +65,7 @@ const Usage: React.FC = () => {
             title : '이름',
             dataIndex: 'name',
             sorter: (a, b) => a.id - b.id, // 숫자 정렬
+            onCellClick: handleCellClick,
         },
         {
 
@@ -76,6 +86,7 @@ const Usage: React.FC = () => {
 
     return (
         <>
+
             <div className="statistic-grid">
                 <Statistic title="월별접속현황" value="120" prefix={<FcExpand/>} suffix="건"/>
                 <Statistic title="평균접속시간" value="1시간 20" prefix={<FcClock/>} suffix="분"/>
