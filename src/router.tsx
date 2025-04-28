@@ -7,6 +7,7 @@ import SignupForm from "./features/signup/components/SignupForm.tsx";
 import LoginSignupPage from "./pages/LoginSignupPage.tsx";
 import Mypage from "./pages/Mypage.tsx";
 import Usage from "./pages/Usage.tsx";
+import Statistics from "./pages/Statistics.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 path: 'statistics-page',
-                element : <Usage/>,
+                element : <Statistics/>,
             },
 
             {

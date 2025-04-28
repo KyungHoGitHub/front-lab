@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import "./LoginForm.css"
 import {useNavigate} from "react-router";
+import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
+import OathLoginButton from "./OathLoginButton.tsx";
 
 interface LoginFormProps {
     title: string,
@@ -72,6 +74,9 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                     <button className="login-form-leftButton" type="submit" disabled={loading}>
                         {loading ? "로그인중" : "로그인"}
                     </button>
+                    <GoogleOAuthProvider clientId={"test"}>
+                        <OathLoginButton/>
+                    </GoogleOAuthProvider>
                 </div>
             </form>
 

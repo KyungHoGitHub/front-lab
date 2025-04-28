@@ -1,0 +1,26 @@
+/* CategoryStatsChart.css */
+.category-stats-chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.pie-chart-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* SVG 요소의 포커스 테두리 제거 */
+.recharts-surface,
+.recharts-sector {
+    outline: none !important;
+}
+
+/* 추가적으로 클릭 시 테두리 제거 */
+.recharts-sector:focus {
+    outline: none !important;
+}
+
+.recharts-pie * {
+    outline: none !important;
+}
