@@ -8,6 +8,7 @@ import LoginSignupPage from "./pages/LoginSignupPage.tsx";
 import Mypage from "./pages/Mypage.tsx";
 import Usage from "./pages/Usage.tsx";
 import Statistics from "./pages/Statistics.tsx";
+import ProtectedRoute from "./features/contexts/components/ProtectedRoute.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -23,36 +24,40 @@ export const router = createBrowserRouter([
         element: <LoginSignupPage formComponent={<SignupForm title="회원가입"/>}/>
     },
     {
-    path: '/',
-        element: <App/>,
-        children : [
+        element: <ProtectedRoute/>,
+        children: [
             {
-                index: true, // 인덱스 어디에 사용되는 값인지 확인
-                path:'test',
-                element: <Home/>,
-            },
-            {
-                index: true,
-                path: 'usage',
-                element : <Usage/>,
-            },
-            {
-                index: true,
-                path: 'user-info',
-                element : <Usage/>,
-            },
-            {
-                index: true,
-                path: 'statistics-page',
-                element : <Statistics/>,
-            },
+                path: '/',
+                element: <App/>,
+                children: [
+                    {
+                        index: true, // 인덱스 어디에 사용되는 값인지 확인
+                        path: 'test',
+                        element: <Home/>,
+                    },
+                    {
+                        index: true,
+                        path: 'usage',
+                        element: <Usage/>,
+                    },
+                    {
+                        index: true,
+                        path: 'user-info',
+                        element: <Usage/>,
+                    },
+                    {
+                        index: true,
+                        path: 'statistics-page',
+                        element: <Statistics/>,
+                    },
 
-            {
-                index: true,
-                path:'mypage',
-                element: <Mypage/>,
-            },
-
+                    {
+                        index: true,
+                        path: 'mypage',
+                        element: <Mypage/>,
+                    },
+                ]
+            }
         ]
     },
     {

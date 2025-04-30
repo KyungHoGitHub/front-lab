@@ -47,6 +47,7 @@ const OathLoginButton: React.FC = () => {
                 <FaGoogle className="google-icon"/>
                 Sign in with google
             </button>
+
         </div>
     )
 }

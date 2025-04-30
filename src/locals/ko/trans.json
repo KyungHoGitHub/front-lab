@@ -3,7 +3,8 @@
     "title": "Oops",
     "menu1": "사용현황",
     "menu2": "회원정보",
-    "menu3": "통계정보"
+    "menu3": "통계정보",
+    "menu4": "워크스페이스"
   },
   "userInfo": {
     "user_settings": "계정설정",

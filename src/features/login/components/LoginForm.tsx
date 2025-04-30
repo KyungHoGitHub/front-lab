@@ -4,6 +4,7 @@ import "./LoginForm.css"
 import {useNavigate} from "react-router";
 import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
 import OathLoginButton from "./OathLoginButton.tsx";
+import {login} from "../api/login.ts";
 
 interface LoginFormProps {
     title: string,
@@ -36,6 +37,15 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
+    const submit = async (values:{userId:string,password:string})=>{
+        try{
+            const res = await login(values.userId='pengsoo', values.password='1234');
+            localStorage.setItem('accessToken', res.data.data.accessToken);
+
+        }catch (error){
+            console.log(error)
+        }
+    }
     return (
 
         <div className="login-form-container">
@@ -44,7 +54,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 추가적인 설명이 필요 할때
             </div>
             { /*todo submit 나중에 추가해야함*/}
-            <form className="login-form">
+            <form className="login-form" onSubmit={submit}>
                 <div className="form-group">
                     <label htmlFor="userId"></label>
                     <input
@@ -71,7 +81,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
                 <div className="button-container">
-                    <button className="login-form-leftButton" type="submit" disabled={loading}>
+                    <button className="login-form-leftButton" type="submit" onClick={submit} disabled={loading}>
                         {loading ? "로그인중" : "로그인"}
                     </button>
                     <GoogleOAuthProvider clientId={"test"}>
