@@ -14,19 +14,19 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({children}) =>{
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
     const [isLoading, setIsLoading] = useState(false);
     // const navigate = useNavigate();
 
 
     const login = (newToken: string) => {
-        localStorage.setItem('token', newToken);
+        localStorage.setItem('accessToken', newToken);
         setToken(newToken);
         // navigate('/');
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
         setToken(null);
         // navigate('/login');
     };
@@ -35,8 +35,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) =>{
         return <div>Loading...</div>; // 초기 검증 중 로딩 UI
     }
 
-    console.log('toekn ---------->', token)
-    console.log('toekn ---------->', localStorage.getItem('token'))
+    console.log('toeknddddd ---------->', token)
+
 
 
     return(

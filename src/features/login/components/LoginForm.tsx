@@ -25,6 +25,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const {
         register,
         formState: {errors},
+        handleSubmit,
     } = useForm<FormData>({
         defaultValues: {
             userId: "",
@@ -37,11 +38,14 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const submit = async (values:{userId:string,password:string})=>{
-        try{
-            const res = await login(values.userId='pengsoo', values.password='1234');
-            localStorage.setItem('accessToken', res.data.data.accessToken);
+    const submit = async (data:FormData)=>{
+        setLoading(true);
 
+        try{
+            const res = await login(data.userId , data.password);
+            console.log('res', res.data.data);
+            localStorage.setItem("accessToken",res.data.data.accessToken);
+            navigate('/home');
         }catch (error){
             console.log(error)
         }
@@ -54,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 추가적인 설명이 필요 할때
             </div>
             { /*todo submit 나중에 추가해야함*/}
-            <form className="login-form" onSubmit={submit}>
+            <form className="login-form" onSubmit={handleSubmit(submit)}>
                 <div className="form-group">
                     <label htmlFor="userId"></label>
                     <input
@@ -81,7 +85,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
                 <div className="button-container">
-                    <button className="login-form-leftButton" type="submit" onClick={submit} disabled={loading}>
+                    <button className="login-form-leftButton" type="submit"  disabled={loading}>
                         {loading ? "로그인중" : "로그인"}
                     </button>
                     <GoogleOAuthProvider clientId={"test"}>
