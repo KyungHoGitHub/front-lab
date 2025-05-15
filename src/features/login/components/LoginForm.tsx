@@ -39,13 +39,14 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const submit = async (data:FormData)=>{
-        setLoading(true);
+        // setLoading(true);
 
         try{
-            const res = await login(data.userId , data.password);
+            const res = await login(data);
             console.log('res', res.data.data);
             localStorage.setItem("accessToken",res.data.data.accessToken);
             navigate('/home');
+            // setLoading(false);
         }catch (error){
             console.log(error)
         }
