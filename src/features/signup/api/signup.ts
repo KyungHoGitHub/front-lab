@@ -4,6 +4,9 @@ export const signup = async (data: { email: string; userId: string; userName: st
     return authClient.post("auth/sign/up", data);
 };
 
+export const getUserInfo = async (data: { userIdx: number }) => {
+    return authClient.get(`user/${data.userIdx}`);
+}
 export const validUserId = async (userId:string) =>{
     return authClient.post("auth/duplicate/check/userId",userId);
 }

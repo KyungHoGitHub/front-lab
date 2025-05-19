@@ -2,7 +2,9 @@ import { useForm, UseFormGetValues } from "react-hook-form"; // getValues 임포
 import React, {useEffect, useState} from "react";
 import "./SignupForm.css";
 import PasswordStrengthBar from "./PasswordStrengthBar.tsx";
-import { signup, validUserId } from "../api/signup.ts";
+import {getUserInfo, signup, validUserId} from "../api/signup.ts";
+import {useUserStore} from "../../../storage/userStore.ts";
+import {useNavigate} from "react-router";
 
 interface SignupFormProps {
     title: string;
@@ -17,6 +19,8 @@ interface FormData {
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
+    const {user, setUser } = useUserStore();
+    const navigate = useNavigate();
     const {
         register,
         watch,
@@ -43,48 +47,54 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     const submit = async (values: FormData) => {
-        console.log("valeus ----------->", values);
+
         try {
             const { confirmPassword, ...signupData } = values;
-            if (userIdCheck ==true){
-            const res = await signup(signupData);
-            }
 
+            const res = await signup(signupData);
+            console.log("회원가입 처리",res.data)
+            if (res.data){
+                console.log("회원가입 하고 데이터 있으면",res.data)
+                const userInfo = await  getUserInfo({userIdx: Number(res.data.data.idx)});
+                setUser(userInfo.data.data);
+            }
+            navigate("/login");
         } catch (error) {
             console.log("Signup error:", error);
         }
     };
 
+    // TODO 중복 체크 확인후 적용
     useEffect(() => {
 
-    }, [userIdCheck]);
+    }, [user]);
     const userIdCheckClick = async () => {
         try {
             const values = getValues(); // 현재 폼 값 가져오기
-            console.log("Checking userId:", values.userId); // 디버깅 로그
+
             if (!values.userId) {
-                console.log("No userId provided");
+
                 return;
             }
             const res = await validUserId(values.userId);
-            console.log("API response:", res); // API 응답 디버깅
+
             if (res.data =='') {
             setUserIdCheck(true);
-                console.log("안타나??");
+
             }
         } catch (error) {
-            console.log("UserId check error:", error);
+
         }
     };
 
-    console.log("userIdCheck",userIdCheck)
+
     const password = watch("password") || "";
 
     return (
         <div className="signup-form-container">
             <div className="signup-form-title">{title}</div>
             <div className="signup-form-sub">추가적인 설명이 필요 할때</div>
-
+            {/*<div>데이터 없나?{user?.data.userId}</div>*/}
             <form className="signup-form" onSubmit={handleSubmit(submit)}>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
@@ -109,11 +119,11 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
                         })}
                         placeholder="아이디를 입력하세요"
                     />
-                    <button type="button" className="user-id-check-button" onClick={userIdCheckClick}>
-                        중복체크
-                    </button>
-                    {userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}
-                    {userIdCheck === false && <span className="error">이미 사용 중인 ID입니다.</span>}
+                    {/*<button type="button" className="user-id-check-button" onClick={userIdCheckClick}>*/}
+                    {/*    중복체크*/}
+                    {/*</button>*/}
+                    {/*{userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}*/}
+                    {/*{userIdCheck === false && <span className="error">이미 사용 중인 ID입니다.</span>}*/}
                     {/* <button type="button" className="user-id-check-button" onClick={() => userIdCheckClick(values)}> */}
                     {/* 주석 처리된 부분은 values 전달이 불가능하므로 제거 */}
                 </div>

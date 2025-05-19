@@ -40,9 +40,9 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
 
     const submit = async (data:FormData)=>{
         // setLoading(true);
-
+        const {...signup}= data;
         try{
-            const res = await login(data);
+            const res = await login(signup);
             console.log('res', res.data.data);
             localStorage.setItem("accessToken",res.data.data.accessToken);
             navigate('/home');
