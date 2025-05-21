@@ -83,7 +83,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
 
             }
         } catch (error) {
-
+            console.log(error);
         }
     };
 

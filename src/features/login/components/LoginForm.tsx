@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import "./LoginForm.css"
 import {useNavigate} from "react-router";
 import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
 import OathLoginButton from "./OathLoginButton.tsx";
-import {login} from "../api/login.ts";
+import {login, loginForm} from "../api/login.ts";
+import {useAuth} from "../../contexts/components/AuthProvider.tsx";
 
 interface LoginFormProps {
     title: string,
@@ -16,6 +17,7 @@ type FormData = {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({title}) => {
+    const {login} = useAuth();
     const navigate = useNavigate();
 
     const signupButtonClick = () => {
@@ -42,15 +44,24 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
         // setLoading(true);
         const {...signup}= data;
         try{
-            const res = await login(signup);
-            console.log('res', res.data.data);
-            localStorage.setItem("accessToken",res.data.data.accessToken);
-            navigate('/home');
+            const res = await loginForm(signup);
+            console.log(res.data.data.accessToken);
+            if(res.data.data.accessToken){
+                login(res.data.data.accessToken);
+                navigate("/usage");
+            }
+/*            console.log('res', res);
+            // console.log("왜안감?")
+            navigate("/usage");*/
+
             // setLoading(false);
         }catch (error){
             console.log(error)
         }
     }
+    useEffect(() => {
+        // localStorage.removeItem("accessToken");
+    }, []);
     return (
 
         <div className="login-form-container">

@@ -21,6 +21,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) =>{
 
     const login = (newToken: string) => {
         localStorage.setItem('accessToken', newToken);
+        console.log('로그인 함수 처리 되나?')
         setToken(newToken);
         // navigate('/');
     };

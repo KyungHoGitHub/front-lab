@@ -7,6 +7,7 @@ import Menu from "../../common/Menu.tsx";
 import {useTranslation} from 'react-i18next';
 import LanguageSelectorButton from "../../common/LanguageSelectorButton.tsx";
 import dpImg from '@assets/top-left-logo.png';
+import {useAuth} from "../../../../features/contexts/components/AuthProvider.tsx";
 
 
 // BasicHeader 프로젝트의 기본으로 사용되는 헤더 영역 컴포넌트
@@ -19,6 +20,7 @@ interface BasicHeaderProps {
 
 const BasicHeader: React.FC<BasicHeaderProps> = () => {
     const {t} = useTranslation();
+    const {logout} = useAuth();
     // nav 열림 닫힘
     const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -34,7 +36,13 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
     const dropdownItems = [
         {title: t('userInfo.user_settings'), path: '/mypage'},
         {title: t('userInfo.mode_select'), path: '/homedsd'},
-        {title: t('userInfo.logout'), path: '/homdde'},
+        {
+            title: t('userInfo.logout'),
+            onclick: () => {
+                console.log('Logout clicked'); // 디버깅 로그
+                logout();
+            },
+        },
     ]
     const languageItem = [
         {name: '한글', value: 'ko'},

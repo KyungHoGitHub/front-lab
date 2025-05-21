@@ -34,10 +34,10 @@ body {
 .left-sidebar {
     flex: 1; /* 약 20% 정도 */
     padding: 20px;
-    background-color: #f9fafb;
+    /*background-color: #f9fafb;*/
     margin-left: 55px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);*/
     max-width: 250px; /* 최대 너비 제한 */
 }
 
