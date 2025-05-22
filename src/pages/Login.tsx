@@ -2,7 +2,7 @@ import React from "react";
 import LoginForm from "../features/login/components/LoginForm.tsx";
 import LoginHeader from "../shared/component/layout/header/LoginHeader.tsx";
 import LoginFooter from "../shared/component/layout/footer/LoginFooter.tsx";
-import test from '@assets/leftImge.jpg';
+import test from '@assets/lefImage.png';
 import './Login.css';
 
 const Login: React.FC = () => {
@@ -14,7 +14,7 @@ const Login: React.FC = () => {
                     <img src={test} alt="..." className="login-image-img"/>
                 </div>
                 <div className="login-form-wrapper">
-                    <LoginForm title="Title"/>
+                    <LoginForm title="Login"/>
                 </div>
             </main>
             <LoginFooter/>

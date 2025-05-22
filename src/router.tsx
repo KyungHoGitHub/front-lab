@@ -9,6 +9,10 @@ import Mypage from "./pages/Mypage.tsx";
 import Usage from "./pages/Usage.tsx";
 import Statistics from "./pages/Statistics.tsx";
 import ProtectedRoute from "./features/contexts/components/ProtectedRoute.tsx";
+import Workspace from "./pages/Workspace.tsx";
+import Todo from "./pages/Todo.tsx";
+import Chat from "./pages/Chat.tsx";
+import Memo from "./pages/Memo.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -21,7 +25,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/signup',
-        element: <LoginSignupPage formComponent={<SignupForm title="회원가입"/>}/>
+        element: <LoginSignupPage formComponent={<SignupForm title="Sign Up"/>}/>
     },
     {
         element: <ProtectedRoute/>,
@@ -50,7 +54,17 @@ export const router = createBrowserRouter([
                         path: 'statistics-page',
                         element: <Statistics/>,
                     },
+                    {
+                        path: 'workspace',
+                        element: <Workspace />,
+                        children: [
+                            { index: true, element: <Todo /> }, // 기본 경로: /workspace -> Todo
+                            { path: 'todo', element: <Todo /> },
+                            { path: 'chat', element: <Chat /> },
+                            { path: 'memo', element: <Memo /> },
 
+                        ],
+                    },
                     {
                         index: true,
                         path: 'mypage',

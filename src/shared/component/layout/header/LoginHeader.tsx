@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {NavLink, useLocation} from "react-router";
-import dpImg from '@assets/top-left-logo.png';
+import dpImg from '@assets/mainLogo.png';
 import "./LoginHeader.css"
 import {FiLogIn} from "react-icons/fi";
 import {MdArrowBackIos} from "react-icons/md";

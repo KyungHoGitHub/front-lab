@@ -1,0 +1,20 @@
+
+/* 회원가입 버튼 */
+.todo-create-button {
+    background-color: #edf5ff; /* 투명 배경 */
+    color: #007bff; /* 파란색 텍스트 */
+    border: none; /* 파란색 테두리 */
+    margin-top: 10px; /* 위 버튼과 간격 (inline padding 대체) */
+    font-family: 'nanumche', sans-serif;
+}
+
+.todo-create-button:hover:not(:disabled) {
+    background-color: #e6f0fa; /* 호버 시 연한 파랑 배경 */
+    transform: translateY(-2px);
+}
+
+.todo-create-button:disabled {
+    color: #b0c4de;
+    border-color: #b0c4de;
+    cursor: not-allowed;
+}

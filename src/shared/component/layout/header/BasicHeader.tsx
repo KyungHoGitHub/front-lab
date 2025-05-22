@@ -6,7 +6,7 @@ import ToggleButton from "../../common/ToggleButton.tsx";
 import Menu from "../../common/Menu.tsx";
 import {useTranslation} from 'react-i18next';
 import LanguageSelectorButton from "../../common/LanguageSelectorButton.tsx";
-import dpImg from '@assets/top-left-logo.png';
+import dpImg from '@assets/mainLogo.png';
 import {useAuth} from "../../../../features/contexts/components/AuthProvider.tsx";
 
 
@@ -28,7 +28,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
         {menuName: t('header.menu1'), path: '/usage'},
         {menuName: t('header.menu2'), path: '/user-info'},
         {menuName: t('header.menu3'), path: '/statistics-page'},
-        {menuName: t('header.menu4'), path: '/statistics-page'},
+        {menuName: t('header.menu4'), path: '/workspace'},
     ];
     const userData =
         {name: 'peng', img: ''}

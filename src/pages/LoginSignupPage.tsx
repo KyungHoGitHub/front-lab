@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import LoginHeader from "../shared/component/layout/header/LoginHeader.tsx";
-import test from '@assets/leftImge.jpg';
+import test from '@assets/lefImage.png';
 import LoginFooter from "../shared/component/layout/footer/LoginFooter.tsx";
 import './LoginSignupPage.css';
 import signup from '@assets/signupImage.jpg';

@@ -1,0 +1,124 @@
+/* src/features/workspace/components/TodoModal.css */
+.antd-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45); /* Ant Design 스타일 오버레이 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 최상위 레이어 */
+    animation: fadeIn 0.3s ease-out; /* 페이드 인 애니메이션 */
+}
+
+.antd-modal-content {
+    background: #fff;
+    padding: 24px;
+    border-radius: 4px; /* Ant Design의 둥근 모서리 */
+    width: 100%;
+    max-width: 520px; /* Ant Design 기본 모달 너비 */
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    animation: zoomIn 0.3s ease-out; /* 스케일 애니메이션 */
+}
+
+.antd-modal-content h2 {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 4px 11px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    font-size: 14px;
+    line-height: 1.5715;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.antd-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.antd-modal-actions button {
+    padding: 4px 15px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    font-size: 14px;
+    line-height: 1.5715;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.antd-modal-actions button[type="button"] {
+    background: #fff;
+    color: #000;
+}
+
+.antd-modal-actions button[type="button"]:hover {
+    border-color: #40a9ff;
+    color: #40a9ff;
+}
+
+.antd-modal-actions button[type="submit"] {
+    background: #1890ff; /* Ant Design 파란색 */
+    border-color: #1890ff;
+    color: #fff;
+}
+
+.antd-modal-actions button[type="submit"]:hover {
+    background: #40a9ff;
+    border-color: #40a9ff;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

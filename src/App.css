@@ -34,10 +34,10 @@ body {
 .left-sidebar {
     flex: 1; /* 약 20% 정도 */
     padding: 20px;
-    /*background-color: #f9fafb;*/
+    background-color: #f9fafb;
     margin-left: 55px;
     border-radius: 12px;
-    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);*/
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     max-width: 250px; /* 최대 너비 제한 */
 }
 
@@ -50,6 +50,10 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.workspace-content {
+    width: 100%;
+    height: 100%;
+}
 /* 오른쪽 사이드바 */
 .right-sidebar {
     flex: 1; /* 약 20% 정도 */
@@ -68,10 +72,12 @@ body {
         width: 95%;
     }
     .right-sidebar{
+
         display: none;
     }
     .left-sidebar{
-        display: none;
+        flex-direction: column;
+        /*display: none;*/
     }
 }
 
