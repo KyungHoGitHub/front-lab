@@ -3,6 +3,8 @@ import BasicHeader from './shared/component/layout/header/BasicHeader';
 import { Outlet } from 'react-router';
 import './App.css';
 import WeatherWidget from "./features/widget/components/WeatherWidget.tsx";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 type LeftSidebarContextType = {
     setLeftSidebarContent: (content: React.ReactNode) => void;

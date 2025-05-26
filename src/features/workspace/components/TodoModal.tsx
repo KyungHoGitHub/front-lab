@@ -1,6 +1,9 @@
 // src/features/workspace/components/TodoModal.tsx
 import React, { useState } from 'react';
 import './TodoModal.css';
+import {todoModalSubmit} from "../api/Todo.ts";
+import {useForm} from "react-hook-form";
+import {TodoFormData} from "../type/TodoFormData.ts";
 
 interface TodoModalProps {
     isOpen: boolean;
@@ -8,44 +11,63 @@ interface TodoModalProps {
     onSubmit: (todo: { title: string; description: string }) => void;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const {register, handleSubmit, reset, formState: {errors}} = useForm<TodoFormData>({
+        defaultValues:{
+            title: '',
+            descriptions: '',
+            status:'TODO',
+        }
+    });
 
-    if (!isOpen) return null;
+    const statusOptions: { value: TodoFormData['status']; label: string }[] = [
+        { value: 'TODO', label: '할 일' },
+        { value: 'IN_PROGRESS', label: '진행 중' },
+        { value: 'DONE', label: '완료' }
+    ];
+    const [error, setError] = useState<string| null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const onSubmit = async (data: TodoFormData) =>{
+        setLoading(true);
+        setError(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!title.trim()) return;
-        onSubmit({ title, description });
-        setTitle('');
-        setDescription('');
-        onClose();
-    };
+        try{
+            await todoModalSubmit(data);
+            reset();
+        }catch (e){
+            console.log(e.message);
+        }finally {
+            setLoading(false);
+        }
+    }
+
 
     return (
         <div className="antd-modal-overlay">
             <div className="antd-modal-content">
                 <h2>Todo 추가</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group">
                         <label htmlFor="title">제목</label>
                         <input
-                            type="text"
                             id="title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
+                            {...register('title',{required: '제목은 필수임'})}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="title">상태</label>
+                        <label htmlFor="status">상태</label>
                         <select
                             id="status"
-                            value={status}
-                    
-                            required
-                        />
+                            {...register('status', {required: '상태를 선택하세요.'})}
+                        >
+                            {statusOptions.map(option => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">설명</label>

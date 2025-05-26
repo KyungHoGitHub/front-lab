@@ -9,10 +9,10 @@ const Todo: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [todos, setTodos] = useState<{ title: string; description: string }[]>([]);
 
-    const handleAddTodo = (todo: { title: string; description: string }) => {
-        console.log('새 Todo:', todo); // 임시: 콘솔 출력
-        setTodos([...todos, todo]); // 로컬 상태에 추가
-    };
+    // const handleAddTodo = (todo: { title: string; description: string }) => {
+    //     console.log('새 Todo:', todo); // 임시: 콘솔 출력
+    //     setTodos([...todos, todo]); // 로컬 상태에 추가
+    // };
 
     const activityData= [
         { id: 1, name: '김길동',action: '로그인', initDate: '2023-10-01' ,currentDate:'2025-04-08'},
@@ -75,7 +75,7 @@ const Todo: React.FC = () => {
             <TodoModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={handleAddTodo}
+                // onSubmit={handleAddTodo}
             />
             <Table columns={activityColumns} dataSource={activityData}/>
         </div>
