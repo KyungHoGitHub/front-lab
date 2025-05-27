@@ -1,5 +1,6 @@
 export const WORKSPACE_ENDPOINTS ={
     TODOS:{
-        CREATE: 'todo'
+        CREATE: 'todo',
+        GET: 'todo'
     }
 }as const;

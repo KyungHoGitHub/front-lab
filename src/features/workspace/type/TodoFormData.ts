@@ -1,5 +1,5 @@
 export interface TodoFormData {
     title: string;
-    descriptions: string;
+    description: string;
     status: 'TODO' | 'IN_PROGRESS' | 'DONE';
 }

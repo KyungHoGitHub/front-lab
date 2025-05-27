@@ -6,8 +6,8 @@ type configType={
 }
 
 const config:configType = {
-    authServer : "https://localhost:8081",
-    resourceServer : "https://localhost:8080",
+    authServer : "http://localhost:8081",
+    resourceServer : "http://localhost:8080",
     refreshTokenApi : "http://localhost:8081/reissue/access_token"
 }
 

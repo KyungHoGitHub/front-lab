@@ -18,3 +18,29 @@
     border-color: #b0c4de;
     cursor: not-allowed;
 }
+
+.custom-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-right: 8px;
+    border: 1px solid transparent;
+}
+.custom-tag.todo {
+    background: #e6f7ff;
+    border-color: #91d5ff;
+    color: #1890ff;
+}
+.custom-tag.in-progress {
+    background: #fff7e6;
+    border-color: #ffd591;
+    color: #d46b08;
+}
+.custom-tag.done {
+    background: #f6ffed;
+    border-color: #b7eb8f;
+    color: #52c41a;
+}
