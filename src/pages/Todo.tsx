@@ -4,8 +4,9 @@ import {useNavigate} from "react-router";
 import "./Todo.css";
 import TodoModal from "../features/workspace/components/TodoModal.tsx";
 import {TodoFormData} from "../features/workspace/type/TodoFormData.ts";
-import {getTodoList} from "../features/workspace/api/Todo.ts";
+import {getTodoList, searchTodos} from "../features/workspace/api/Todo.ts";
 import {FaCheckCircle, FaClock, FaSync} from "react-icons/fa";
+import SearchBar from "../shared/component/common/SearchBar.tsx";
 
 const Todo: React.FC = () => {
     const navigate = useNavigate();
@@ -17,6 +18,17 @@ const Todo: React.FC = () => {
         status: TodoFormData['status']
     }[]>([]);
 
+    // 검색 핸들러
+    const handleSearch = async (searchBy: 'title' | 'description', searchTerm: string) => {
+        try {
+            const res = await searchTodos(searchBy, searchTerm);
+            setTodos(res.data);
+        } catch (e) {
+            console.log(e);
+        } finally {
+            console.log('끝')
+        }
+    }
     // 상세 페이지로 이동하는 핸들러
     const handleCellClick = (record) => {
         navigate(`/activity/${record.id}`); // 예: /activity/1로 이동
@@ -42,11 +54,11 @@ const Todo: React.FC = () => {
             sorter: (a, b) => a.status.localeCompare(b.status),
             render: (status: TodoFormData['status']) => {
                 const tagConfig = {
-                    TODO: { label: '할 일', className: 'todo', icon: <FaClock className="tag-icon" /> },
-                    IN_PROGRESS: { label: '진행 중', className: 'in-progress', icon: <FaSync className="tag-icon" /> },
-                    DONE: { label: '완료', className: 'done', icon: <FaCheckCircle className="tag-icon" /> },
+                    TODO: {label: '할 일', className: 'todo', icon: <FaClock className="tag-icon"/>},
+                    IN_PROGRESS: {label: '진행 중', className: 'in-progress', icon: <FaSync className="tag-icon"/>},
+                    DONE: {label: '완료', className: 'done', icon: <FaCheckCircle className="tag-icon"/>},
                 };
-                const { label, className, icon } = tagConfig[status] || { label: status, className: '', icon: null };
+                const {label, className, icon} = tagConfig[status] || {label: status, className: '', icon: null};
                 return (
                     <span className={`custom-tag ${className}`}>
             {icon}
@@ -72,7 +84,7 @@ const Todo: React.FC = () => {
             try {
                 const res = await getTodoList();
                 setTodos(res.data);
-                console.log('todo 리스트 데이터 옴',res.data)
+                console.log('todo 리스트 데이터 옴', res.data)
             } catch (e) {
                 console.log(e);
             } finally {
@@ -83,9 +95,13 @@ const Todo: React.FC = () => {
     }, []);
     return (
         <div className="todo-container">
-            <button className="todo-create-button" onClick={() => setIsModalOpen(true)}>
-                할일 만들기
-            </button>
+            <div className="todo-header">
+                <button className="todo-create-button" onClick={() => setIsModalOpen(true)}>
+                    할일 만들기
+                </button>
+
+                <SearchBar onSearch={handleSearch}/>
+            </div>
             <TodoModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

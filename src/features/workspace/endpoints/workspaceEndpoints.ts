@@ -1,6 +1,16 @@
-export const WORKSPACE_ENDPOINTS ={
-    TODOS:{
+export const WORKSPACE_ENDPOINTS = {
+    TODOS: {
         CREATE: 'todo',
-        GET: 'todo'
-    }
-}as const;
+        GET: 'todo',
+        SEARCH: 'todo/search'
+    },
+} as const;
+
+export const QUERY_PARAMS = {
+    TODOS: {
+        SEARCH: {
+            SEARCH_BY: 'searchBy',
+            QUERY: 'query',
+        },
+    },
+} as const;
