@@ -18,3 +18,7 @@ export const searchTodos = async (searchBy: 'title' | 'description', query:strin
    });
     return resourceClient.get(`${WORKSPACE_ENDPOINTS.TODOS.SEARCH}?${queryString}`);
 }
+
+export const getTodoById = async (id: number)=>{
+    return resourceClient.get(`${WORKSPACE_ENDPOINTS.TODOS.DETAIL}/${id}`);
+}

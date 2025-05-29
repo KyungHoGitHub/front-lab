@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Table from "../shared/component/common/Table.tsx";
-import {useNavigate} from "react-router";
+import {Outlet, useLocation, useNavigate} from "react-router";
 import "./Todo.css";
 import TodoModal from "../features/workspace/components/TodoModal.tsx";
 import {TodoFormData} from "../features/workspace/type/TodoFormData.ts";
@@ -17,7 +17,8 @@ const Todo: React.FC = () => {
         description: string;
         status: TodoFormData['status']
     }[]>([]);
-
+    const location = useLocation();
+    const isDetailPage = location.pathname.includes('detail');
     // 검색 핸들러
     const handleSearch = async (searchBy: 'title' | 'description', searchTerm: string) => {
         try {
@@ -30,8 +31,9 @@ const Todo: React.FC = () => {
         }
     }
     // 상세 페이지로 이동하는 핸들러
-    const handleCellClick = (record) => {
-        navigate(`/activity/${record.id}`); // 예: /activity/1로 이동
+    const handleCellClick = (record :{idx :number}) => {
+        console.log('record 값 확인  ---->',record);
+        navigate(`/workspace/todo/detail/${record.idx}`); // 예: /activity/1로 이동
         // 또는 간단히 테스트용으로 alert 사용:
         // alert(`Clicked activity: ${record.action} (ID: ${record.id})`);
     };
@@ -95,19 +97,24 @@ const Todo: React.FC = () => {
     }, []);
     return (
         <div className="todo-container">
-            <div className="todo-header">
-                <button className="todo-create-button" onClick={() => setIsModalOpen(true)}>
-                    할일 만들기
-                </button>
+            {!isDetailPage && (
+                <>
+                    <div className="todo-header">
+                        <button className="todo-create-button" onClick={() => setIsModalOpen(true)}>
+                            할일 만들기
+                        </button>
 
-                <SearchBar onSearch={handleSearch}/>
-            </div>
-            <TodoModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                // onSubmit={handleAddTodo}
-            />
-            <Table columns={activityColumns} dataSource={todos}/>
+                        <SearchBar onSearch={handleSearch}/>
+                    </div>
+                    <TodoModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        // onSubmit={handleAddTodo}
+                    />
+                    <Table columns={activityColumns} dataSource={todos}/>
+                </>
+            )}
+            <Outlet/>
         </div>
     );
 };

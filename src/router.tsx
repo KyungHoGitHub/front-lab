@@ -13,6 +13,7 @@ import Workspace from "./pages/Workspace.tsx";
 import Todo from "./pages/Todo.tsx";
 import Chat from "./pages/Chat.tsx";
 import Memo from "./pages/Memo.tsx";
+import TodoDetail from "./pages/TodoDetail.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -59,7 +60,11 @@ export const router = createBrowserRouter([
                         element: <Workspace />,
                         children: [
                             { index: true, element: <Todo /> }, // 기본 경로: /workspace -> Todo
-                            { path: 'todo', element: <Todo /> },
+                            { path: 'todo', element: <Todo />,
+                                children:[{
+                                    path: 'detail/:idx', element:<TodoDetail/>,
+                                }]
+                            },
                             { path: 'chat', element: <Chat /> },
                             { path: 'memo', element: <Memo /> },
 
