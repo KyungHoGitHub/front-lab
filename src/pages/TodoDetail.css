@@ -1,7 +1,7 @@
 ```css
-    /* src/features/workspace/components/TodoDetail.css */
+/* src/features/workspace/components/TodoDetail.css */
 
-    /* 컨테이너: 중앙 정렬, 패딩 */
+/* 컨테이너: 중앙 정렬, 패딩 */
 .todo-detail-container {
     display: flex;
     justify-content: center;
@@ -9,6 +9,22 @@
     min-height: 100vh;
     background-color: #f8fafc;
     padding: 20px;
+}
+
+/* 성공 메시지 */
+.success-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #dcfce7;
+    color: #15803d;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 /* 카드: shadcn/ui 스타일 (그림자, 둥근 모서리) */
@@ -21,21 +37,23 @@
     overflow: hidden;
 }
 
-/* 헤더: 제목 영역 */
+/* 헤더: 제목과 버튼 영역 */
 .todo-detail-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px;
     border-bottom: 1px solid #e5e7eb;
 }
 
 .todo-detail-title {
     font-size: 1.5rem;
-    flex: 1;
     font-weight: 600;
     color: #1f2937;
     margin: 0;
 }
+
+/* 액션 버튼 컨테이너 */
 .todo-detail-actions {
     display: flex;
     gap: 8px;
@@ -112,7 +130,7 @@
     flex-grow: 1;
 }
 
-/* 뱃지: 상태 표시 (shadcn/ui 스타일 모방) */
+/* 뱃지: 상태 표시 */
 .todo-badge {
     display: inline-block;
     padding: 4px 12px;
@@ -148,7 +166,7 @@
     text-align: right;
 }
 
-/* 버튼: shadcn/ui 스타일 (미니멀, 호버 효과) */
+/* 기본 버튼 */
 .todo-detail-button {
     padding: 8px 16px;
     background-color: #ffffff;
@@ -226,4 +244,94 @@
 
 .todo-detail-error p {
     margin-bottom: 16px;
+}
+
+/* 모달: 수정 폼 */
+.todo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.todo-modal {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.todo-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.todo-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 4px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #1f2937;
+    background-color: #ffffff;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.form-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.todo-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.todo-save {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: #ffffff;
+}
+
+.todo-save:hover {
+    background-color: #2563eb;
+    border-color: #2563eb;
 }

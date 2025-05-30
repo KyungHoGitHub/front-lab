@@ -3,7 +3,8 @@ export const WORKSPACE_ENDPOINTS = {
         CREATE: 'todo',
         GET: 'todo',
         SEARCH: 'todo/search',
-        DETAIL:'todo/detail'
+        DETAIL:'todo/detail',
+        PUT: 'todo/detail',
     },
 } as const;
 

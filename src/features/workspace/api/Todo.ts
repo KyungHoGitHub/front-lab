@@ -22,3 +22,10 @@ export const searchTodos = async (searchBy: 'title' | 'description', query:strin
 export const getTodoById = async (id: number)=>{
     return resourceClient.get(`${WORKSPACE_ENDPOINTS.TODOS.DETAIL}/${id}`);
 }
+
+export const updateTodo = async (idx: number, data :any)=>{
+    return resourceClient.post(`${WORKSPACE_ENDPOINTS.TODOS.PUT}/${idx}`,data);
+}
+export const updateTodoIsDelete = async (idx: number) =>{
+    return resourceClient.put(`${WORKSPACE_ENDPOINTS.TODOS.DETAIL}/${idx}`);
+}
