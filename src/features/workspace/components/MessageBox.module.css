@@ -1,0 +1,227 @@
+.container {
+    width: 100%;
+    max-width: 400px;
+    height: 90vh;
+    background: #fff;
+    /*border-right: 1px solid #e1e8ed;*/
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e1e8ed;
+    background: #f5f8fa;
+    border-radius: 8px;
+}
+
+.titleContainer {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.messageCount {
+    font-size: 14px;
+    color: #657786;
+    font-weight: 400;
+}
+
+.addButton {
+    background: none;
+    width: 10%;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    color: #1da1f2;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+/*.addButton:hover {*/
+/*    background-color: #e1e8ed;*/
+/*}*/
+
+.addIcon {
+    width: 20px;
+    height: 20px;
+    color: #3765fc;
+}
+
+.searchBar {
+    padding: 12px 16px;
+}
+
+.searchInput {
+    width: 90%;
+    padding: 8px 12px;
+    border: 1px solid #e1e8ed;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #f5f8fa;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.searchInput:focus {
+    border-color: #1da1f2;
+}
+
+.conversationList {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.conversationItem {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e1e8ed;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.conversationItem:hover {
+    background-color: #f5f8fa;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+}
+
+.conversationInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.userName {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.messagePreview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.messageText {
+    font-size: 13px;
+    color: #657786;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.tag {
+    padding: 2px 8px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 12px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.tag:nth-child(2) {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.timestamp {
+    font-size: 12px;
+    color: #657786;
+    white-space: nowrap;
+}
+
+.popupOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 300px;
+}
+
+.popupTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 16px;
+}
+
+.popupInput {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    outline: none;
+}
+
+.popupInput:focus {
+    border-color: #1da1f2;
+}
+
+.popupActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.cancelButton {
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    color: #657786;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.addContactButton {
+    padding: 8px 16px;
+    background: #1da1f2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.addContactButton:hover {
+    background-color: #1a91da;
+}

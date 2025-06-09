@@ -14,6 +14,7 @@
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.8.4",
     "i18next": "^24.2.3",
+    "lucide-react": "^0.513.0",
     "react": "^19.0.0",
     "react-datepicker": "^8.2.1",
     "react-dom": "^19.0.0",

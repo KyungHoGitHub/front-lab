@@ -1,0 +1,23 @@
+.chat-content {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.chat-layout {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.chat-layout > :first-child {
+    flex: 0 0 400px; /* MessageBox 고정 너비 */
+    border-right: 1px solid #e5e7eb;
+}
+
+.chat-layout > :last-child {
+    flex: 1; /* ChatBox가 남은 공간 채움 */
+    min-width: 0;
+}

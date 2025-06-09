@@ -14,6 +14,7 @@ import Todo from "./pages/Todo.tsx";
 import Chat from "./pages/Chat.tsx";
 import Memo from "./pages/Memo.tsx";
 import TodoDetail from "./pages/TodoDetail.tsx";
+import ChatBox from "./features/workspace/components/ChatBox.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -65,7 +66,11 @@ export const router = createBrowserRouter([
                                     path: 'detail/:idx', element:<TodoDetail/>,
                                 }]
                             },
-                            { path: 'chat', element: <Chat /> },
+                            { path: 'chat', element: <Chat />,
+                                children:[{
+                                    path: ':userId', element:<ChatBox/>,
+                                }]
+                            },
                             { path: 'memo', element: <Memo /> },
 
                         ],
