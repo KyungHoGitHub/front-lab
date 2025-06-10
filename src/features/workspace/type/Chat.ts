@@ -10,3 +10,10 @@ export interface Conversation {
     lastMessage: string;
     timestamp: string;
 }
+
+export interface  Message {
+    id: string;
+    senderId: string;
+    content: string;
+    timestamp: string;
+}

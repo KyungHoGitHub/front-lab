@@ -6,6 +6,12 @@ export const WORKSPACE_ENDPOINTS = {
         DETAIL:'todo/detail',
         PUT: 'todo/detail',
     },
+    CHAT:{
+        GET :{
+            USER: 'user',
+            MESSAGE: 'message',
+        }
+    }
 } as const;
 
 export const QUERY_PARAMS = {
