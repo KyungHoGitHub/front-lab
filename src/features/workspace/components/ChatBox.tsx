@@ -1,120 +1,148 @@
-import React, {useEffect, useRef, useState} from "react";
-import {useParams} from "react-router";
+// ChatBox.tsx
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './ChatBox.module.css';
-import {Message, User} from "../type/Chat.ts";
-import {getMessage, getUserInfo} from "../api/Chat.ts";
-import SockJS from 'sockjs-client';
-import {getTodoList} from "../api/Todo.ts";
-import config from "../../../config.ts";
-import {Stomp} from "@stomp/stompjs";
+import { Message } from '../type/Chat.ts';
+import { io, Socket } from 'socket.io-client';
+import config from '../../../config.ts';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
-const ChatBox:React.FC = () =>{
-    // const {userIdx} = useParams<{userId: string}>();
-    const userIdx = 7;
-    const [message, setMessage] = useState<Message[]>([]);
+const ChatBox: React.FC = () => {
+    const parsedUserIdx = 7; // 테스트용 하드코딩
+    const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
-    const [user, setUser] = useState<User | undefined>(undefined);
+    const [isConnected, setIsConnected] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const stompClient  = useRef<any>(null);
-
-  // 샘플 메시지 데이터 (실제로는 API에서 가져옴)
-  //   const sampleMessages = [
-  //       { id: 'm1', senderId: userId || '1', content: 'Hi there!', timestamp: '10:25 AM' },
-  //       { id: 'm2', senderId: 'currentUser', content: 'Hello! How can I help you?', timestamp: '10:26 AM' },
-  //   ];
-    console.log('들어옴?')
-    // 샘플 유저 데이터 (실제로는 API 또는 컨텍스트에서 가져옴)
-    // const user = [
-    //     { id: '1', name: 'Elmer Laverity', avatar: null },
-    //     { id: '2', name: 'Florencio Dorrance', avatar: null },
-    //     { id: '3', name: 'Laverne Laboy', avatar: null },
-    //     { id: '4', name: 'Titus Kitamura', avatar: null },
-    //     { id: '5', name: 'Geoffrey Mott', avatar: null },
-    //     { id: '6', name: 'Alfonzo Schuessler', avatar: null },
-    // ].find(u => u.id === userId);
+    const [connectionError, setConnectionError] = useState<string | null>(null);
+    const socketRef = useRef<Socket | null>(null);
+    const messageListRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const fetchUserAndMessage = async ()=>{
-            setIsLoading(true);
-            try{
-                // 유저 정보 get
-                // const userRes = await getUserInfo(Number(userIdx));
-                // setUser(userRes.data);
-                // // 메시지 정보  get
-                // const messageRes = await getMessage(Number(userIdx));
-                // setMessage(messageRes.data);
-            }catch (error){
-                console.log(error);
-            }finally {
-                setIsLoading(false);
-            }
-        }
-        // fetchUserAndMessage();
-        const socket = new SockJS(`${config.resourceServer}/ws`);
-        stompClient.current = Stomp.over(socket);
+        console.log('Connecting to Socket.IO at:', `http://localhost:8082`);
+        socketRef.current = io(`http://localhost:8082`, {
+            path: '/socket.io',
+            transports: ['websocket', 'polling'],
+            reconnection: true,
+            reconnectionAttempts: 5,
+            reconnectionDelay: 1000,
+        });
 
-        stompClient.current.connect({}, frame => {
-            console.log("Connected: ", frame);
-            stompClient.current.subscribe(`/topic/messages/${userIdx}`, message => {
-                const newMsg = JSON.parse(message.body);
-                setMessage(prev => [...prev, newMsg]);
-            });
+        socketRef.current.on('connect', () => {
+            console.log('Socket.IO Connected:', socketRef.current?.id);
+            setIsConnected(true);
+            setIsLoading(false);
+            setConnectionError(null);
+            socketRef.current?.emit('join_room', parsedUserIdx);
+        });
+
+        socketRef.current.on('chat_message', (message: Message) => {
+            console.log('Received message:', message);
+            setMessages((prev) => [...prev, message]);
+        });
+
+        socketRef.current.on('connect_error', (error) => {
+            console.error('Socket.IO Connect Error:', error);
+            setConnectionError(`Connection Error: ${error.message}`);
+            setIsConnected(false);
+            setIsLoading(false);
+        });
+
+        socketRef.current.on('disconnect', (reason) => {
+            console.error('Socket.IO Disconnected:', reason);
+            setConnectionError(`Disconnected: ${reason}`);
+            setIsConnected(false);
         });
 
         return () => {
-            if (stompClient.current && stompClient.current.connected) {
-                console.log('Disconnecting WebSocket...');
-                stompClient.current.disconnect();
+            if (socketRef.current) {
+                console.log('Disconnecting Socket.IO...');
+                socketRef.current.disconnect();
             }
         };
-    }, [userIdx]);
+    }, [parsedUserIdx]);
 
-    // const handleSendMessage = (e: React.FormEvent) =>{
-    //     e.preventDefault();
-    //     if (newMessage.trim()){
-    //         const message: Message = {
-    //
-    //         }
-    //     }
-    // }
-    if (!isLoading){
-        return <div>Loading</div>
-    }
-    if (!user) {
-        return <div className={styles.emptyState}>Select a contact to start chatting</div>;
-    }
+    useEffect(() => {
+        if (messageListRef.current) {
+            messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+        }
+    }, [messages]);
 
+    const handleSendMessage = () => {
+        if (!newMessage.trim() || !socketRef.current?.connected) {
+            console.warn('Cannot send message: empty or not connected');
+            return;
+        }
+
+        const message: Message = {
+            id: Date.now(),
+            senderId: 'currentUser',
+            content: newMessage,
+            timestamp: new Date().toISOString(),
+            userIdx: parsedUserIdx,
+        };
+
+        console.log('Sending message:', message);
+        socketRef.current?.emit('chat_message', message);
+        setMessages((prev) => [...prev, message]);
+        setNewMessage('');
+    };
+
+    if (isLoading) {
+        return <div>Connecting to Socket.IO...</div>;
+    }
 
     return (
-
         <div className={styles.container}>
             <div className={styles.header}>
-                <h2 className={styles.userName}>{user.name}</h2>
+                <h2 className={styles.userName}>Chat #{parsedUserIdx}</h2>
             </div>
-            <div className={styles.messageList}>
-                {message.map((msg) => (
-                    <div
-                        key={msg.id}
-                        className={`${styles.message} ${
-                            msg.senderId === 'currentUser' ? styles.sent : styles.received
-                        }`}
-                    >
-                        <p className={styles.messageContent}>{msg.content}</p>
-                        <span className={styles.messageTime}>{msg.timestamp}</span>
-                    </div>
-                ))}
+            <div className={styles.messageList} ref={messageListRef}>
+                {messages.length === 0 ? (
+                    <div className={styles.emptyState}>No messages yet</div>
+                ) : (
+                    messages.map((msg) => (
+                        <div
+                            key={msg.id}
+                            className={`${styles.message} ${
+                                msg.senderId === 'currentUser' ? styles.sent : styles.received
+                            }`}
+                        >
+                            <p className={styles.messageContent}>{msg.content}</p>
+                            <span className={styles.messageTime}>
+                                {format(new Date(msg.timestamp), 'a h:mm', { locale: ko })}
+                            </span>
+                        </div>
+                    ))
+                )}
             </div>
             <div className={styles.inputArea}>
                 <input
                     type="text"
                     placeholder="Type a message..."
                     className={styles.messageInput}
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && newMessage.trim()) {
+                            handleSendMessage();
+                        }
+                    }}
+                    disabled={!isConnected}
                 />
-                <button className={styles.sendButton}>Send</button>
+                <button
+                    className={styles.sendButton}
+                    onClick={handleSendMessage}
+                    disabled={!isConnected}
+                >
+                    Send
+                </button>
             </div>
+            {connectionError && <div className={styles.error}>{connectionError}</div>}
+            {!isConnected && !connectionError && (
+                <div className={styles.error}>Socket.IO disconnected</div>
+            )}
         </div>
+    );
+};
 
-
-    )
-}
 export default ChatBox;

@@ -8,3 +8,4 @@ export const getUserInfo  =  async(userIdx : number)=>{
 export const getMessage = async (userIdx: number)=>{
     return resourceClient.get(`${WORKSPACE_ENDPOINTS.CHAT.GET.MESSAGE}/${userIdx}`);
 }
+

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from './MessageBox.module.css';
 import {Conversation, User} from '../../types';
 import {Plus} from "lucide-react";
@@ -50,7 +50,12 @@ const MessageBox: React.FC = () => {
     const handleSelectUser = (userId: string) =>{
         navigate(`/workspace/chat/${userId}`);
     }
-
+    //
+    // useEffect(() => {
+    //     const fetchUser = async ()=>{
+    //         const res = await
+    //     }
+    // }, []);
     const conv = {
         user: {
             id: 'test',

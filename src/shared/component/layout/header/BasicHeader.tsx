@@ -55,7 +55,16 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
                 <div className="left-section">
                     <div className="logo-section">
                         <NavLink to="/">
-                            <img src={dpImg} alt=".." className="logo-img"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="40" viewBox="0 0 600 200">
+                                <text x="0" y="140"
+                                      font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+                                      font-weight="540"
+                                      font-size="115"
+                                      letter-spacing="5"
+                                      fill="black">
+                                    Jaeminan
+                                </text>
+                            </svg>
                         </NavLink>
                     </div>
                     <nav className={isNavOpen ? 'open' : ''}>
