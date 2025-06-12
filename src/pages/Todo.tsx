@@ -94,7 +94,7 @@ const Todo: React.FC = () => {
             }
         };
         fetchTodo();
-    }, []);
+    }, [location]);
     return (
         <div className="todo-container">
             {!isDetailPage && (

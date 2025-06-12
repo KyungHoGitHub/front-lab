@@ -158,7 +158,7 @@ const TodoDetail: React.FC = () => {
                     </div>
                 </div>
                 <div className="todo-detail-content">
-                    <div className="todo-detail-field">
+                    <div className="todo-detail-field"   style={{ whiteSpace: 'pre-line' }}>
                         <span className="todo-detail-label">내용:</span>
                         <span className="todo-detail-value">{todo?.description || '없음'}</span>
                     </div>

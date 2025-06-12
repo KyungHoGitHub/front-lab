@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {NavLink, useLocation} from "react-router";
-import dpImg from '@assets/mainLogo.png';
+import logoImg from '@assets/mainLogo.png';
 import "./LoginHeader.css"
 import {FiLogIn} from "react-icons/fi";
 import {MdArrowBackIos} from "react-icons/md";
@@ -20,7 +20,7 @@ const LoginHeader: React.FC = () => {
             <div className="login-container">
                 <div className="login-logo-section">
                     <NavLink to="/">
-                        <img src={dpImg} alt=".." className="login-logo-img"/>
+                        <img src={logoImg} alt=".." className="login-logo-img"/>
                     </NavLink>
                 </div>
                 {

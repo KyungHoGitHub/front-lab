@@ -10,6 +10,7 @@ interface SignupFormProps {
     title: string;
 }
 
+//  제출 form 데이터 타입 정의
 interface FormData {
     email: string;
     password: string;
@@ -21,6 +22,8 @@ interface FormData {
 const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
     const {user, setUser } = useUserStore();
     const navigate = useNavigate();
+
+    // form 제어 및  초기화를 위해 useForm 훅 사용
     const {
         register,
         watch,
@@ -51,7 +54,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
         try {
             const { confirmPassword, ...signupData } = values;
 
-            const res = await signup(signupData);
+            const res = await signup(values);
             console.log("회원가입 처리",res.data)
             if (res.data){
                 console.log("회원가입 하고 데이터 있으면",res.data)
@@ -68,6 +71,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
     useEffect(() => {
 
     }, [user]);
+
     const userIdCheckClick = async () => {
         try {
             const values = getValues(); // 현재 폼 값 가져오기
@@ -95,7 +99,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
             <div className="signup-form-title">{title}</div>
             <div className="signup-form-sub">추가적인 설명이 필요 할때</div>
             {/*<div>데이터 없나?{user?.data.userId}</div>*/}
-            <form className="signup-form" onSubmit={handleSubmit(submit)}>
+            <form className="signup-form" onSubmit={handleSubmit(submit)} noValidate>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
@@ -108,6 +112,12 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
                         placeholder="이메일을 입력하세요"
                     />
                 </div>
+                {errors.email && <span className="error">{errors.email.message}</span>}
+                {/*{errors.email && (*/}
+                {/*    <span className="field-error" id="email-error" role="alert" >*/}
+                {/*        {errors.email.message}*/}
+                {/*    </span>*/}
+                {/*)}*/}
                 <div className="form-group-id">
                     <label htmlFor="userId">ID </label>
                     <input
@@ -144,6 +154,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
                     <input
+                        className={errors.password ? "input-error" : ""}
                         type={showPassword ? "text" : "password"}
                         id="password"
                         {...register("password", {

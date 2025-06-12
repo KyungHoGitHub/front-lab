@@ -6,7 +6,7 @@ import ToggleButton from "../../common/ToggleButton.tsx";
 import Menu from "../../common/Menu.tsx";
 import {useTranslation} from 'react-i18next';
 import LanguageSelectorButton from "../../common/LanguageSelectorButton.tsx";
-import dpImg from '@assets/mainLogo.png';
+import logoImg from '@assets/mainLogo.png';
 import {useAuth} from "../../../../features/contexts/components/AuthProvider.tsx";
 
 
@@ -55,16 +55,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
                 <div className="left-section">
                     <div className="logo-section">
                         <NavLink to="/">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="40" viewBox="0 0 600 200">
-                                <text x="0" y="140"
-                                      font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
-                                      font-weight="540"
-                                      font-size="115"
-                                      letter-spacing="5"
-                                      fill="black">
-                                    Jaeminan
-                                </text>
-                            </svg>
+                            <img src={logoImg} alt=".." className="logo-img"/>
                         </NavLink>
                     </div>
                     <nav className={isNavOpen ? 'open' : ''}>

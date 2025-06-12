@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import './Mypage.css';
 import Card from "../shared/component/common/Card.tsx";
 import Avatar from "../shared/component/common/Avatar.tsx";
@@ -6,6 +6,7 @@ import userIcon from '@assets/userRed.png';
 import Description from "../shared/component/common/Description.tsx";
 import Table, {Column} from "../shared/component/common/Table.tsx";
 import {useNavigate} from "react-router";
+import {postUserProfile} from "../features/mypage/api/Mypage.ts";
 
 interface UserActivity {
     id: number;
@@ -16,6 +17,7 @@ interface UserActivity {
 }
 
 const Mypage: React.FC = () => {
+    const [avartarSrc, setAvartarSrc] = useState('');
     const navigate = useNavigate();
 
     const userInfo: { label: string; value: string }[] = [
@@ -82,14 +84,29 @@ const Mypage: React.FC = () => {
             dataIndex: 'currentDate',
         }
     ];
-    const handleAvatarChange = () => {
-        alert('이미지 변경 로직을 여기에 추가하세요!');
-        // 실제로는 파일 업로드 로직 등 구현
-    };
+
+    const handleFileChange  = async (file:File) =>{
+        // console.log()
+        // const file = event.target.files?.[0];
+        // if(!file)return;
+        console.log('Selected file:', file.name); // 디버깅
+        const formData = new FormData();
+        formData.append('file', file);
+        console.log('FormData entries:', [...formData.entries()]); // FormData 내용 확인
+
+        try{
+            const res = await postUserProfile(formData);
+            // 여기 나중에 서버에서 전달주는 객체로 이름 변경해야할듯
+            setAvartarSrc(res.data);
+        }catch (q){
+            console.log(q);
+        }
+    }
+
     return (
 
         <Card title={"my page"}>
-            <Avatar size={100} src={userIcon} onChange={handleAvatarChange}></Avatar>
+            <Avatar size={100} src={avartarSrc} onFileChange={handleFileChange}></Avatar>
             <span style={{padding: "10px"}}/>
             <Card title={"기본정보"}>
                 <Description items={userInfo}/>
