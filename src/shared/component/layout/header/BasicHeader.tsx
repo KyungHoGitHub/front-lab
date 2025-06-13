@@ -38,8 +38,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
         {title: t('userInfo.mode_select'), path: '/homedsd'},
         {
             title: t('userInfo.logout'),
-            onclick: () => {
-                console.log('Logout clicked'); // 디버깅 로그
+            onClick: () => {
                 logout();
             },
         },

@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import "./TodoDetail.css";
-import {useNavigate, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {Todo} from "../features/workspace/type/TodoFormData.ts";
 import {getTodoById, updateTodo, updateTodoIsDelete} from "../features/workspace/api/Todo.ts";
 import {FiEdit, FiTrash2} from "react-icons/fi";
+import {useTranslation} from "react-i18next";
 
 const TodoDetail: React.FC = () => {
     const {idx} = useParams<{ idx: string }>();
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const [todo, setTodo] = useState<Todo | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -23,7 +25,7 @@ const TodoDetail: React.FC = () => {
         setError(null);
         try {
             await updateTodoIsDelete(parsedIdx);
-            setSuccessMessage("정상적으로 처리 되었습니다.");
+            setSuccessMessage(t('work_space.todo_detail.todo-successMessage'));
             setTimeout(() => {
                 navigate("/workspace/todo");
             }, 1000);
@@ -71,7 +73,7 @@ const TodoDetail: React.FC = () => {
             await updateTodo(Number(idx), updatedTodo);
             const res = await getTodoById(Number(idx));
             setTodo(res.data);
-            setSuccessMessage(' 정상적으로 수정 되었음');
+            setSuccessMessage(t('work_space.todo_detail.todo-updateSuccessMessage'));
             setLoading(false);
             setIsEditing(false);
             setTimeout(() => {
@@ -90,7 +92,7 @@ const TodoDetail: React.FC = () => {
                 <svg className="spinner" viewBox="0 0 24 24">
                     <circle className="spinner-path" cx="12" cy="12" r="10"/>
                 </svg>
-                <p>로딩 중...</p>
+                <p>{t('work_space.todo_detail.loading')}</p>
             </div>
         );
     }
@@ -101,7 +103,7 @@ const TodoDetail: React.FC = () => {
             <div className="todo-detail-error">
                 <p>{error}</p>
                 <button className="todo-detail-button" onClick={() => navigate('/workspace')}>
-                    목록으로 돌아가기
+                    {t('work_space.todo_detail.return_to_list')}
                 </button>
             </div>
         );
@@ -110,9 +112,9 @@ const TodoDetail: React.FC = () => {
     if (!todo) {
         return (
             <div className="todo-detail-error">
-                <p>Todo를 찾을 수 없습니다.</p>
+                <p> {t('work_space.todo_detail.todo-search-fail-p-tag-tilte')}</p>
                 <button className="todo-detail-button" onClick={() => navigate('/workspace')}>
-                    목록으로 돌아가기
+                    {t('work_space.todo_detail.return_to_list')}
                 </button>
             </div>
         );
@@ -159,19 +161,19 @@ const TodoDetail: React.FC = () => {
                 </div>
                 <div className="todo-detail-content">
                     <div className="todo-detail-field"   style={{ whiteSpace: 'pre-line' }}>
-                        <span className="todo-detail-label">내용:</span>
+                        <span className="todo-detail-label">{t('work_space.todo_detail.content')}</span>
                         <span className="todo-detail-value">{todo?.description || '없음'}</span>
                     </div>
                     <div className="todo-detail-field">
-                        <span className="todo-detail-label">상태:</span>
+                        <span className="todo-detail-label">{t('work_space.todo_detail.status')}:</span>
                         <span className={className}>{label}</span>
                     </div>
                     <div className="todo-detail-field">
-                        <span className="todo-detail-label">생성일자:</span>
+                        <span className="todo-detail-label">{t('work_space.todo_detail.createdAt')}:</span>
                         <span className="todo-detail-value">{todo?.createdAt || 'N/A'}</span>
                     </div>
                     <div className="todo-detail-field">
-                        <span className="todo-detail-label">수정일자:</span>
+                        <span className="todo-detail-label">{t('work_space.todo_detail.updatedAt')}:</span>
                         <span className="todo-detail-value">{todo?.updatedAt || 'N/A'}</span>
                     </div>
                 </div>
@@ -180,7 +182,7 @@ const TodoDetail: React.FC = () => {
                         className="todo-detail-button"
                         onClick={() => navigate('/workspace')}
                     >
-                        목록으로 돌아가기
+                        {t('work_space.todo_detail.return_to_list')}
                     </button>
                 </div>
             </div>
@@ -202,7 +204,7 @@ const TodoDetail: React.FC = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="description" className="form-label">내용</label>
+                                    <label htmlFor="description" className="form-label">{t('work_space.todo_detail.content')}</label>
                                     <textarea
                                         id="description"
                                         value={editForm.description || ''}
@@ -211,7 +213,7 @@ const TodoDetail: React.FC = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="status" className="form-label">상태</label>
+                                    <label htmlFor="status" className="form-label">{t('work_space.todo_detail.status')}</label>
                                     <select
                                         id="status"
                                         value={editForm.status || 'TODO'}
@@ -228,14 +230,14 @@ const TodoDetail: React.FC = () => {
                                 </div>
                                 <div className="todo-modal-actions">
                                     <button type="submit" className="todo-detail-button todo-save">
-                                        저장
+                                        {t('work_space.todo_detail.save')}
                                     </button>
                                     <button
                                         type="button"
                                         className="todo-detail-button"
                                         onClick={() => setIsEditing(false)}
                                     >
-                                        취소
+                                        {t('work_space.todo_detail.cancel')}
                                     </button>
                                 </div>
                             </form>

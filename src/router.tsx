@@ -16,6 +16,11 @@ import Memo from "./pages/Memo.tsx";
 import TodoDetail from "./pages/TodoDetail.tsx";
 import ChatBox from "./features/workspace/components/ChatBox.tsx";
 
+// createBrowserRouter : react-router 라이브러리 제공 API
+/*
+path : 라우팅 경로 (예 : ' /login')
+
+* */
 export const router = createBrowserRouter([
     {
         path: '/login',

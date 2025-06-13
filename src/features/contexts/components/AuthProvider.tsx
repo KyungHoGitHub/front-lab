@@ -14,9 +14,10 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({children}) =>{
+    // const navigate = useNavigate();
     const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
     const [isLoading, setIsLoading] = useState(false);
-    // const navigate = useNavigate();
+
 
 
     const login = (newToken: string) => {
@@ -29,6 +30,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) =>{
     const logout = () => {
         localStorage.removeItem('accessToken');
         setToken(null);
+        window.location.href = '/login';
         // navigate('/login');
     };
 

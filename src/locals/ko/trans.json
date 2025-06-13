@@ -10,5 +10,44 @@
     "user_settings": "계정설정",
     "mode_select": "모드 선택",
     "logout": "로그아웃"
+  },
+  "work_space": {
+    "left_menu": {
+      "todo" : "할일",
+      "chat" : "챗",
+      "memo" : "메모"
+    },
+    "todo": {
+      "table_column": {
+        "id" : "아이디",
+        "title" : "제목",
+        "status" : "상태",
+        "createdAt" : "생성일자",
+        "updatedAt" : "수정일자"
+      },
+      "table_searchButton": {
+        "todo_add" : "할일만들기"
+      },
+      "table_searchBar": {
+        "option_title" : "제목",
+        "option_content" : "내용",
+        "input_placeholder" : "검색어 입력",
+        "button": "검색"
+      }
+    },
+    "todo_detail": {
+      "todo_successMessage": "정상적으로 처리 되었습니다.",
+      "todo_updateSuccessMessage" : "정상적으로 수정 되었습니다.",
+      "loading": "로딩중 ...",
+      "return_to_list" : "목록으로 돌아가기",
+      "todo-search-fail-p-tag-tilte": "할일 목록을 찾을 수 없습니다.",
+      "content": "내용",
+      "status": "상태",
+      "createdAt": "생성일자",
+      "updatedAt": "수정일자",
+      "edit": "수정",
+      "save": "저장",
+      "cancel": "취소"
+    }
   }
 }

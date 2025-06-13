@@ -6,7 +6,7 @@ import {TokenStatus} from "../type/Status.ts";
 import {toast} from "react-toastify";
 
 const ProtectedRoute = () => {
-    const {logout, isAuthenticated} = useAuth();
+    const {token, logout, isAuthenticated} = useAuth();
     // 유효 여부 값
     const [isVerified, setIsVerified] = useState<boolean>(false);
 
@@ -16,7 +16,6 @@ const ProtectedRoute = () => {
     useEffect(() => {
         // 토큰 유효 체크 api 함수 (비동기) 선언
         const checkToken = async () => {
-            const token = localStorage.getItem("accessToken");
             if (!token) {
                 setIsVerified(false);
                 return;
@@ -32,13 +31,13 @@ const ProtectedRoute = () => {
                 }
             } catch (e) {
                 setIsVerified(false);
-                console.log("여기 2번",e)
+                console.log("여기 2번", e)
                 logout();
                 toast.warning("유효한 접근이 아닙니다.");
             }
         }
         checkToken();
-    }, [location.pathname]);
+    }, []);
 
     return (
         isAuthenticated ? <Outlet/> : <Navigate to="/login" replace/>

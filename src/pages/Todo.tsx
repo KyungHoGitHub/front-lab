@@ -7,8 +7,10 @@ import {TodoFormData} from "../features/workspace/type/TodoFormData.ts";
 import {getTodoList, searchTodos} from "../features/workspace/api/Todo.ts";
 import {FaCheckCircle, FaClock, FaSync} from "react-icons/fa";
 import SearchBar from "../shared/component/common/SearchBar.tsx";
+import {useTranslation} from "react-i18next";
 
 const Todo: React.FC = () => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [todos, setTodos] = useState<{
@@ -40,25 +42,25 @@ const Todo: React.FC = () => {
 
     const activityColumns = [
         {
-            title: 'ID',
+            title: t('work_space.todo.table_column.id'),
             dataIndex: 'id',
             // sorter: (a, b) => a.id - b.id, // 숫자 정렬
         },
         {
-            title: '제목',
+            title:  t('work_space.todo.table_column.title'),
             dataIndex: 'title',
             sorter: (a, b) => a.title.localeCompare(b.title),
             onCellClick: handleCellClick,
         },
         {
-            title: '상태',
+            title: t('work_space.todo.table_column.status'),
             dataIndex: 'status',
             sorter: (a, b) => a.status.localeCompare(b.status),
             render: (status: TodoFormData['status']) => {
                 const tagConfig = {
-                    TODO: {label: '할 일', className: 'todo', icon: <FaClock className="tag-icon"/>},
-                    IN_PROGRESS: {label: '진행 중', className: 'in-progress', icon: <FaSync className="tag-icon"/>},
-                    DONE: {label: '완료', className: 'done', icon: <FaCheckCircle className="tag-icon"/>},
+                    TODO: {label: '할 일', className: 'todo', icon: <FaClock  style={{marginRight:"10px"}} className="tag-icon"/>},
+                    IN_PROGRESS: {label: '진행중', className: 'in-progress', icon: <FaSync style={{marginRight:"10px"}} className="tag-icon"/>},
+                    DONE: {label: '완료', className: 'done', icon: <FaCheckCircle style={{marginRight:"10px"}} className="tag-icon"/>},
                 };
                 const {label, className, icon} = tagConfig[status] || {label: status, className: '', icon: null};
                 return (
@@ -70,12 +72,12 @@ const Todo: React.FC = () => {
             },
         },
         {
-            title: '생성일자',
+            title: t('work_space.todo.table_column.createdAt'),
             dataIndex: 'createdAt',
             sorter: (a, b) => a.initDate.localeCompare(b.initDate), // 날짜 문자열 정렬
         },
         {
-            title: '수정일자',
+            title: t('work_space.todo.table_column.updatedAt'),
             dataIndex: 'updateAt',
         }
     ];
@@ -101,7 +103,7 @@ const Todo: React.FC = () => {
                 <>
                     <div className="todo-header">
                         <button className="todo-create-button" onClick={() => setIsModalOpen(true)}>
-                            할일 만들기
+                            {t('work_space.todo.table_searchButton.todo_add')}
                         </button>
 
                         <SearchBar onSearch={handleSearch}/>

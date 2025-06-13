@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './Mypage.css';
 import Card from "../shared/component/common/Card.tsx";
 import Avatar from "../shared/component/common/Avatar.tsx";
@@ -7,6 +7,7 @@ import Description from "../shared/component/common/Description.tsx";
 import Table, {Column} from "../shared/component/common/Table.tsx";
 import {useNavigate} from "react-router";
 import {postUserProfile} from "../features/mypage/api/Mypage.ts";
+import {getUserInfo} from "../shared/api/user.ts";
 
 interface UserActivity {
     id: number;
@@ -18,13 +19,22 @@ interface UserActivity {
 
 const Mypage: React.FC = () => {
     const [avartarSrc, setAvartarSrc] = useState('');
+    const [userData, setUserData] = useState({});
     const navigate = useNavigate();
 
-    const userInfo: { label: string; value: string }[] = [
-        { label: 'ID', value: 'user123' },
-        { label: '이름', value: '홍길동' },
-        { label: '휴대폰번호', value: '010-****-1234' },
-    ];
+    const userInfo = Object.entries(userData)
+        .filter(([key]) => key === "id" || key === "username")
+        .map(([key, value]) => ({
+            label: key === "id" ? "ID" : "이름",
+            value: value.toString(),
+        }));
+
+
+    // const userInfo: { label: string; value: string }[] = [
+    //     { label: 'ID', value: 'user123' },
+    //     { label: '이름', value: '홍길동' },
+    //     { label: '휴대폰번호', value: '010-****-1234' },
+    // ];
 
     const companyInfo: { label: string; value: string }[] = [
         { label: '기관명', value: '웹테스트' },
@@ -97,12 +107,27 @@ const Mypage: React.FC = () => {
         try{
             const res = await postUserProfile(formData);
             // 여기 나중에 서버에서 전달주는 객체로 이름 변경해야할듯
-            setAvartarSrc(res.data);
+            console.log('데이터 확인 ->',res.data.imageUrl);
+            setAvartarSrc(res.data.imageUrl);
         }catch (q){
             console.log(q);
         }
     }
+    useEffect(() => {
+        const fetchMypage = async ()=>{
+            try{
+                const response = await getUserInfo();
+                setUserData(response.data.data);
 
+            }catch (error){
+                console.log(error);
+            }
+        }
+        fetchMypage();
+    }, []);
+    console.log('데이터 확인',userData);
+
+    console.log(userInfo);
     return (
 
         <Card title={"my page"}>

@@ -10,5 +10,44 @@
     "user_settings":  "User Settings",
     "mode_select":  "Account Settings",
     "logout": "Logout"
+  },
+  "work_space": {
+    "left_menu": {
+      "todo" : "todo",
+      "chat" : "chat",
+      "memo" : "memo"
+    },
+    "todo": {
+      "table_column": {
+        "id" : "id",
+        "title" : "title",
+        "status" : "status",
+        "createdAt" : "created_at",
+        "updatedAt" : "updated_at"
+      },
+      "table_searchButton": {
+        "todo_add" : "todo_add"
+      },
+      "table_searchBar": {
+        "option_title" : "title",
+        "option_content" : "content",
+        "input_placeholder" : "Enter search term",
+        "button": "search"
+      }
+    },
+    "todo_detail": {
+      "todo-successMessage": "It was processed normally.",
+      "todo-updateSuccessMessage" : "It has been corrected properly.",
+      "loading": "loading ...",
+      "return_to_list" : "return to list",
+      "todo-search-fail-p-tag-tilte": "can't find my to-do list.",
+      "content": "content",
+      "status": "status",
+      "createdAt": "created_at",
+      "updatedAt": "updated_at",
+      "edit": "edit",
+      "save": "save",
+      "cancel": "cancel"
+    }
   }
 }
