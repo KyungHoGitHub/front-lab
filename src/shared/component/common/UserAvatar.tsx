@@ -25,11 +25,9 @@ const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [usersData, setUsersData] = useState({});
 
-    console.log('유저 정보 확인 해보기----------------->', usersData);
     const {logout} = useAuth();
     const navigate = useNavigate();
 
-    console.log('드랍 다운 아이템', dropdownItem);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const handleOnClick = () => {
@@ -38,7 +36,6 @@ const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
 
     const dropdownItemClick = (item: DropdownItem) => {
         if(item.onClick){
-            console.log('onclick 실행됨'); // ✅ 디버깅 로그 추가
             logout();
         }
         navigate(item.path);
@@ -84,7 +81,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
                 role="button"
             >
                 <img src={usersData?.data?.imageUrl} alt="alt"/>
-                {/*<span>{usersData.data.id}</span>*/}
+                {/*<span>{usersData?.data.id}</span>*/}
             </div>
             {
                 isOpen && (

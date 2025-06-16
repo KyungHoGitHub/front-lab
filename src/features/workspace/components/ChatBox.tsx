@@ -6,9 +6,13 @@ import { io, Socket } from 'socket.io-client';
 import config from '../../../config.ts';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import {useLocation} from "react-router";
 
 const ChatBox: React.FC = () => {
-    const parsedUserIdx = 7; // 테스트용 하드코딩
+    const location = useLocation();
+    // console.log(location.pathname.at(-1));
+    console.log( location.pathname.at(-1))
+    const parsedUserIdx = location.pathname.split('/').pop(); // 테스트용 하드코딩
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [isConnected, setIsConnected] = useState(false);
@@ -18,7 +22,6 @@ const ChatBox: React.FC = () => {
     const messageListRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        console.log('Connecting to Socket.IO at:', `http://localhost:8082`);
         socketRef.current = io(`http://localhost:8082`, {
             path: '/socket.io',
             transports: ['websocket', 'polling'],
@@ -28,7 +31,6 @@ const ChatBox: React.FC = () => {
         });
 
         socketRef.current.on('connect', () => {
-            console.log('Socket.IO Connected:', socketRef.current?.id);
             setIsConnected(true);
             setIsLoading(false);
             setConnectionError(null);
@@ -36,7 +38,6 @@ const ChatBox: React.FC = () => {
         });
 
         socketRef.current.on('chat_message', (message: Message) => {
-            console.log('Received message:', message);
             setMessages((prev) => [...prev, message]);
         });
 
@@ -55,7 +56,6 @@ const ChatBox: React.FC = () => {
 
         return () => {
             if (socketRef.current) {
-                console.log('Disconnecting Socket.IO...');
                 socketRef.current.disconnect();
             }
         };
@@ -81,7 +81,6 @@ const ChatBox: React.FC = () => {
             userIdx: parsedUserIdx,
         };
 
-        console.log('Sending message:', message);
         socketRef.current?.emit('chat_message', message);
         setMessages((prev) => [...prev, message]);
         setNewMessage('');

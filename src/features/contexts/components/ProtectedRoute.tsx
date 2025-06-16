@@ -26,12 +26,10 @@ const ProtectedRoute = () => {
                     setIsVerified(true);
                 } else {
                     logout();
-                    console.log("여기 1번")
                     toast.warning("유효한 접근이 아닙니다.");
                 }
             } catch (e) {
                 setIsVerified(false);
-                console.log("여기 2번", e)
                 logout();
                 toast.warning("유효한 접근이 아닙니다.");
             }

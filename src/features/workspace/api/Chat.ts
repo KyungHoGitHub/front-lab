@@ -9,3 +9,7 @@ export const getMessage = async (userIdx: number)=>{
     return resourceClient.get(`${WORKSPACE_ENDPOINTS.CHAT.GET.MESSAGE}/${userIdx}`);
 }
 
+export const getMessageUserList = async () =>{
+    return resourceClient.get(`${WORKSPACE_ENDPOINTS.CHAT.GET.ALL_USER}`)
+}
+

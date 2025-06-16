@@ -55,9 +55,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
             const { confirmPassword, ...signupData } = values;
 
             const res = await signup(values);
-            console.log("회원가입 처리",res.data)
+
             if (res.data){
-                console.log("회원가입 하고 데이터 있으면",res.data)
                 const userInfo = await  getUserInfo({userIdx: Number(res.data.data.idx)});
                 setUser(userInfo.data.data);
             }

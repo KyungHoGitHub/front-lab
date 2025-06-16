@@ -4,9 +4,11 @@ import {Conversation, User} from '../../types';
 import {Plus} from "lucide-react";
 import {AiOutlinePlus} from "react-icons/ai";
 import {useNavigate} from "react-router";
+import MessageUserListModal from "./MessageUserListModal.tsx";
 
 const MessageBox: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
     // 예시 데이터 (샘플 대화 목록)
@@ -42,7 +44,7 @@ const MessageBox: React.FC = () => {
             timestamp: '1m',
         },
     ];
-
+    console.log(isModalOpen);
     const filteredConversations = sampleConversations.filter((conv) =>
         conv.user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -50,12 +52,11 @@ const MessageBox: React.FC = () => {
     const handleSelectUser = (userId: string) =>{
         navigate(`/workspace/chat/${userId}`);
     }
-    //
-    // useEffect(() => {
-    //     const fetchUser = async ()=>{
-    //         const res = await
-    //     }
-    // }, []);
+
+    const messageUserListButtonClick =()=>{
+        setIsModalOpen(true);
+    }
+
     const conv = {
         user: {
             id: 'test',
@@ -65,15 +66,13 @@ const MessageBox: React.FC = () => {
         lastMessage: 'test',
         timestamp: '2222'
     }
-    // const filteredConversations = conversations.filter((conv) =>
-    //     conv.user.name.toLowerCase().includes(searchTerm.toLowerCase())
-    // );
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <h2 className={styles.title}>Messages</h2>
                 <button
-                    // onClick={() => setIsPopupOpen(true)}
+                    onClick={messageUserListButtonClick}
                     className={styles.addButton}
                     aria-label="Add new contact"
                 >
@@ -81,6 +80,8 @@ const MessageBox: React.FC = () => {
                     {/*<Plus className = {styles.addIcon}/>*/}
                     <AiOutlinePlus size={24} color="#3765fc"/>
                 </button>
+                <MessageUserListModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} >
+                </MessageUserListModal>
             </div>
             <div className={styles.searchBar}>
                 <input

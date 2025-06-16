@@ -96,18 +96,11 @@ const Mypage: React.FC = () => {
     ];
 
     const handleFileChange  = async (file:File) =>{
-        // console.log()
-        // const file = event.target.files?.[0];
-        // if(!file)return;
-        console.log('Selected file:', file.name); // 디버깅
         const formData = new FormData();
         formData.append('file', file);
-        console.log('FormData entries:', [...formData.entries()]); // FormData 내용 확인
-
         try{
             const res = await postUserProfile(formData);
             // 여기 나중에 서버에서 전달주는 객체로 이름 변경해야할듯
-            console.log('데이터 확인 ->',res.data.imageUrl);
             setAvartarSrc(res.data.imageUrl);
         }catch (q){
             console.log(q);
@@ -125,7 +118,7 @@ const Mypage: React.FC = () => {
         }
         fetchMypage();
     }, []);
-    console.log('데이터 확인',userData);
+
 
     console.log(userInfo);
     return (

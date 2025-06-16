@@ -61,8 +61,6 @@ const PasswordStrengthBar: React.FC<PasswordStrengthBarProps> = ({password}) => 
     const translateFeedback = (warning: string, suggestions: string[]) => {
         const warningMap = (feedbackTranslations as FeedbackTranslations).warnings;
         const suggestionMap = (feedbackTranslations as FeedbackTranslations).suggestions;
-        console.log("Original Warning:", warning); // 디버깅용
-        console.log("Original Suggestions:", suggestions); // 디버
         return {
             warning: warningMap[warning] || warning,
             suggestions: suggestions.map((s) => suggestionMap[s] || s),

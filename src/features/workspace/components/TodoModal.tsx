@@ -31,7 +31,6 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
     const onSubmit = async (data: TodoFormData) =>{
         setLoading(true);
         setError(null);
-        console.log(data);
         try{
             await todoModalSubmit(data);
             reset();
@@ -55,7 +54,6 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
     if (!isOpen) {
         return null; // isOpen이 false면 아무것도 렌더링하지 않음
     }
-console.log("로딩값",loading)
     return (
         <div className="antd-modal-overlay">
             <div className="antd-modal-content">

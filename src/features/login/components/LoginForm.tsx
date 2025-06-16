@@ -50,9 +50,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 login(res.data.data.accessToken);
                 navigate("/usage");
             }
-/*            console.log('res', res);
-            // console.log("왜안감?")
-            navigate("/usage");*/
+
 
             // setLoading(false);
         }catch (error){

@@ -21,6 +21,7 @@ const Todo: React.FC = () => {
     }[]>([]);
     const location = useLocation();
     const isDetailPage = location.pathname.includes('detail');
+
     // 검색 핸들러
     const handleSearch = async (searchBy: 'title' | 'description', searchTerm: string) => {
         try {
@@ -29,12 +30,10 @@ const Todo: React.FC = () => {
         } catch (e) {
             console.log(e);
         } finally {
-            console.log('끝')
         }
     }
     // 상세 페이지로 이동하는 핸들러
     const handleCellClick = (record :{idx :number}) => {
-        console.log('record 값 확인  ---->',record);
         navigate(`/workspace/todo/detail/${record.idx}`); // 예: /activity/1로 이동
         // 또는 간단히 테스트용으로 alert 사용:
         // alert(`Clicked activity: ${record.action} (ID: ${record.id})`);
@@ -88,7 +87,6 @@ const Todo: React.FC = () => {
             try {
                 const res = await getTodoList();
                 setTodos(res.data);
-                console.log('todo 리스트 데이터 옴', res.data)
             } catch (e) {
                 console.log(e);
             } finally {

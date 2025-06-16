@@ -10,6 +10,7 @@ export const WORKSPACE_ENDPOINTS = {
         GET :{
             USER: 'user',
             MESSAGE: 'message',
+            ALL_USER: 'all-user',
         }
     }
 } as const;
