@@ -12,7 +12,7 @@ const ChatBox: React.FC = () => {
     const location = useLocation();
     // console.log(location.pathname.at(-1));
     console.log( location.pathname.at(-1))
-    const parsedUserIdx = location.pathname.split('/').pop(); // 테스트용 하드코딩
+    const parsedUserIdx = location.pathname.split('/').pop() || 1; // 테스트용 하드코딩
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [isConnected, setIsConnected] = useState(false);
@@ -31,6 +31,7 @@ const ChatBox: React.FC = () => {
         });
 
         socketRef.current.on('connect', () => {
+            console.log('Socket.IO 연결됨, 방 참여:', parsedUserIdx);
             setIsConnected(true);
             setIsLoading(false);
             setConnectionError(null);
@@ -38,6 +39,7 @@ const ChatBox: React.FC = () => {
         });
 
         socketRef.current.on('chat_message', (message: Message) => {
+            console.log('수신된 메시지:', message);
             setMessages((prev) => [...prev, message]);
         });
 
@@ -74,13 +76,14 @@ const ChatBox: React.FC = () => {
         }
 
         const message: Message = {
-            id: Date.now(),
-            senderId: 'currentUser',
+            id: "1",
+            senderId: 17,
             content: newMessage,
             timestamp: new Date().toISOString(),
-            userIdx: parsedUserIdx,
+            userIdx: Number(parsedUserIdx),
         };
 
+        console.log('전송할 메시지:', message);
         socketRef.current?.emit('chat_message', message);
         setMessages((prev) => [...prev, message]);
         setNewMessage('');
@@ -103,7 +106,7 @@ const ChatBox: React.FC = () => {
                         <div
                             key={msg.id}
                             className={`${styles.message} ${
-                                msg.senderId === 'currentUser' ? styles.sent : styles.received
+                                msg.senderId === 17 ? styles.sent : styles.received
                             }`}
                         >
                             <p className={styles.messageContent}>{msg.content}</p>

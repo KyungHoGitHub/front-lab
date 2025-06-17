@@ -70,7 +70,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
         };
 
 
-    }, [isOpen]);
+    }, []);
 
 
     return (
