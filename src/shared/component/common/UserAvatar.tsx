@@ -20,10 +20,17 @@ interface DropdownItem {
     path: string;
     onClick?: () => void;
 }
+interface UserData {
+    idx: number;
+    id: string;
+    username: string;
+    imageUrl: string;
+    createdAt: string;
+}
 
 const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [usersData, setUsersData] = useState({});
+    const [usersData, setUsersData] = useState<UserData|null>(null);
 
     const {logout} = useAuth();
     const navigate = useNavigate();
@@ -39,8 +46,6 @@ const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
             logout();
         }
         navigate(item.path);
-
-
         setIsOpen(false);
     }
 
@@ -50,7 +55,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
        const fetchUser = async ()=>{
            try {
                const response = await getUserInfo();
-               setUsersData(response.data);
+               setUsersData(response.data.data);
            }catch (error){
                console.log(error)
            }
@@ -80,8 +85,8 @@ const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
                 onClick={handleOnClick}
                 role="button"
             >
-                <img src={usersData?.data?.imageUrl} alt="alt"/>
-                {/*<span>{usersData?.data.id}</span>*/}
+                <img src={usersData?.imageUrl} alt="alt"/>
+                <span>{usersData?.id}</span>
             </div>
             {
                 isOpen && (
