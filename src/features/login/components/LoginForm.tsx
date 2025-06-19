@@ -6,15 +6,16 @@ import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
 import OathLoginButton from "./OathLoginButton.tsx";
 import {login, loginForm} from "../api/login.ts";
 import {useAuth} from "../../contexts/components/AuthProvider.tsx";
+import { LoginFormData} from "../types/login.ts";
 
 interface LoginFormProps {
     title: string,
 }
 
-type FormData = {
-    userId: string;
-    password: string;
-}
+// type FormData = {
+//     userId: string;
+//     password: string;
+// }
 
 const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const {login} = useAuth();
@@ -28,7 +29,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
         register,
         formState: {errors},
         handleSubmit,
-    } = useForm<FormData>({
+    } = useForm<LoginFormData>({
         defaultValues: {
             userId: "",
             password: "",
@@ -40,11 +41,12 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const submit = async (data:FormData)=>{
+    const submit = async (data:LoginFormData)=>{
         // setLoading(true);
-        const {...signup}= data;
+        // const {...signup}= data;
         try{
-            const res = await loginForm(signup);
+            const res = await loginForm(data);
+
             console.log(res.data.data.accessToken);
             if(res.data.data.accessToken){
                 login(res.data.data.accessToken);
@@ -96,7 +98,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 {errors.password && <span className="error">{errors.password.message}</span>}
                 <div className="button-container">
                     <button className="login-form-leftButton" type="submit"  disabled={loading}>
-                        {loading ? "로그인중" : "로그인"}
+                        {loading ? "로그인 중" : "로그인"}
                     </button>
                     <GoogleOAuthProvider clientId={"test"}>
                         <OathLoginButton/>

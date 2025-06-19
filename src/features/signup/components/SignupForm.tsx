@@ -1,26 +1,28 @@
-import { useForm, UseFormGetValues } from "react-hook-form"; // getValues 임포트
+import {useForm, UseFormGetValues} from "react-hook-form"; // getValues 임포트
 import React, {useEffect, useState} from "react";
 import "./SignupForm.css";
 import PasswordStrengthBar from "./PasswordStrengthBar.tsx";
 import {getUserInfo, signup, validUserId} from "../api/signup.ts";
 import {useUserStore} from "../../../storage/userStore.ts";
 import {useNavigate} from "react-router";
+import {SignupFormData} from "../types/signup.ts";
+import {toSignupRequest} from "../mappers/sigunupMapper.ts";
 
 interface SignupFormProps {
     title: string;
 }
 
 //  제출 form 데이터 타입 정의
-interface FormData {
-    email: string;
-    password: string;
-    userId: string;
-    confirmPassword: string;
-    userName: string;
-}
+// interface FormData {
+//     email: string;
+//     password: string;
+//     userId: string;
+//     confirmPassword: string;
+//     userName: string;
+// }
 
-const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
-    const {user, setUser } = useUserStore();
+const SignupForm: React.FC<SignupFormProps> = ({title}) => {
+    const {user, setUser} = useUserStore();
     const navigate = useNavigate();
 
     // form 제어 및  초기화를 위해 useForm 훅 사용
@@ -28,9 +30,9 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
         register,
         watch,
         handleSubmit,
-        formState: { errors },
+        formState: {errors},
         getValues, // getValues 추가
-    } = useForm<FormData>({
+    } = useForm<SignupFormData>({
         defaultValues: {
             email: "",
             userId: "",
@@ -49,15 +51,15 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-    const submit = async (values: FormData) => {
+    const submit = async (values: SignupFormData) => {
 
         try {
-            const { confirmPassword, ...signupData } = values;
+            // const { confirmPassword, ...signupData } = values;
+            const formData = toSignupRequest(values);
+            const res = await signup(formData);
 
-            const res = await signup(values);
-
-            if (res.data){
-                const userInfo = await  getUserInfo({userIdx: Number(res.data.data.idx)});
+            if (res.data) {
+                const userInfo = await getUserInfo(res.data.data.idx);
                 setUser(userInfo.data.data);
             }
             navigate("/login");
@@ -72,17 +74,21 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
     }, [user]);
 
     const userIdCheckClick = async () => {
+        console.log('중복체크 벨류 값~~~~~');
         try {
-            const values = getValues(); // 현재 폼 값 가져오기
 
+            const values = getValues(); // 현재 폼 값 가져오기
+            console.log('중복체크 벨류 값~~~~~',values);
             if (!values.userId) {
 
                 return;
             }
+
+            console.log('중복체크 벨DDDDDDDD류 값~~~~~',values.userId);
             const res = await validUserId(values.userId);
 
-            if (res.data =='') {
-            setUserIdCheck(true);
+            if (res.data == '') {
+                setUserIdCheck(true);
 
             }
         } catch (error) {
@@ -128,13 +134,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
                         })}
                         placeholder="아이디를 입력하세요"
                     />
-                    {/*<button type="button" className="user-id-check-button" onClick={userIdCheckClick}>*/}
-                    {/*    중복체크*/}
+                    <button type="button" className="user-id-check-button" onClick={userIdCheckClick}>
+                        중복체크
+                    </button>
+                    {userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}
+                    {userIdCheck === false && <span className="error">이미 사용 중인 ID입니다.</span>}
+                    {/*<button type="button" className="user-id-check-button" onClick={() => userIdCheckClick(values)}>*/}
                     {/*</button>*/}
-                    {/*{userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}*/}
-                    {/*{userIdCheck === false && <span className="error">이미 사용 중인 ID입니다.</span>}*/}
-                    {/* <button type="button" className="user-id-check-button" onClick={() => userIdCheckClick(values)}> */}
-                    {/* 주석 처리된 부분은 values 전달이 불가능하므로 제거 */}
                 </div>
                 {errors.userId && <span className="error">{errors.userId.message}</span>}
                 <div className="form-group">
@@ -164,7 +170,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
 
-                <PasswordStrengthBar password={password} />
+                <PasswordStrengthBar password={password}/>
 
                 <div className="form-group">
                     <label htmlFor="confirmPassword">Repeat Password</label>
