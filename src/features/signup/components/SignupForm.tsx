@@ -24,7 +24,7 @@ interface SignupFormProps {
 const SignupForm: React.FC<SignupFormProps> = ({title}) => {
     const {user, setUser} = useUserStore();
     const navigate = useNavigate();
-
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     // form 제어 및  초기화를 위해 useForm 훅 사용
     const {
         register,
@@ -78,19 +78,19 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
         try {
 
             const values = getValues(); // 현재 폼 값 가져오기
-            console.log('중복체크 벨류 값~~~~~',values);
+            console.log('중복체크 벨류 값~~~~~', values);
             if (!values.userId) {
 
                 return;
             }
 
-            console.log('중복체크 벨DDDDDDDD류 값~~~~~',values.userId);
+            console.log('중복체크 벨DDDDDDDD류 값~~~~~', values.userId);
             const res = await validUserId(values.userId);
-
-            if (res.data == '') {
-                setUserIdCheck(true);
-
-            }
+            setUserIdCheck(true);
+            setSuccessMessage("이용 가능한 아이디 입니다.");
+            setTimeout(() => {
+                setSuccessMessage("");
+            }, 2000);
         } catch (error) {
             console.log(error);
         }
@@ -101,6 +101,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
 
     return (
         <div className="signup-form-container">
+            {successMessage && <p className="success-message">{successMessage}</p>}
             <div className="signup-form-title">{title}</div>
             <div className="signup-form-sub">추가적인 설명이 필요 할때</div>
             {/*<div>데이터 없나?{user?.data.userId}</div>*/}
@@ -137,7 +138,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                     <button type="button" className="user-id-check-button" onClick={userIdCheckClick}>
                         중복체크
                     </button>
-                    {userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}
+                    {/*{userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}*/}
                     {userIdCheck === false && <span className="error">이미 사용 중인 ID입니다.</span>}
                     {/*<button type="button" className="user-id-check-button" onClick={() => userIdCheckClick(values)}>*/}
                     {/*</button>*/}
@@ -168,6 +169,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                         placeholder="패스워드를 입력하세요"
                     />
                 </div>
+
                 {errors.password && <span className="error">{errors.password.message}</span>}
 
                 <PasswordStrengthBar password={password}/>

@@ -28,7 +28,7 @@ const TodoDetail: React.FC = () => {
             setSuccessMessage(t('work_space.todo_detail.todo-successMessage'));
             setTimeout(() => {
                 navigate("/workspace/todo");
-            }, 1000);
+            }, 3000);
         } catch (e) {
             console.log(e.message);
         } finally {

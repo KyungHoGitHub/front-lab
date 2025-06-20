@@ -5,6 +5,8 @@ import './App.css';
 import WeatherWidget from "./features/widget/components/WeatherWidget.tsx";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import GenericFormModal from "./features/test/components/GenericFormModal.tsx";
+import TestForm from "./features/test/components/TestForm.tsx";
 
 type LeftSidebarContextType = {
     setLeftSidebarContent: (content: React.ReactNode) => void;
@@ -27,6 +29,13 @@ const App: React.FC = () => {
                     {leftSidebarContent ||(
                         <>
                             <p>왼쪽 위젯 영역</p>
+                            {/*<button onClick={() => setOpen(true)}>모달 열기</button>*/}
+                            {/*<GenericFormModal*/}
+                            {/*    title="test"*/}
+                            {/*    isOpen={open}*/}
+                            {/*    FormComponent={TestForm}*/}
+                            {/*    onClose={() => console.log('닫기')}*/}
+                            {/*/>*/}
                         </>
                     )
                     }

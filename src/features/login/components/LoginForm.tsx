@@ -12,18 +12,9 @@ interface LoginFormProps {
     title: string,
 }
 
-// type FormData = {
-//     userId: string;
-//     password: string;
-// }
-
 const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const {login} = useAuth();
     const navigate = useNavigate();
-
-    const signupButtonClick = () => {
-        navigate("/test/signup");
-    }
 
     const {
         register,
@@ -38,38 +29,25 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
         reValidateMode: "onChange",
     })
 
-
     const [loading, setLoading] = useState<boolean>(false);
 
     const submit = async (data:LoginFormData)=>{
-        // setLoading(true);
-        // const {...signup}= data;
         try{
             const res = await loginForm(data);
-
-            console.log(res.data.data.accessToken);
             if(res.data.data.accessToken){
                 login(res.data.data.accessToken);
                 navigate("/usage");
             }
-
-
-            // setLoading(false);
         }catch (error){
             console.log(error)
         }
     }
-    useEffect(() => {
-        // localStorage.removeItem("accessToken");
-    }, []);
     return (
-
         <div className="login-form-container">
             <div className="login-form-title">{title}</div>
             <div className="login-form-sub">
                 추가적인 설명이 필요 할때
             </div>
-            { /*todo submit 나중에 추가해야함*/}
             <form className="login-form" onSubmit={handleSubmit(submit)}>
                 <div className="form-group">
                     <label htmlFor="userId"></label>
@@ -105,9 +83,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                     </GoogleOAuthProvider>
                 </div>
             </form>
-
         </div>
-
     )
 }
 export default LoginForm;
