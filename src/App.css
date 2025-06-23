@@ -33,8 +33,8 @@ body {
 /* 왼쪽 사이드바 */
 .left-sidebar {
     flex: 1; /* 약 20% 정도 */
-    padding: 20px;
-    background-color: #f9fafb;
+    padding: 0px;
+    /*background-color: #f9fafb;*/
     margin-left: 55px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);

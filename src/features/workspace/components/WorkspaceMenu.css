@@ -36,3 +36,12 @@
     color: #0056b3;
     font-weight: 600;
 }
+
+.menu-icon {
+    margin-right: 8px;
+    display: inline-flex;
+    vertical-align: middle;
+}
+.menu-text {
+    vertical-align: middle;
+}

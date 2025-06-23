@@ -13,7 +13,12 @@ interface MemoData {
     createdAt: string;
 }
 
-const MemoList: React.FC = () => {
+interface MemoListProps {
+    memos: MemoData[];
+    setMemos : React.Dispatch<React.SetStateAction<MemoData[]>>;
+}
+
+const MemoList: React.FC<MemoListProps> = ({memos,setMemos}) => {
 
     // const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -44,26 +49,26 @@ const MemoList: React.FC = () => {
             createdAt: '2024.12',
         },
     ]
-    const [memos, setMemos] = useState([]);
+    // ㅇ
     // 메모 목록 가져오기
-    useEffect(() => {
-        const fetchMemos = async () => {
-            try {
-                const data = await getMomoList();
-                const notes = data.data.map((item, idx) => ({
-                    ...item,
-                    id: item.id ?? `temp-${idx}`,
-                }));
-                console.log('노트 값~!~~!@@~!@',notes)
-                setMemos(notes);
-            } catch (err) {
-                setError('메모를 불러오지 못했습니다.');
-            } finally {
-                // setLoading(false);
-            }
-        };
-        fetchMemos();
-    }, []);
+    // useEffect(() => {
+    //     const fetchMemos = async () => {
+    //         try {
+    //             const data = await getMomoList();
+    //             const notes = data.data.map((item, idx) => ({
+    //                 ...item,
+    //                 id: item.id ?? `temp-${idx}`,
+    //             }));
+    //             console.log('노트 값~!~~!@@~!@',notes)
+    //             setMemos(notes);
+    //         } catch (err) {
+    //             setError('메모를 불러오지 못했습니다.');
+    //         } finally {
+    //             // setLoading(false);
+    //         }
+    //     };
+    //     fetchMemos();
+    // }, []);
 
     // 메모 삭제 처리
     // const handleDelete = async (id: number) => {

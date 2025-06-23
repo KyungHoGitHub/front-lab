@@ -1,5 +1,6 @@
 export const MEMO_ENDPOINT = {
     MEMO:{
-        GET : "memo"
+        GET : "memo",
+        SEARCH : "momo/search"
     }
 }
