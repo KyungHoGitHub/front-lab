@@ -22,10 +22,10 @@ path : 라우팅 경로 (예 : ' /login')
 
 * */
 export const router = createBrowserRouter([
-    {
-        path: '/login',
-        element: <Login/>
-    },
+    // {
+    //     path: '/login',
+    //     element: <Login/>
+    // },
     {
         path: '/login',
         element: <LoginSignupPage formComponent={<LoginForm title="로그인"/>}/>
@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         index: true, // 인덱스 어디에 사용되는 값인지 확인
-                        path: 'test',
+                        path: 'home',
                         element: <Home/>,
                     },
                     {

@@ -1,7 +1,5 @@
 import React from "react";
 import './Statistic.css'
-import GenericFormModal from "../../test/components/GenericFormModal.tsx";
-import TestForm from "../../test/components/TestForm.tsx";
 // Statistic 컴포넌트의 Props 타입 정의
 interface StatisticProps {
     title: string;               // 제목
@@ -35,12 +33,6 @@ const Statistic:React.FC<StatisticProps> = ({title,
             </div>
 
         </div>
-    {/*<GenericFormModal*/}
-    {/*    title="test"*/}
-    {/*    isOpen={true}*/}
-    {/*    FormComponent={TestForm}*/}
-    {/*    onClose={() => console.log('닫기')}*/}
-    {/*/>*/}
         </>
 
     );

@@ -1,0 +1,25 @@
+.memo-list-container {
+    width: 100%;
+    max-width: 1300px; /* 200px × 4 + 12px × 3 + 여유분 */
+}
+
+.memo-list {
+    display: flex;
+    flex-wrap: nowrap; /* 한 줄로 유지 */
+    gap: 4px;
+    list-style: none; /* 불릿 포인트 제거 */
+    min-width: max-content; /* 모든 메모 표시 보장 */
+    margin-left : -55px;
+}
+
+/* Reorder.Item (<li>)의 불릿 포인트 제거 */
+.memo-list > * {
+    list-style: none;
+}
+
+/* 한 행에 최대 4개 메모 제한 */
+@media (min-width: 700px) {
+    .memo-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

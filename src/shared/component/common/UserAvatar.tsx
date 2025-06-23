@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router";
-import userIcon from '@assets/userIcon.png';
 import './UserAvatar.css';
 import {useAuth} from "../../../features/contexts/components/AuthProvider.tsx";
 import {getUserInfo} from "../../api/user.ts";

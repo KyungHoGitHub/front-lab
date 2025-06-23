@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import "./LoginForm.css"
 import {useNavigate} from "react-router";
-import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 import OathLoginButton from "./OathLoginButton.tsx";
-import {login, loginForm} from "../api/login.ts";
+import {loginForm} from "../api/login.ts";
 import {useAuth} from "../../contexts/components/AuthProvider.tsx";
-import { LoginFormData} from "../types/login.ts";
+import {LoginFormData} from "../types/login.ts";
+import {toast} from "react-toastify";
+import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
 
 interface LoginFormProps {
     title: string,
@@ -15,6 +17,8 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const {login} = useAuth();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
     const {
         register,
@@ -29,17 +33,24 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
         reValidateMode: "onChange",
     })
 
-    const [loading, setLoading] = useState<boolean>(false);
+    const submit = async (data: LoginFormData) => {
+        setLoading(true);
 
-    const submit = async (data:LoginFormData)=>{
-        try{
+        try {
             const res = await loginForm(data);
-            if(res.data.data.accessToken){
+            if (res.data.data.accessToken) {
                 login(res.data.data.accessToken);
-                navigate("/usage");
+                navigate("/home");
+            } else {
+                setErrorMsg("서버에 문제가 발생하였습니다.")
+                toast.error(errorMsg);
             }
-        }catch (error){
-            console.log(error)
+        } catch (error) {
+            const message = mapErrorMessage(error);
+            setErrorMsg("서버에 문제가 발생하였습니다.")
+            toast.error(message);
+        } finally {
+            setLoading(false);
         }
     }
     return (
@@ -55,6 +66,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                         className={errors.userId ? "input-error" : ""}
                         type="text"
                         id="userId"
+                        disabled={loading}
                         {...register("userId", {
                             required: "아이디 입력은 필수 입니다."
                         })}
@@ -67,6 +79,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                     <input
                         type="password"
                         id="password"
+                        disabled={loading}
                         {...register("password", {
                             required: "패스워드 입력은 필수 입니다."
                         })}
@@ -75,8 +88,8 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
                 <div className="button-container">
-                    <button className="login-form-leftButton" type="submit"  disabled={loading}>
-                        {loading ? "로그인 중" : "로그인"}
+                    <button className="login-form-leftButton" type="submit" disabled={loading}>
+                        {loading ? (<><span className="spinner"> 로그인 중...</span></>) : "로그인"}
                     </button>
                     <GoogleOAuthProvider clientId={"test"}>
                         <OathLoginButton/>

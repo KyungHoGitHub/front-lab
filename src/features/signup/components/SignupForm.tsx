@@ -7,24 +7,22 @@ import {useUserStore} from "../../../storage/userStore.ts";
 import {useNavigate} from "react-router";
 import {SignupFormData} from "../types/signup.ts";
 import {toSignupRequest} from "../mappers/sigunupMapper.ts";
+import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
+import {toast} from "react-toastify";
 
 interface SignupFormProps {
     title: string;
 }
 
-//  제출 form 데이터 타입 정의
-// interface FormData {
-//     email: string;
-//     password: string;
-//     userId: string;
-//     confirmPassword: string;
-//     userName: string;
-// }
-
 const SignupForm: React.FC<SignupFormProps> = ({title}) => {
     const {user, setUser} = useUserStore();
     const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showConfirmPassword, setConfirmShowPassword] = useState<boolean>(false);
+    const [userIdCheck, setUserIdCheck] = useState<boolean | null>(null); // null로 초기화하여 상태 구분
+
     // form 제어 및  초기화를 위해 useForm 훅 사용
     const {
         register,
@@ -44,15 +42,10 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
         reValidateMode: "onChange",
     });
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [showConfirmPassword, setConfirmShowPassword] = useState<boolean>(false);
-    const [userIdCheck, setUserIdCheck] = useState<boolean | null>(null); // null로 초기화하여 상태 구분
-
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     const submit = async (values: SignupFormData) => {
-
+        setLoading(true);
         try {
             // const { confirmPassword, ...signupData } = values;
             const formData = toSignupRequest(values);
@@ -64,7 +57,10 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
             }
             navigate("/login");
         } catch (error) {
-            console.log("Signup error:", error);
+            const message = mapErrorMessage(error);
+            toast.error(message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -74,17 +70,14 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
     }, [user]);
 
     const userIdCheckClick = async () => {
-        console.log('중복체크 벨류 값~~~~~');
-        try {
 
+        try {
             const values = getValues(); // 현재 폼 값 가져오기
-            console.log('중복체크 벨류 값~~~~~', values);
             if (!values.userId) {
 
                 return;
             }
 
-            console.log('중복체크 벨DDDDDDDD류 값~~~~~', values.userId);
             const res = await validUserId(values.userId);
             setUserIdCheck(true);
             setSuccessMessage("이용 가능한 아이디 입니다.");
@@ -112,6 +105,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                         className={errors.email ? "input-error" : ""}
                         type="email"
                         id="email"
+                        disabled={loading}
                         {...register("email", {
                             required: "이메일 입력은 필수 입니다.",
                         })}
@@ -119,23 +113,21 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                     />
                 </div>
                 {errors.email && <span className="error">{errors.email.message}</span>}
-                {/*{errors.email && (*/}
-                {/*    <span className="field-error" id="email-error" role="alert" >*/}
-                {/*        {errors.email.message}*/}
-                {/*    </span>*/}
-                {/*)}*/}
                 <div className="form-group-id">
                     <label htmlFor="userId">ID </label>
                     <input
                         className={errors.userId ? "input-error" : ""}
                         type="text"
                         id="userId"
+                        disabled={loading}
                         {...register("userId", {
                             required: "아이디 입력은 필수 입니다.",
                         })}
                         placeholder="아이디를 입력하세요"
                     />
-                    <button type="button" className="user-id-check-button" onClick={userIdCheckClick}>
+                    <button type="button"
+                            disabled={loading}
+                            className="user-id-check-button" onClick={userIdCheckClick}>
                         중복체크
                     </button>
                     {/*{userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}*/}
@@ -150,6 +142,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                         className={errors.userName ? "input-error" : ""}
                         type="text"
                         id="userName"
+                        disabled={loading}
                         {...register("userName", {
                             required: "이름 입력은 필수 입니다.",
                         })}
@@ -163,6 +156,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                         className={errors.password ? "input-error" : ""}
                         type={showPassword ? "text" : "password"}
                         id="password"
+                        disabled={loading}
                         {...register("password", {
                             required: "패스워드 입력은 필수 입니다.",
                         })}
@@ -179,6 +173,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                     <input
                         type="password"
                         id="confirmPassword"
+                        disabled={loading}
                         {...register("confirmPassword", {
                             required: "패스워드 입력은 필수 입니다.",
                             validate: (value) =>
@@ -191,7 +186,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
 
                 <div className="button-container">
                     <button className="login-form-rightButton" type="submit" disabled={loading}>
-                        회원가입
+                        {loading ? (<><span className="spinner">회원가입 진행중...</span></>) : "회원가입"}
                     </button>
                 </div>
             </form>

@@ -12,6 +12,8 @@ interface TodoModalProps {
 }
 
 const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
+    const [error, setError] = useState<string| null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const {register, handleSubmit, reset, formState: {errors}} = useForm<TodoFormData>({
         defaultValues:{
@@ -26,8 +28,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
         { value: 'IN_PROGRESS', label: '진행 중' },
         { value: 'DONE', label: '완료' }
     ];
-    const [error, setError] = useState<string| null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+
     const onSubmit = async (data: TodoFormData) =>{
         setLoading(true);
         setError(null);
@@ -41,6 +42,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
             setLoading(false);
         }
     }
+
     const handleCancel = () => {
         reset(); // 폼 초기화
         onClose(); // 모달 닫기
@@ -54,6 +56,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
     if (!isOpen) {
         return null; // isOpen이 false면 아무것도 렌더링하지 않음
     }
+
     return (
         <div className="antd-modal-overlay">
             <div className="antd-modal-content">

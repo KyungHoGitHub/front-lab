@@ -1,0 +1,148 @@
+.memo {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px;
+    width: 235px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+.memo-appear {
+    animation: slide-up 0.5s ease-out forwards;
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(50px); /* 아래에서 시작 */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* 원래 위치로 */
+    }
+}
+
+.memo.is-dragging {
+    opacity: 0.8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.memo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.memo-title {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #333;
+}
+
+.memo-actions {
+    display: flex;
+    gap: 6px;
+    position: relative;
+}
+
+.memo-edit,
+.memo-delete {
+    border: none;
+    background: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 11px 3px;
+}
+
+.memo-delete {
+    color: #dc3545;
+}
+
+.memo-edit:hover,
+.memo-delete:hover {
+    text-decoration: underline;
+}
+
+/* 아이콘 */
+.icon {
+    width: 16px;
+    height: 16px;
+}
+
+.memo-content {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 6px 0;
+    word-break: break-word;
+}
+
+.memo-footer {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.memo-edit-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 0;
+}
+
+.memo-edit-option {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    text-align: left;
+    font-size: 0.85rem;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.memo-edit-option:hover {
+    background-color: #f5f5f5;
+}
+
+.memo-color-option {
+    position: relative;
+}
+
+.color-palette {
+    display: flex;
+    gap: 4px;
+    padding: 6px 8px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #222;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+}
+
+.color-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.color-swatch:hover {
+    border-color: #333;
+}
