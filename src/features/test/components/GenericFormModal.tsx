@@ -10,21 +10,18 @@ interface GenericFormModalProps<T> {
     onSubmit: (data: T) => void;
 }
 
-const GenericFormModal: React.FC = <T, >({
-                                             isOpen,
-                                             onClose,
-                                             title,
-                                             FormComponent,
-                                             defaultValues,
-                                             onSubmit,
-                                         }: GenericFormModalProps<T>) => {
-
-
+const GenericFormModal = <T,>({
+                                  isOpen,
+                                  onClose,
+                                  title,
+                                  FormComponent,
+                                  defaultValues,
+                                  onSubmit,
+                              }: GenericFormModalProps<T>) => {
     return (
         <BaseModal isOpen={isOpen} onClose={onClose}>
-            <h2>{title}</h2>
-            <FormComponent onSubmit={(data)=> {onSubmit(data); onClose();}} defaultValues={defaultValues}/>
+            <FormComponent onSubmit={onSubmit} defaultValues={defaultValues} />
         </BaseModal>
-    )
-}
+    );
+};
 export default GenericFormModal;

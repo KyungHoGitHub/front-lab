@@ -1,0 +1,51 @@
+
+.postit-form {
+    background-color: #FFFBCC;
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);*/
+    position: relative;
+}
+
+.postit-form h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.postit-form input,
+.postit-form textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    border-bottom: 1px dashed #aaa;
+    font-size: 1rem;
+    margin: 10px 0;
+    outline: none;
+    resize: none;
+}
+
+/* ✅ 저장 버튼 스타일 */
+.postit-form-button {
+    margin-top: 12px;
+    padding: 10px 16px;
+    background-color: #f9f1c6; /* 은은한 크림 옐로우 */
+    border: 2px solid #e3dca4;
+    border-radius: 6px;
+    color: #333;
+    font-weight: bold;
+    box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.5),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.postit-form-button:hover {
+    background-color: #ffe566;
+}
+
+.postit-form-button:active {
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}

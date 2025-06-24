@@ -1,0 +1,47 @@
+/* postit-modal.css */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* 포스트잇 느낌 */
+.modal-postit {
+    position: relative;
+    background-color: #FFFBCC;
+    padding: 20px 24px;
+    width: 320px;
+    border-radius: 8px;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* 찢어진 모서리 효과 */
+.modal-postit::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 12px solid transparent;
+    border-bottom-color: #f1c93b;
+    border-right-color: #f1c93b;
+}
+
+/* 닫기 버튼 */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}

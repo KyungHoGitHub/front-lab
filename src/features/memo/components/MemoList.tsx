@@ -23,32 +23,6 @@ const MemoList: React.FC<MemoListProps> = ({memos,setMemos}) => {
     // const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const dummyMemos: MemoData[] = [
-        {
-            id: 1,
-            title: '첫 번째 메모',
-            content: '이것은 첫 번째 메모의 내용입니다.',
-            createdAt: '2024.12',
-        },
-        {
-            id: 2,
-            title: '두 번째 메모',
-            content: '두 번째 메모는 좀 더 긴 내용을 포함할 수 있습니다. 테스트용입니다.',
-            createdAt: '2024.12',
-        },
-        {
-            id: 3,
-            title: '세 번째 메모',
-            content: '세 번째 메모입니다.',
-            createdAt: '2024.12',
-        },
-        {
-            id: 4,
-            title: '세 번째 메모',
-            content: '세 번째 메모입니다.',
-            createdAt: '2024.12',
-        },
-    ]
     // ㅇ
     // 메모 목록 가져오기
     // useEffect(() => {

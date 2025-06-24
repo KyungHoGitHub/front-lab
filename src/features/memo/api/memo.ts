@@ -2,6 +2,7 @@ import resourceClient from "../../../shared/api/resourceClient.ts";
 import {MEMO_ENDPOINT} from "../endpoints/memo.ts";
 import {buildQueryString} from "../../workspace/api/utils.ts";
 import {QUERY_PARAMS, WORKSPACE_ENDPOINTS} from "../../workspace/endpoints/workspaceEndpoints.ts";
+import {MemoFormData} from "../types/memo.ts";
 
 
 export const getMomoList =  async () =>{
@@ -15,3 +16,7 @@ export const searchMemos = async (searchBy: 'title' | 'description', query:strin
     });
     return resourceClient.get(`${MEMO_ENDPOINT.MEMO.SEARCH}?${queryString}`);
 }
+
+export const createMemo = async (data: MemoFormData)=>{
+    return resourceClient.post(MEMO_ENDPOINT.MEMO.CREATE,data)
+};

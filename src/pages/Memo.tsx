@@ -2,10 +2,13 @@ import React, {useEffect, useState} from "react";
 import MemoList from "../features/memo/components/MemoList.tsx";
 import SearchBar from "../shared/component/common/SearchBar.tsx";
 import {getMomoList, searchMemos} from "../features/memo/api/memo.ts";
+import GenericFormModal from "../features/test/components/GenericFormModal.tsx";
+import MemoForm from "../features/memo/components/MemoForm.tsx";
+import {useMemoModal} from "../features/memo/hooks/useMemoModal.ts";
 
 const Memo:React.FC =()=>{
     const [memos, setMemos] = useState([]);
-
+    const {isOpen,openModal,closeModal} = useMemoModal();
     useEffect(() => {
         const fetchMemos = async () => {
             try {
@@ -17,7 +20,7 @@ const Memo:React.FC =()=>{
                 console.log('노트 값~!~~!@@~!@',notes)
                 setMemos(notes);
             } catch (err) {
-                setError('메모를 불러오지 못했습니다.');
+                console.error(err)
             } finally {
                 // setLoading(false);
             }
@@ -36,9 +39,16 @@ const Memo:React.FC =()=>{
 
     return (
         <>
+            <button onClick={openModal}>메모 추가</button>
+            <GenericFormModal
+                title="test"
+                isOpen={isOpen}
+                FormComponent={MemoForm}
+                onClose={closeModal}
+            />
             <SearchBar onSearch={handleSearch}/>
             <MemoList memos={memos} setMemos={setMemos}/>
-    </>
+        </>
     )
 }
 export default Memo;
