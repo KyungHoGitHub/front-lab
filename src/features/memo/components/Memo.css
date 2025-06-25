@@ -50,6 +50,7 @@
     position: relative;
 }
 
+.memo-copy,
 .memo-edit,
 .memo-delete {
     border: none;
@@ -58,6 +59,10 @@
     cursor: pointer;
     font-size: 0.85rem;
     padding: 11px 3px;
+}
+
+.memo-copy {
+    color: #28a745; /* 복사 버튼 색상 (녹색) */
 }
 
 .memo-delete {

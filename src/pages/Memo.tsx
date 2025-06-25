@@ -5,10 +5,12 @@ import {getMomoList, searchMemos} from "../features/memo/api/memo.ts";
 import GenericFormModal from "../features/test/components/GenericFormModal.tsx";
 import MemoForm from "../features/memo/components/MemoForm.tsx";
 import {useMemoModal} from "../features/memo/hooks/useMemoModal.ts";
+import './Memo.css';
 
 const Memo:React.FC =()=>{
     const [memos, setMemos] = useState([]);
     const {isOpen,openModal,closeModal} = useMemoModal();
+
     useEffect(() => {
         const fetchMemos = async () => {
             try {
@@ -38,8 +40,8 @@ const Memo:React.FC =()=>{
     }
 
     return (
-        <>
-            <button onClick={openModal}>메모 추가</button>
+        <div className="memo-page-container">
+            <div className="memo-controller-container">
             <GenericFormModal
                 title="test"
                 isOpen={isOpen}
@@ -47,8 +49,10 @@ const Memo:React.FC =()=>{
                 onClose={closeModal}
             />
             <SearchBar onSearch={handleSearch}/>
+            <button className="memo-add-button" onClick={openModal}>메모 추가</button>
+            </div>
             <MemoList memos={memos} setMemos={setMemos}/>
-        </>
+        </div>
     )
 }
 export default Memo;

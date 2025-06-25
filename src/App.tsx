@@ -3,6 +3,7 @@ import BasicHeader from './shared/component/layout/header/BasicHeader';
 import {Outlet} from 'react-router';
 import './App.css';
 import WeatherWidget from "./features/widget/components/WeatherWidget.tsx";
+import GenericCalendar from "./shared/component/calendar/GenericCalendar.tsx";
 
 
 type LeftSidebarContextType = {
@@ -25,7 +26,7 @@ const App: React.FC = () => {
                     {/* 왼쪽 사이드바 콘텐츠 (예시로 텍스트 추가) */}
                     {leftSidebarContent || (
                         <>
-                            <p>왼쪽 위젯 영역</p>
+                            <GenericCalendar/>
                             {/*<button onClick={() => setOpen(true)}>모달 열기</button>*/}
                             {/*<GenericFormModal*/}
                             {/*    title="test"*/}

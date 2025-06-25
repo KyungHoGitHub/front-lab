@@ -23,6 +23,59 @@
 - `src/features` 에 새로 추가하는 기능 명칭에 폴더를 하나 만들고 기본 구성인 <br>
   api, component, type을 추가하여 작업을 진행합니다.
 
+
+### 컴포넌트 UI 작성 팁
+# 🛠️ Frontend Project Structure Guide
+
+> 이 프로젝트는 **도메인 중심 Feature-based 구조**에 기반하여 `Container`, `Presentational`, `Reusable UI` 컴포넌트를 명확하게 분리하여 유지보수성과 확장성을 고려해 설계되었습니다.
+
+---
+
+## 📁 디렉토리 구조 개요
+
+```bash
+src/
+├── features/
+│   └── todo/
+│       ├── components/
+│       │   ├── TodoTable/              # 도메인 특화 테이블 구성
+│       │   │   ├── TodoTableContainer.tsx           # Container (데이터 처리)
+│       │   │   ├── TodoTable.tsx       # Presentational (UI)
+│       ├── hooks/
+│       │   └── useTodos.ts             # 비즈니스 로직, 상태 관리
+│       ├── types/
+│       │   └── todo.ts                 # Todo 타입 정의
+├── shared/
+│   └── components/
+│       └── table/
+│           └── GenericTable.tsx        # 재사용 가능한 범용 테이블 컴포넌트
+├── App.tsx
+└── ...
+```
+### 📌 주요 개념 및 설계 의도
+
+##### Container / Presentational 컴포넌트 분리
+| 종류             | 역할                                   |
+|----------------|--------------------------------------|
+| Container      | 상태관리, 데이터 로딩, API 호출 등 비즈니스 로직을 담당한다 |
+| Presentational | 순수  UI 컴포넌트, props 기반으로 화면만 렌더링      |
+
+3. 공통 UI 컴포넌트 (Generic)
+- GenericTable 처럼 도메인에 의존하지 않는 범용 UI 컴포넌트는 shared/components/ 에 위치시킵니다.
+- 이는 다양한 도메인에서 동일한 UI 패턴을 활용할 수 있도록 하며 중복 코드를 줄입니다.
+
+```typescript
+// Container: 상태 관리 & 데이터 전달
+<TodoTableContainer />
+
+// Presentational: 도메인 UI 렌더링
+<TodoTable todos={...} />
+
+// Generic: 공통 테이블 UI (도메인과 무관)
+<GenericTable data={...} columns={...} />
+
+```
+****
 ### 커밋 메세지 
 - udacity style 커밋 메세지 구조 로 적용해보면 아래의 같은 구조를 나타낸다 <br>
 ```json

@@ -1,0 +1,23 @@
+
+
+.memo-controller-container{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+
+.memo-add-button {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px 16px;
+    background: rgba(121, 241, 132, 0.87);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.memo-add-button:hover {
+    background: rgba(64, 255, 118, 0.84);
+}

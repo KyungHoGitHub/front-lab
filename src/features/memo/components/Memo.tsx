@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import "./Memo.css";
 import {FiEdit, FiTrash2} from "react-icons/fi";
+import {FaRegClipboard} from "react-icons/fa";
 
 // 메모 데이터 타입 정의
 interface MemoData {
@@ -19,16 +20,16 @@ interface MemoProps {
     index: number;
 }
 
-const Memo:React.FC<MemoProps> = ({ memo, onEdit, onDelete, className = '', index })=>{
+const Memo: React.FC<MemoProps> = ({memo, onEdit, onDelete, className = '', index}) => {
     const [backgroundColor, setBackgroundColor] = useState('#fff');
     const [showMenu, setShowMenu] = useState(false);
 
     const colorOptions = [
-        { name: '회색', value: '#f5f5f5' },
-        { name: '노랑', value: '#fff9c4' },
-        { name: '초록', value: '#c8e6c9' },
-        { name: '파랑', value: '#bbdefb' },
-        { name: '분홍', value: '#f8bbd0' },
+        {name: '회색', value: '#f5f5f5'},
+        {name: '노랑', value: '#fff9c4'},
+        {name: '초록', value: '#c8e6c9'},
+        {name: '파랑', value: '#bbdefb'},
+        {name: '분홍', value: '#f8bbd0'},
     ];
 
     const toggleMenu = () => {
@@ -46,11 +47,25 @@ const Memo:React.FC<MemoProps> = ({ memo, onEdit, onDelete, className = '', inde
         setShowMenu(false);
     };
 
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(memo.content);
+            alert("내용 복사")
+        } catch (err) {
+            alert("내용 복사  실패")
+        }
+    };
+
     return (
-        <div className={`memo memo-appear ${className}`} style={{ backgroundColor, animationDelay:`${index * 0.2}s` }}>
+        <div className={`memo memo-appear ${className}`} style={{backgroundColor, animationDelay: `${index * 0.2}s`}}>
             <div className="memo-header">
                 <h3 className="memo-title">{memo?.title}</h3>
                 <div className="memo-actions">
+                    <button className="memo-copy" onClick={handleCopy}>
+                        <FaRegClipboard className="icion">
+                            복사
+                        </FaRegClipboard>
+                    </button>
                     <button className="memo-edit" onClick={toggleMenu}>
                         <FiEdit className="icon">
                             수정
@@ -73,7 +88,7 @@ const Memo:React.FC<MemoProps> = ({ memo, onEdit, onDelete, className = '', inde
                                         <span
                                             key={color.value}
                                             className="color-swatch"
-                                            style={{ backgroundColor: color.value }}
+                                            style={{backgroundColor: color.value}}
                                             title={color.name}
                                             onClick={() => handleColorChange(color.value)}
                                         />

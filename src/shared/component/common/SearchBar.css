@@ -1,7 +1,7 @@
 .search-container {
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
+    /*margin-bottom: 16px;*/
 }
 .search-container select {
     padding: 8px;
