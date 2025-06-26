@@ -39,6 +39,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     max-width: 250px; /* 최대 너비 제한 */
+
 }
 
 /* 메인 콘텐츠 */

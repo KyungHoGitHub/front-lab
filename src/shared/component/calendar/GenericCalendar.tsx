@@ -5,11 +5,12 @@ import "./GenericCalendar.css";
 interface Event {
     date: string;
     title: string;
+    content: string;
 }
 
 const sampleEvents: Event[] = [
-    { date: "2025-06-25", title: "회의" },
-    { date: "2025-06-28", title: "출장" },
+    { date: "2025-06-25", title: "회의",content:"2025 년 12월 31 일날 회의 일정이 예약 되어있다." },
+    { date: "2025-06-28", title: "출장" ,content:"2025 년 12월 31 일날 출장 일정이 예약 되어있다."},
 ];
 
 const GenericCalendar:React.FC =()=>{
@@ -21,9 +22,11 @@ const GenericCalendar:React.FC =()=>{
             const event = sampleEvents.find((e) => e.date === formattedDate);
             if (event) {
                 return (
-                    <div className="event-container">
-                        <div className="event-dot" />
-                        <div className="event-tooltip">{event.title}</div>
+                    <div className="event-container" role="tooltip" aria-label={`${event.title}: ${event.content}`}>
+                        <div className="event-dot"/>
+                        <div className="event-tooltip">
+                            <div className="event-title">{event.title}</div>
+                        </div>
                     </div>
                 );
             }
@@ -31,7 +34,7 @@ const GenericCalendar:React.FC =()=>{
         return null;
     };
 
-    const tileClassName = ({ date, view }: any) => {
+    const tileClassName = ({date, view}: any) => {
         const match = sampleEvents.find(e => e.date === date.toISOString().slice(0, 10));
         if (view === 'month' && match) {
             return 'has-event';
@@ -39,7 +42,7 @@ const GenericCalendar:React.FC =()=>{
         return '';
     };
 
-    return(
+    return (
         <div className="calendar-wrapper">
             <Calendar
                 locale="ko-KR"
