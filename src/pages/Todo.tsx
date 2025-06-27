@@ -77,7 +77,7 @@ const Todo: React.FC = () => {
         },
         {
             title: t('work_space.todo.table_column.updatedAt'),
-            dataIndex: 'updateAt',
+            dataIndex: 'updatedAt',
         }
     ];
 
@@ -87,7 +87,9 @@ const Todo: React.FC = () => {
             try {
                 const res = await getTodoList();
                 setTodos(res.data);
+                console.log("투두값~~~~~~>",todos)
             } catch (e) {
+
                 console.log(e);
             } finally {
                 console.log('exit')
