@@ -14,11 +14,12 @@ type LeftSidebarContextType = {
 
 const App: React.FC = () => {
     const [leftSidebarContent, setLeftSidebarContent] = useState<React.ReactNode>(null);
-
+    const [rightSidebarContent, setRightSidebarContent] = useState<React.ReactNode>(null);
 // context 객체를 useMemo로 안정화
     const outletContext = useMemo(() => ({
         setLeftSidebarContent,
-    }), [setLeftSidebarContent]);
+        setRightSidebarContent,
+    }), [setLeftSidebarContent,setRightSidebarContent]);
     return (
 
         <div className="main-layout">
@@ -44,7 +45,9 @@ const App: React.FC = () => {
                     <Outlet context={outletContext}/>
                 </main>
                 <aside className="right-sidebar">
-                    <WeatherWidget/>
+                    {rightSidebarContent|| (
+                        <></>
+                    )}
                 </aside>
             </div>
 

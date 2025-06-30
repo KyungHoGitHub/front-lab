@@ -29,6 +29,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
         {menuName: t('header.menu2'), path: '/user-info'},
         {menuName: t('header.menu3'), path: '/statistics-page'},
         {menuName: t('header.menu4'), path: '/workspace'},
+        {menuName: t('header.menu5'), path: '/schedule'},
     ];
     const userData =
         {name: 'peng', img: ''}

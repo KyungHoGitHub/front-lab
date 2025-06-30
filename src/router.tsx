@@ -15,6 +15,7 @@ import Chat from "./pages/Chat.tsx";
 import Memo from "./pages/Memo.tsx";
 import TodoDetail from "./pages/TodoDetail.tsx";
 import ChatBox from "./features/workspace/components/ChatBox.tsx";
+import Schedule from "./pages/Schedule.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -63,22 +64,28 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: 'workspace',
-                        element: <Workspace />,
+                        element: <Workspace/>,
                         children: [
-                            { index: true, element: <Todo /> }, // 기본 경로: /workspace -> Todo
-                            { path: 'todo', element: <Todo />,
-                                children:[{
-                                    path: 'detail/:idx', element:<TodoDetail/>,
+                            {index: true, element: <Todo/>}, // 기본 경로: /workspace -> Todo
+                            {
+                                path: 'todo', element: <Todo/>,
+                                children: [{
+                                    path: 'detail/:idx', element: <TodoDetail/>,
                                 }]
                             },
-                            { path: 'chat', element: <Chat />,
-                                children:[{
-                                    path: ':userId', element:<ChatBox/>,
+                            {
+                                path: 'chat', element: <Chat/>,
+                                children: [{
+                                    path: ':userId', element: <ChatBox/>,
                                 }]
                             },
-                            { path: 'memo', element: <Memo /> },
+                            {path: 'memo', element: <Memo/>},
 
                         ],
+                    },
+                    {
+                        path: 'schedule',
+                        element: <Schedule/>,
                     },
                     {
                         index: true,
