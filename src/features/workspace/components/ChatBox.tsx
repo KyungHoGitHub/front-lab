@@ -12,7 +12,7 @@ const ChatBox: React.FC = () => {
     const location = useLocation();
     // console.log(location.pathname.at(-1));
     console.log( location.pathname.at(-1))
-    const parsedUserIdx = location.pathname.split('/').pop() || 1; // 테스트용 하드코딩
+    const parsedUserIdx =  'opop'; // 테스트용 하드코딩
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [isConnected, setIsConnected] = useState(false);
@@ -77,10 +77,10 @@ const ChatBox: React.FC = () => {
 
         const message: Message = {
             id: "1",
-            senderId: 17,
+            senderUserId: "abab",
             content: newMessage,
             timestamp: new Date().toISOString(),
-            userIdx: Number(parsedUserIdx),
+            userId: parsedUserIdx,
         };
 
         console.log('전송할 메시지:', message);

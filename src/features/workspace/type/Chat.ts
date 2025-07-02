@@ -13,8 +13,8 @@ export interface Conversation {
 
 export interface  Message {
     id: string;
-    senderId: number;
+    senderUserId: string;
     content: string;
     timestamp: string;
-    userIdx: number;
+    userId: string;
 }

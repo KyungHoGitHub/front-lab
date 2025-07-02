@@ -23,7 +23,9 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
         try {
             const fetcUsers = await getMessageUserList();
             setUsers(fetcUsers.data);
+            console.log('들어온 데이터',fetcUsers.data);
             setFilteredUsers(fetcUsers.data);
+            console.log('필터링된 데이터 ',filteredUsers);
         } catch (error) {
 
         }
@@ -31,7 +33,7 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
     // 유저 목록 필터링 함수
     const handleSearch = () => {
         const filtered = users.filter((user) =>
-            user.id.toLocaleString().includes(searchTerm.toLowerCase())
+            user.userId.toLocaleString().includes(searchTerm.toLowerCase())
         );
         setFilteredUsers(filtered);
     };
@@ -71,12 +73,12 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
                 <div className={styles.userList}>
                     {filteredUsers.length > 0 ? (
                         filteredUsers.map((user) => (
-                            <div key={user.id} className={styles.userItem} onClick={()=>handleUserClick(user.idx)}>
+                            <div key={user.userId} className={styles.userItem} onClick={()=>handleUserClick(user.userIdx)}>
                                 <img
                                     src={user.imageUrl || 'https://ui-avatars.com/api/?name=John+Doe&background=random'}
                                     className={styles.userAvatar}
                                 />
-                                <span className={styles.userId}>{user.id}</span>
+                                <span className={styles.userId}>{user.userId}</span>
                                 <hr className={styles.divider}/>
                             </div>
                         ))

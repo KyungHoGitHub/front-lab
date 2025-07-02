@@ -11,6 +11,7 @@ export const WORKSPACE_ENDPOINTS = {
             USER: 'user',
             MESSAGE: 'message',
             ALL_USER: 'all-user',
+            CONVERSATION_LIST : (userId:string) => `conversation-list/${userId}`,
         }
     }
 } as const;

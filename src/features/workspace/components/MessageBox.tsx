@@ -5,10 +5,16 @@ import {Plus} from "lucide-react";
 import {AiOutlinePlus} from "react-icons/ai";
 import {useNavigate} from "react-router";
 import MessageUserListModal from "./MessageUserListModal.tsx";
+import {getConversationList} from "../api/Chat.ts";
+import {useAuth} from "../../contexts/components/AuthProvider.tsx";
+import {jwtDecode} from "jwt-decode";
 
 const MessageBox: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const {token} = useAuth();
+    const [data, setData] = useState();
 
     const navigate = useNavigate();
     // 예시 데이터 (샘플 대화 목록)
@@ -66,6 +72,24 @@ const MessageBox: React.FC = () => {
         lastMessage: 'test',
         timestamp: '2222'
     }
+
+    useEffect(() => {
+        const fetchConversationList = async ()=>{
+            setLoading(true);
+            try{
+                const decoded = jwtDecode(token);
+                console.log('deddddddd------->',decoded)
+                const res = await getConversationList(decoded.sub);
+                setData(res);
+            }catch (error){
+                console.error(error);
+            }finally {
+                setLoading(false);
+            }
+        }
+        fetchConversationList();
+    }, []);
+
 
     return (
         <div className={styles.container}>
