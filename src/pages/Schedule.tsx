@@ -5,6 +5,7 @@ import scheduleImg from '@assets/header-schedule.jpg';
 import ScheduleCardContainer from "../features/schedule/components/ScheduleCardContainer.tsx";
 import {Outlet, useOutletContext} from "react-router";
 import ImageBlock from "../shared/component/image/ImageBlock.tsx";
+import ScheduleFormContainer from "../features/schedule/components/ScheduleFormContainer.tsx";
 
 
 type RightSidebarContextType = {
@@ -24,6 +25,7 @@ const Schedule:React.FC =()=>{
     return(
         <main className="schedule-page-main">
             <ImageBlock src={scheduleImg} width="200px" height="200px"/>
+            <ScheduleFormContainer/>
             <Outlet/>
         </main>
     )

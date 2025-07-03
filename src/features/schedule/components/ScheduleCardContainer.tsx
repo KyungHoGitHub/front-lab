@@ -3,7 +3,6 @@ import ScheduleCard from "./ScheduleCard.tsx";
 import useScheduleCard from "../hooks/useScheduleCard.ts";
 import {FaBriefcase, FaCalendarAlt, FaHome, FaUser} from "react-icons/fa";
 import {IconType} from "react-icons";
-
 const categoryMap: Record<
     string,
     { icon: IconType; color: string; label: string }

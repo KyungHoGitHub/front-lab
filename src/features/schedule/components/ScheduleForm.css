@@ -1,0 +1,149 @@
+/* 부모 컨테이너 (행) */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+
+}
+
+/* 개별 필드 */
+.schedule-form-field {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    flex: 1;
+    min-width: 150px; /* 최소 너비 조정 */
+}
+
+/* 분류와 색상 필드 */
+.schedule-form-field.category
+{
+    max-width: 200px;
+}
+
+/* 내용 필드 */
+.schedule-form-field.content {
+    text-align: left;
+    flex-direction: column;
+    width: 95%;
+}
+
+/* 라벨 */
+.schedule-form-field label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    min-width: 80px;
+}
+
+/* 입력 요소 */
+.schedule-form-field select,
+.schedule-form-field input,
+.schedule-form-field textarea {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.2s ease-in-out;
+    flex: 1;
+    min-width: 120px;
+}
+
+.schedule-form-field select:focus,
+.schedule-form-field input:focus,
+.schedule-form-field textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.schedule-form-field textarea {
+    resize: vertical;
+    min-height: 100px;
+    width: 100%;
+}
+
+/* 색상 변경 버튼 */
+.color-toggle {
+    padding: 10px 16px;
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.color-toggle:hover {
+    background-color: #e5e7eb;
+}
+
+/* 색상 팔레트 */
+.color-palette {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #d1d5db;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+/* 오류 메시지 */
+.error-message {
+    color: #ef4444;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    width: 100%;
+}
+
+/* 제출 버튼 */
+.base-form-submit-button {
+    padding: 12px 24px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.base-form-submit-button:hover:not(:disabled) {
+    background-color: #2563eb;
+}
+
+.base-form-submit-button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+    .schedule-form-field {
+        min-width: 100%;
+    }
+    .schedule-form-field.category,
+    .schedule-form-field.color {
+        min-width: 100%;
+    }
+}

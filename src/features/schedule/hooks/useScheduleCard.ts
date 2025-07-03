@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {getScheduleList} from "../api/schedule.ts";
 
 
 const dummySchedule = [
@@ -22,16 +23,15 @@ const useScheduleCard = () => {
         const fetchSchedule = async () => {
             setLoading(true);
             try {
-                setTimeout(() => {
-                    setSchedule(dummySchedule);
-                },1000);
+                const res = getScheduleList();
+                console.log(res)
+                setSchedule(res.data.data);
+
             } catch (error) {
-                console.error(error);
+
             } finally {
                 setLoading(false);
             }
-            ;
-
         }
         fetchSchedule();
     }, []);
