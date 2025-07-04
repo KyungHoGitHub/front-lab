@@ -23,8 +23,9 @@ const useScheduleCard = () => {
         const fetchSchedule = async () => {
             setLoading(true);
             try {
-                const res = getScheduleList();
-                console.log(res)
+                const res = await getScheduleList();
+
+                console.log('dddd',res)
                 setSchedule(res.data.data);
 
             } catch (error) {

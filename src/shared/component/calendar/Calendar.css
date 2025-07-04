@@ -99,6 +99,23 @@
     transform: translateY(-2px);
 }
 
+.day-number {
+    margin-bottom: 5px;
+}
+
+.schedule-markers {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.schedule-marker {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
 
 /* 반응형 디자인 */
 @media (max-width: 400px) {

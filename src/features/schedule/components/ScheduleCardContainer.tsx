@@ -1,14 +1,16 @@
 import GenericCard from "../../../shared/component/card/GenericCard.tsx";
 import ScheduleCard from "./ScheduleCard.tsx";
 import useScheduleCard from "../hooks/useScheduleCard.ts";
-import {FaBriefcase, FaCalendarAlt, FaHome, FaUser} from "react-icons/fa";
+import {FaBriefcase, FaBuilding, FaCalendarAlt, FaHome, FaUser} from "react-icons/fa";
 import {IconType} from "react-icons";
+
 const categoryMap: Record<
     string,
     { icon: IconType; color: string; label: string }
 > = {
     work: { icon: FaBriefcase, color: "#bbdefb", label: "Work" },
     personal: { icon: FaUser, color: "#c8e6c9", label: "Personal" },
+    company: { icon: FaBuilding, color: "rgba(44,66,96,0.62)", label: "Company" },
     event: { icon: FaCalendarAlt, color: "#f8bbd0", label: "Event" },
 };
 
@@ -29,6 +31,7 @@ const getCategoryIcon = (category: string): React.ReactNode => {
 
 const ScheduleCardContainer = ()=>{
     const {schedule, loading} =  useScheduleCard();
+     console.log(schedule)
     if (loading || !schedule) return <div>Loading...</div>; // 또는 스피너 컴포넌트
     console.log("여기 탐?");
 

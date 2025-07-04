@@ -8,22 +8,32 @@ import {
     addMonths,
     subMonths,
     format,
-    isSameDay, setYear, setMonth,
+    isSameDay, setYear, setMonth, parseISO, isValid,
 } from 'date-fns';
 import './Calendar.css';
+import schedule from "../../../pages/Schedule.tsx";
+
+interface Schedule {
+    category: string;
+    content: string;
+    startDateTime: string;
+    endDateTime: string;
+}
 
 interface CalendarDate {
     date: Date;
     isCurrentMonth: boolean;
     isSelected?: boolean;
+    schedules: Schedule[];
 }
 
 interface CalendarProps {
     selectedDate?: Date;
     onDateSelect?: (date: Date) => void;
+    data: Schedule[];
 }
 
-const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
+const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect,data }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isYearSelectOpen, setIsYearSelectOpen] = useState(false);
     const [isMonthSelectOpen, setIsMonthSelectOpen] = useState(false);
@@ -36,6 +46,13 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
     // 월 목록 생성 (1~12)
     const months = Array.from({ length: 12 }, (_, i) => i);
 
+    // 카테고리별 색상 매핑
+    const categoryColors : {[key:string]:string} ={
+        company: '#FF6B6B',
+        personal: '#4ECDC4',
+        event: '#874ecd'
+    };
+
     // 캘린더 날짜 생성 로직
     const getDaysInMonth = (year: number, month: number): CalendarDate[] => {
         const firstDayOfMonth = startOfMonth(new Date(year, month));
@@ -45,7 +62,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
         const firstDayOfWeek = getDay(firstDayOfMonth);
         for (let i = firstDayOfWeek - 1; i >= 0; i--) {
             const date = new Date(year, month, -i);
-            days.push({ date, isCurrentMonth: false });
+            days.push({ date, isCurrentMonth: false, schedules: [] });
         }
 
         const currentMonthDays = eachDayOfInterval({
@@ -53,17 +70,22 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
             end: lastDayOfMonth,
         });
         currentMonthDays.forEach((date) => {
+            const daySchedules = data.filter((schedule) => {
+                const scheduleDate = parseISO(schedule.startDateTime);
+                return isValid(scheduleDate) && isSameDay(scheduleDate, date);
+            });
             days.push({
                 date,
                 isCurrentMonth: true,
                 isSelected: selectedDate && isSameDay(date, selectedDate),
+                schedules: daySchedules,
             });
         });
 
         const remainingDays = 42 - days.length;
         for (let i = 1; i <= remainingDays; i++) {
             const date = new Date(year, month + 1, i);
-            days.push({ date, isCurrentMonth: false });
+            days.push({ date, isCurrentMonth: false, schedules: [] });
         }
 
         return days;
@@ -160,7 +182,18 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
                         }`}
                         onClick={() => handleDateClick(day.date)}
                     >
-                        {format(day.date, 'd')}
+                        <span className="day-number">{format(day.date, 'd')}</span>
+                        <div className="schedule-markers">
+                            {day.schedules.map((schedule,idx)=>(
+                                <div
+                                    key={idx}
+                                    className="schedule-marker"
+                                    style={{ backgroundColor: categoryColors[schedule.category] || '#ccc' }}
+                                    title={schedule.content}
+                                >
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </div>

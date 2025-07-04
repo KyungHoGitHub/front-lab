@@ -7,7 +7,6 @@ import GenericCalendar from "./shared/component/calendar/GenericCalendar.tsx";
 import Calendar from "./shared/component/calendar/Calendar.tsx";
 
 
-
 type LeftSidebarContextType = {
     setLeftSidebarContent: (content: React.ReactNode) => void;
 };
@@ -19,7 +18,33 @@ const App: React.FC = () => {
     const outletContext = useMemo(() => ({
         setLeftSidebarContent,
         setRightSidebarContent,
-    }), [setLeftSidebarContent,setRightSidebarContent]);
+    }), [setLeftSidebarContent, setRightSidebarContent]);
+    const schedules = [
+        {
+            category: 'company',
+            content: '오늘의 일정',
+            startDateTime: '2025-07-04T15:00:00',
+            endDateTime: '2025-07-04T15:30:00',
+        },
+        {
+            category: 'event',
+            content: '오늘의 일정',
+            startDateTime: '2025-07-11T15:00:00',
+            endDateTime: '2025-07-04T15:30:00',
+        },
+        {
+            category: 'company',
+            content: '오늘의 일정',
+            startDateTime: '2025-07-04T15:00:00',
+            endDateTime: '2025-07-04T15:30:00',
+        },
+        {
+            category: 'company',
+            content: '오늘의 일정',
+            startDateTime: '2025-07-04T15:00:00',
+            endDateTime: '2025-07-04T15:30:00',
+        },
+    ];
     return (
 
         <div className="main-layout">
@@ -29,7 +54,9 @@ const App: React.FC = () => {
                     {/* 왼쪽 사이드바 콘텐츠 (예시로 텍스트 추가) */}
                     {leftSidebarContent || (
                         <>
-                            <Calendar/>
+                            <Calendar
+                                data={schedules}
+                            />
                             {/*<button onClick={() => setOpen(true)}>모달 열기</button>*/}
                             {/*<GenericFormModal*/}
                             {/*    title="test"*/}
@@ -45,7 +72,7 @@ const App: React.FC = () => {
                     <Outlet context={outletContext}/>
                 </main>
                 <aside className="right-sidebar">
-                    {rightSidebarContent|| (
+                    {rightSidebarContent || (
                         <></>
                     )}
                 </aside>
