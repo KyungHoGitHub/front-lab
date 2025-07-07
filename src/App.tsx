@@ -6,7 +6,7 @@ import './App.css';
 const App: React.FC = () => {
     const [leftSidebarContent, setLeftSidebarContent] = useState<React.ReactNode>(null);
     const [rightSidebarContent, setRightSidebarContent] = useState<React.ReactNode>(null);
-// context 객체를 useMemo로 안정화
+    // context 객체를 useMemo로 안정화
     const outletContext = useMemo(() => ({
         setLeftSidebarContent,
         setRightSidebarContent,

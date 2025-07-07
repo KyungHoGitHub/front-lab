@@ -9,6 +9,7 @@ import {useAuth} from "../../contexts/components/AuthProvider.tsx";
 import {LoginFormData} from "../types/login.ts";
 import {toast} from "react-toastify";
 import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
+import KakaoLoginButton from "./KakaoLoginButton.tsx";
 
 interface LoginFormProps {
     title: string,
@@ -93,6 +94,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                     <GoogleOAuthProvider clientId={"test"}>
                         <OathLoginButton/>
                     </GoogleOAuthProvider>
+                    <KakaoLoginButton/>
                 </div>
             </form>
         </div>
