@@ -9,3 +9,7 @@ export const createSchedule = async (data:ScheduleRequestDto ) =>{
 export const getScheduleList = async ()=>{
     return resourceClient.get(SCHEDULE_ENDPOINTS.SCHEDULE.GET)
 }
+
+export const getCurrentScheduleList = async (year:string, month:string)=>{
+    return resourceClient.get(SCHEDULE_ENDPOINTS.SCHEDULE.CURRENT_MONTH_LIST(year,month))
+}

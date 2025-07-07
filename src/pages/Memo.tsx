@@ -19,7 +19,6 @@ const Memo:React.FC =()=>{
                     ...item,
                     id: item.id ?? `temp-${idx}`,
                 }));
-                console.log('노트 값~!~~!@@~!@',notes)
                 setMemos(notes);
             } catch (err) {
                 console.error(err)

@@ -31,9 +31,7 @@ const getCategoryIcon = (category: string): React.ReactNode => {
 
 const ScheduleCardContainer = ()=>{
     const {schedule, loading} =  useScheduleCard();
-     console.log(schedule)
     if (loading || !schedule) return <div>Loading...</div>; // 또는 스피너 컴포넌트
-    console.log("여기 탐?");
 
 
         return(

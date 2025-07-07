@@ -69,7 +69,6 @@ const MemoList: React.FC<MemoListProps> = ({memos,setMemos}) => {
                 axis="x"
                 values={memos}
                 onReorder={(newOrder) => {
-                    console.log('재정렬 후 memos:', newOrder);
                     setMemos(newOrder);
                 }}
                 className="memo-list"

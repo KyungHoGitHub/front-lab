@@ -16,7 +16,7 @@ const useScheduleForm=()=>{
         setLoading(true);
         try{
             const res = await createSchedule(data);
-            console.log(res);
+
         }catch (error){
             console.error(error);
         }finally {

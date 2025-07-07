@@ -23,9 +23,7 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
         try {
             const fetcUsers = await getMessageUserList();
             setUsers(fetcUsers.data);
-            console.log('들어온 데이터',fetcUsers.data);
             setFilteredUsers(fetcUsers.data);
-            console.log('필터링된 데이터 ',filteredUsers);
         } catch (error) {
 
         }
@@ -43,8 +41,6 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
     }
 
     useEffect(() => {
-
-            console.log('값모지',isOpen)
             handleUserFind();
 
     }, []);

@@ -42,7 +42,6 @@ const ScheduleFormContainer: React.FC = () => {
             }
 
             await scheduleSubmit(serverData);
-            console.log('Schedule created:', serverData);
             // form.reset();
         } catch (error) {
             console.error('Failed to create schedule:', error);

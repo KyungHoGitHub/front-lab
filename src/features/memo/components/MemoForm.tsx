@@ -22,7 +22,6 @@ const MemoForm: React.FC = () => {
     } = useForm({})
 
     const onSubmit = async (data: MemoFormData) => {
-        console.log("들어옴>?")
         setLoading(true);
         try {
             const decoded = jwtDecode(token);
@@ -30,7 +29,6 @@ const MemoForm: React.FC = () => {
                 ...data,
                 createUserIdx: decoded.userIdx
             }
-            console.log(formData);
             const res = await createMemo(formData);
         } catch (error) {
             console.error(error);

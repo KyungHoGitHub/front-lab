@@ -55,8 +55,6 @@ const Mypage: React.FC = () => {
         const fetchMypage = async () => {
             try {
                 const decoded = jwtDecode<JwtPayload>(token);
-                console.log(decoded.userIdx);
-
                 const response = await getUserInfo();
                 setUserData(response.data.data);
 

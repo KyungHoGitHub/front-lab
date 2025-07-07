@@ -50,7 +50,7 @@ const MessageBox: React.FC = () => {
             timestamp: '1m',
         },
     ];
-    console.log(isModalOpen);
+
     const filteredConversations = sampleConversations.filter((conv) =>
         conv.user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -78,7 +78,6 @@ const MessageBox: React.FC = () => {
             setLoading(true);
             try{
                 const decoded = jwtDecode(token);
-                console.log('deddddddd------->',decoded)
                 const res = await getConversationList(decoded.sub);
                 setData(res);
             }catch (error){

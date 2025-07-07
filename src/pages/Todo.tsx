@@ -87,7 +87,6 @@ const Todo: React.FC = () => {
             try {
                 const res = await getTodoList();
                 setTodos(res.data);
-                console.log("투두값~~~~~~>",todos)
             } catch (e) {
 
                 console.log(e);

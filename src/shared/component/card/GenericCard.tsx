@@ -15,7 +15,6 @@ const GenericCard = <T, >({
                               rightHeader
                           }: GenericCardProps<T>) => {
 
-    console.log('data 확인---->',data);
     // 헤더 타입 체크
     // 타입에 따른 반환값
     // string : 제목
