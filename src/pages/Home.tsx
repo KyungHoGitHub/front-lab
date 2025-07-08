@@ -3,6 +3,7 @@ import './Home.css';
 
 import ScheduleCardContainer from "../features/schedule/components/ScheduleCardContainer.tsx";
 import {Outlet, useOutletContext} from "react-router";
+import Test from "../shared/component/common/Test.tsx";
 
 
 type RightSidebarContextType = {
@@ -21,6 +22,7 @@ const Home:React.FC =()=>{
 
     return(
         <main className="home-page-main">
+            <Test/>
         <Outlet/>
         </main>
     )

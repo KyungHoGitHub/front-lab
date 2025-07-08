@@ -10,6 +10,7 @@ import {LoginFormData} from "../types/login.ts";
 import {toast} from "react-toastify";
 import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
 import KakaoLoginButton from "./KakaoLoginButton.tsx";
+import {extractData} from "../../../shared/utill/response.ts";
 
 interface LoginFormProps {
     title: string,
@@ -34,12 +35,13 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
         reValidateMode: "onChange",
     })
 
-    const submit = async (data: LoginFormData) => {
+    const submit = async (formData: LoginFormData) => {
         setLoading(true);
         try {
-            const res = await loginForm(data);
-            if (res.data.data.accessToken) {
-                login(res.data.data.accessToken);
+            const res = await loginForm(formData);
+            const  data = extractData(res)
+            if (data.accessToken) {
+                login(data.accessToken);
                 navigate("/home");
             } else {
                 setErrorMsg("서버에 문제가 발생하였습니다.")
@@ -53,6 +55,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
             setLoading(false);
         }
     }
+
     return (
         <div className="login-form-container">
             <div className="login-form-title">{title}</div>
