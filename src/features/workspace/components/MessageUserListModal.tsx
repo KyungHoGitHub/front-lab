@@ -21,11 +21,12 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
     // 유저 목록 조회 함수
     const handleUserFind = async () => {
         try {
-            const fetcUsers = await getMessageUserList();
-            setUsers(fetcUsers.data);
-            setFilteredUsers(fetcUsers.data);
+            const fetchUsers = await getMessageUserList();
+            console.log('유저 목록',fetchUsers)
+            setUsers(fetchUsers.data);
+            setFilteredUsers(fetchUsers.data);
         } catch (error) {
-
+            console.log(error)
         }
     }
     // 유저 목록 필터링 함수
@@ -35,8 +36,9 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
         );
         setFilteredUsers(filtered);
     };
-    const handleUserClick =(userIdx: number)=>{
-        navigate(`/workspace/chat/${userIdx}`);
+    const handleUserClick =(userId: string)=>{
+        navigate(`/workspace/chat/${userId
+        }`);
         onClose();
     }
 
@@ -69,7 +71,7 @@ const MessageUserListModal: React.FC<MessageUserListProps> = ({isOpen, onClose})
                 <div className={styles.userList}>
                     {filteredUsers.length > 0 ? (
                         filteredUsers.map((user) => (
-                            <div key={user.userId} className={styles.userItem} onClick={()=>handleUserClick(user.userIdx)}>
+                            <div key={user.userId} className={styles.userItem} onClick={()=>handleUserClick(user.userId)}>
                                 <img
                                     src={user.imageUrl || 'https://ui-avatars.com/api/?name=John+Doe&background=random'}
                                     className={styles.userAvatar}

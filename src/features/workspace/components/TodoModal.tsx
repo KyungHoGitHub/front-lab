@@ -1,8 +1,8 @@
 // src/features/workspace/components/TodoModal.tsx
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './TodoModal.css';
 import {todoModalSubmit} from "../api/Todo.ts";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {TodoFormData} from "../type/TodoFormData.ts";
 
 interface TodoModalProps {
@@ -11,34 +11,53 @@ interface TodoModalProps {
     onSubmit: (todo: { title: string; description: string }) => void;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
-    const [error, setError] = useState<string| null>(null);
+// require -> file 입력 필드 추가로
+// work -> 기존 TodoFormData 상속해서 file 타입 추가 정의
+export interface ExtendedTodoFormData extends TodoFormData {
+    file?: File | null;
+}
+
+const TodoModal: React.FC<TodoModalProps> = ({isOpen, onClose}) => {
+    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<TodoFormData>({
-        defaultValues:{
+    const {register, handleSubmit, reset,control, formState: {errors}} = useForm<ExtendedTodoFormData>({
+        defaultValues: {
             title: '',
             description: '',
-            status:'TODO',
+            status: 'TODO',
+            file: null,
         }
     });
 
-    const statusOptions: { value: TodoFormData['status']; label: string }[] = [
-        { value: 'TODO', label: '할 일' },
-        { value: 'IN_PROGRESS', label: '진행 중' },
-        { value: 'DONE', label: '완료' }
+    const statusOptions: { value: ExtendedTodoFormData['status']; label: string }[] = [
+        {value: 'TODO', label: '할 일'},
+        {value: 'IN_PROGRESS', label: '진행 중'},
+        {value: 'DONE', label: '완료'}
     ];
 
-    const onSubmit = async (data: TodoFormData) =>{
+    const onSubmit = async (data: ExtendedTodoFormData) => {
         setLoading(true);
         setError(null);
-        try{
-            await todoModalSubmit(data);
+        try {
+            const formData = new FormData();
+            const todoData = {
+                title: data.title,
+                description: data.description,
+                status: data.status,
+            };
+            formData.append('data', new Blob([JSON.stringify(todoData)], { type: 'application/json' }));
+
+            // 파일 추가
+            if (data.file) {
+                formData.append('file', data.file);
+            }
+            await todoModalSubmit(formData);
             reset();
             onClose();
-        }catch (e){
+        } catch (e) {
             console.log(e.message);
-        }finally {
+        } finally {
             setLoading(false);
         }
     }
@@ -66,9 +85,9 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
                         <label htmlFor="title">제목</label>
                         <input
                             id="title"
-                            {...register('title',{required: '제목은 필수임'})}
+                            {...register('title', {required: '제목은 필수임'})}
                         />
-                        {errors.title && <p style={{ color: 'red' }}>{errors.title.message}</p>}
+                        {errors.title && <p style={{color: 'red'}}>{errors.title.message}</p>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="status">상태</label>
@@ -82,7 +101,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
                                 </option>
                             ))}
                         </select>
-                        {errors.status && <p style={{ color: 'red' }}>{errors.status.message}</p>}
+                        {errors.status && <p style={{color: 'red'}}>{errors.status.message}</p>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">설명</label>
@@ -90,7 +109,22 @@ const TodoModal: React.FC<TodoModalProps> = ({ isOpen, onClose }) => {
                             id="description"
                             {...register('description', {required: '내용를 입력하세요.'})}
                         />
-                        {errors.description && <p style={{ color: 'red' }}>{errors.description.message}</p>}
+                        {errors.description && <p style={{color: 'red'}}>{errors.description.message}</p>}
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="file">파일 업로드</label>
+                        <Controller
+                            name="file"
+                            control={control}
+                            render={({field})=>(
+                                <input
+                                    type="file"
+                                    id="file"
+                                    onChange={(e)=> field.onChange(e.target.files? e.target.files[0]: null)}
+                                />
+                            )}
+                        />
+
                     </div>
                     <div className="antd-modal-actions">
                         <button type="button" onClick={handleCancel} disabled={loading}>

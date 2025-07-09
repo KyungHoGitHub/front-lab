@@ -78,7 +78,8 @@ const MessageBox: React.FC = () => {
             setLoading(true);
             try{
                 const decoded = jwtDecode(token);
-                const res = await getConversationList(decoded.sub);
+                console.log('토큰 정보',decoded)
+                const res = await getConversationList(decoded.userId);
                 setData(res);
             }catch (error){
                 console.error(error);

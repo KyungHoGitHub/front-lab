@@ -1,10 +1,14 @@
 import resourceClient from "../../../shared/api/resourceClient.ts";
 import {QUERY_PARAMS, WORKSPACE_ENDPOINTS} from "../endpoints/workspaceEndpoints.ts";
-import {TodoFormData} from "../type/TodoFormData.ts";
 import {buildQueryString} from "./utils.ts";
+import {ExtendedTodoFormData} from "../components/TodoModal.tsx";
 
-export const todoModalSubmit = async (data:TodoFormData)=>{
-    return resourceClient.post(WORKSPACE_ENDPOINTS.TODOS.CREATE,data)
+export const todoModalSubmit = async (data:ExtendedTodoFormData)=>{
+    return resourceClient.post(WORKSPACE_ENDPOINTS.TODOS.CREATE,data,{
+        headers:{
+            'Content-Type': 'multipart/form-data',
+        }
+    })
 }
 
 export const getTodoList = async ()=>{

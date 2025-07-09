@@ -7,12 +7,18 @@ import config from '../../../config.ts';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import {useLocation} from "react-router";
+import {jwtDecode} from "jwt-decode";
+import {useAuth} from "../../contexts/components/AuthProvider.tsx";
 
 const ChatBox: React.FC = () => {
     const location = useLocation();
-    // console.log(location.pathname.at(-1));
-    console.log( location.pathname.at(-1))
-    const parsedUserIdx =  'opop'; // 테스트용 하드코딩
+
+    const paths = location.pathname.split('/');
+    const userId = paths[paths.length - 1];
+    const parsedUserId = userId; // 테스트용 하드코딩
+    const {token} = useAuth();
+    const decoded = jwtDecode(token);
+    const currentUserId = decoded.userId;
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [isConnected, setIsConnected] = useState(false);
@@ -31,16 +37,19 @@ const ChatBox: React.FC = () => {
         });
 
         socketRef.current.on('connect', () => {
-            console.log('Socket.IO 연결됨, 방 참여:', parsedUserIdx);
+
             setIsConnected(true);
             setIsLoading(false);
             setConnectionError(null);
-            socketRef.current?.emit('join_room', parsedUserIdx);
+            const conversationId = `9`;
+            socketRef.current?.emit('join_room', conversationId);
+            console.log(`대화방(${conversationId})에 join_room emit`);
         });
 
         socketRef.current.on('chat_message', (message: Message) => {
-            console.log('수신된 메시지:', message);
+
             setMessages((prev) => [...prev, message]);
+            console.log('수신된 메시지:', message);
         });
 
         socketRef.current.on('connect_error', (error) => {
@@ -61,7 +70,7 @@ const ChatBox: React.FC = () => {
                 socketRef.current.disconnect();
             }
         };
-    }, [parsedUserIdx]);
+    }, [parsedUserId]);
 
     useEffect(() => {
         if (messageListRef.current) {
@@ -74,13 +83,14 @@ const ChatBox: React.FC = () => {
             console.warn('Cannot send message: empty or not connected');
             return;
         }
+        const decoded = jwtDecode(token);
 
         const message: Message = {
             id: "1",
-            senderUserId: "abab",
+            senderUserId: decoded.userId,
             content: newMessage,
             timestamp: new Date().toISOString(),
-            userId: parsedUserIdx,
+            userId: parsedUserId,
         };
 
         console.log('전송할 메시지:', message);
@@ -96,7 +106,7 @@ const ChatBox: React.FC = () => {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h2 className={styles.userName}>Chat #{parsedUserIdx}</h2>
+                <h2 className={styles.userName}>Chat #{parsedUserId}</h2>
             </div>
             <div className={styles.messageList} ref={messageListRef}>
                 {messages.length === 0 ? (
@@ -106,7 +116,7 @@ const ChatBox: React.FC = () => {
                         <div
                             key={msg.id}
                             className={`${styles.message} ${
-                                msg.senderId === 17 ? styles.sent : styles.received
+                                msg.senderId === currentUserId ? styles.sent : styles.received
                             }`}
                         >
                             <p className={styles.messageContent}>{msg.content}</p>
