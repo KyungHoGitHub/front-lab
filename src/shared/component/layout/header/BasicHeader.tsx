@@ -54,7 +54,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
             <div className="header-container">
                 <div className="left-section">
                     <div className="logo-section">
-                        <NavLink to="/">
+                        <NavLink to="/home">
                             <img src={logoImg} alt=".." className="logo-img"/>
                         </NavLink>
                     </div>

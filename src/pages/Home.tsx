@@ -4,6 +4,9 @@ import './Home.css';
 import ScheduleCardContainer from "../features/schedule/components/ScheduleCardContainer.tsx";
 import {Outlet, useOutletContext} from "react-router";
 import Test from "../shared/component/common/Test.tsx";
+import HomeMenuContainer from "../features/home/component/HomeMenuContainer.tsx";
+import HomeTodoWidgetContainer from "../features/home/component/HomeTodoWidgetContainer.tsx";
+import HomeBanner from "../features/home/component/HomeBanner.tsx";
 
 
 type RightSidebarContextType = {
@@ -22,8 +25,17 @@ const Home:React.FC =()=>{
 
     return(
         <main className="home-page-main">
-            <Test/>
-        <Outlet/>
+            <div className="home-header">
+                <HomeMenuContainer/>
+            </div>
+            <div>
+                <HomeBanner/>
+            </div>
+            <div className="home-board-main">
+            <HomeTodoWidgetContainer/>
+            <HomeTodoWidgetContainer/>
+            </div>
+            <Outlet/>
         </main>
     )
 }

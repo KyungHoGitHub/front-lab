@@ -1,0 +1,146 @@
+.todo-widget-container {
+    width: 100%;
+    max-width: 600px;
+    /*margin: 0 auto;*/
+    padding: 20px;
+    background-color:#FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.todo-widget-container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.todo-widget-container-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.todo-widget-container-header select {
+    appearance: none; /* 기본 드롭다운 화살표 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 8px 28px 8px 12px; /* 오른쪽 패딩으로 화살표 공간 확보 */
+    font-size: 14px; /* 더 현대적인 폰트 크기 */
+    font-weight: 400;
+    color: #333333;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* 부드러운 전환 */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%23333333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2 4 6 8 10 4'/%3E%3C/svg%3E"); /* 커스텀 화살표 */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    width: 120px; /* 고정 너비로 깔끔한 외관 */
+}
+
+.todo-widget-container-header select:hover {
+    border-color: #3b82f6;
+    background-color: #f8fafc; /* 호버 시 미묘한 배경 변화 */
+}
+
+.todo-widget-container-header select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    background-color: #ffffff;
+}
+
+.todo-widget-container-cateogy-tab {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e5e7eb;
+    width: fit-content;
+}
+
+
+.tab-button {
+    width: 110px;
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.tab-button:hover {
+    color: #1f2937;
+    background-color: #f3f4f6;
+}
+
+.tab-button.active {
+    color: #3b82f6;
+    border-bottom: 2px solid #3b82f6;
+    font-weight: 600;
+}
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    /*background-color: #f9fafb;*/
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 0px;
+    transition: background-color 0.2s;
+}
+
+.todo-item:hover {
+    background-color: #f3f4f6;
+}
+
+.todo-item span {
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.todo-marker-container {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* 마커와 텍스트 간 간격 */
+    flex-shrink: 0;
+    margin-right: 8px; /* 컨테이너와 title 간 간격 */
+}
+
+.todo-marker {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.todo-marker.in_progress {
+    background-color: #52c41a; /* Ant Design 초록색 */
+}
+
+.todo-marker.todo {
+    background-color: #1890ff; /* Ant Design 파란색 */
+}
+
+.todo-marker.done {
+    background-color: #d9d9d9; /* Ant Design 회색, 완료 상태 */
+}
+
+.todo-marker-title-text {
+    font-size: 10px;
+    color: #000000;
+}
