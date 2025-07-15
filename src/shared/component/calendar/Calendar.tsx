@@ -12,6 +12,7 @@ import {
 } from 'date-fns';
 import './Calendar.css';
 import schedule from "../../../pages/Schedule.tsx";
+import {Category} from "../../../features/schedule/api/enum/category.ts";
 
 interface Schedule {
     category: string;
@@ -54,10 +55,10 @@ const Calendar: React.FC<CalendarProps> = ({selectedDate, onDateSelect, data,onM
     const months = Array.from({length: 12}, (_, i) => i);
 
     // 카테고리별 색상 매핑
-    const categoryColors: { [key: string]: string } = {
-        company: '#FF6B6B',
-        personal: '#4ECDC4',
-        event: '#874ecd'
+    const categoryColors: Record<Category, string> = {
+        [Category.COMPANY]: '#FF6B6B',
+        [Category.PERSONAL]: '#4ECDC4',
+        [Category.EVENT]: '#874ecd'
     };
 
     // 캘린더 날짜 생성 로직
