@@ -20,7 +20,7 @@ interface BasicHeaderProps {
 
 const BasicHeader: React.FC<BasicHeaderProps> = () => {
     const {t} = useTranslation();
-    const {logout} = useAuth();
+    const {token,logout} = useAuth();
     // nav 열림 닫힘
     const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -71,7 +71,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
                     isOpen={isNavOpen}
                 />
 
-                <UserAvatar title="" userData={userData} dropdownItem={dropdownItems}/>
+                <UserAvatar title="" dropdownItem={dropdownItems}/>
             </div>
         </header>
     )

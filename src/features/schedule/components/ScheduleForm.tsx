@@ -27,11 +27,49 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({form, onSubmit, loading}) =>
     return (
         <GenericForm form={form} onSubmit={onSubmit} loading={loading}>
             <div className="form-row">
+                <div className="schedule-form-field">
+                    <label htmlFor="startDate">시작일</label>
+                    <input
+                        type="date"
+                        id="startDate"
+                        {...register('startDate', {required: '시작일을 입력하세요'})}
+                    />
+
+                </div>
+                <div className="schedule-form-field">
+                    <label htmlFor="startTime">시작 시간</label>
+                    <input
+                        type="time"
+                        id="startTime"
+                        {...register('startTime', {required: '시작 시간을 입력하세요'})}
+                    />
+
+                </div>
+                <div className="schedule-form-field">
+                    <label htmlFor="endDate">종료일</label>
+                    <input
+                        type="date"
+                        id="endDate"
+                        {...register('endDate', {required: '종료일을 입력하세요'})}
+                    />
+
+                </div>
+                <div className="schedule-form-field">
+                    <label htmlFor="endTime">종료 시간</label>
+                    <input
+                        type="time"
+                        id="endTime"
+                        {...register('endTime', {required: '종료 시간을 입력하세요'})}
+                    />
+
+                </div>
+            </div>
+            <div className="form-row">
                 <div className="schedule-form-field category">
                     <label htmlFor="category">분류</label>
                     <select
                         id="category"
-                        {...register('category', { required: '분류를 선택하세요' })}
+                        {...register('category', {required: '분류를 선택하세요'})}
                         defaultValue=""
                     >
                         <option value="" disabled>
@@ -46,51 +84,19 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({form, onSubmit, loading}) =>
 
                 </div>
             </div>
-            <div className="form-row">
-                <div className="schedule-form-field">
-                    <label htmlFor="startDate">시작일</label>
-                    <input
-                        type="date"
-                        id="startDate"
-                        {...register('startDate', { required: '시작일을 입력하세요' })}
-                    />
-
-                </div>
-                <div className="schedule-form-field">
-                    <label htmlFor="startTime">시작 시간</label>
-                    <input
-                        type="time"
-                        id="startTime"
-                        {...register('startTime', { required: '시작 시간을 입력하세요' })}
-                    />
-
-                </div>
-                <div className="schedule-form-field">
-                    <label htmlFor="endDate">종료일</label>
-                    <input
-                        type="date"
-                        id="endDate"
-                        {...register('endDate', { required: '종료일을 입력하세요' })}
-                    />
-
-                </div>
-                <div className="schedule-form-field">
-                    <label htmlFor="endTime">종료 시간</label>
-                    <input
-                        type="time"
-                        id="endTime"
-                        {...register('endTime', { required: '종료 시간을 입력하세요' })}
-                    />
-
-                </div>
+            <div className="schedule-form-field title">
+                <label htmlFor="title">제목</label>
+                <input
+                    id="title"
+                    {...register('title', {required: '제목을 입력하세요'})}
+                />
             </div>
             <div className="schedule-form-field content">
                 <label htmlFor="content">내용</label>
                 <textarea
                     id="content"
-                    {...register('content', { required: '내용을 입력하세요' })}
+                    {...register('content', {required: '내용을 입력하세요'})}
                 />
-
             </div>
         </GenericForm>
     )

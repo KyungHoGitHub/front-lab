@@ -1,12 +1,13 @@
 import React, {useState} from "react";
 import './HomeTodoWidgetContainer.css';
+import {useHomeTodoWidgetContainer} from "../hooks/useHomeTodoWigetContainer.ts";
 
 interface DueSelectList {
     name: string,
     value: string,
 }
 
-interface  TodoStatusList {
+interface TodoStatusList {
     name: string;
     value: string;
 }
@@ -20,23 +21,24 @@ interface TodoItem {
 
 
 const HomeTodoWidgetContainer: React.FC = () => {
+    const {todoList, loading, selectedDue,handleDueChange} = useHomeTodoWidgetContainer();
     const dueSelectList: DueSelectList[] = [
         {name: '이번달', value: 'month'},
         {name: '이번주', value: 'week'},
         {name: '오늘', value: 'today'},
     ]
 
-    const todoStatusList:TodoStatusList[] =[
+    const todoStatusList: TodoStatusList[] = [
         {name: '예정된 업무', value: 'todo'},
         {name: "완료된 업무", value: 'in_progress'},
     ]
 
-    const todoList: TodoItem[] = [
-        { id: 1, title: "오늘은 이거를 해야해", date: "2024-01-02", status: "in_progress" },
-        { id: 2, title: "이것도 해야해", date: "2024-01-02", status: "in_progress" },
-        { id: 3, title: "또 다른 할일", date: "2024-01-02", status: "in_progress" },
-        { id: 4, title: "예정된 작업", date: "2024-01-03", status: "todo" },
-        { id: 5, title: "완료된 작업", date: "2024-01-01", status: "done" },
+    const todos: TodoItem[] = [
+        {id: 1, title: "오늘은 이거를 해야해", date: "2024-01-02", status: "in_progress"},
+        {id: 2, title: "이것도 해야해", date: "2024-01-02", status: "in_progress"},
+        {id: 3, title: "또 다른 할일", date: "2024-01-02", status: "in_progress"},
+        {id: 4, title: "예정된 작업", date: "2024-01-03", status: "todo"},
+        {id: 5, title: "완료된 작업", date: "2024-01-01", status: "done"},
     ];
 
     // 활성화된 탭 상태 관리
@@ -64,7 +66,7 @@ const HomeTodoWidgetContainer: React.FC = () => {
         }
         return <div className="todo-marker-container">
             <span className={markerClass} aria-hidden="true"></span>
-            <span style={{fontSize:"14px"}}>{content}</span>
+            <span style={{fontSize: "14px"}}>{content}</span>
         </div>;
     }
 
@@ -73,7 +75,7 @@ const HomeTodoWidgetContainer: React.FC = () => {
         <div className="todo-widget-container">
             <div className="todo-widget-container-header">
                 <h3 className="todo-tilte">할일</h3>
-                <select>
+                <select value={selectedDue} onChange={handleDueChange}>
                     {dueSelectList.map((option) => (
                         <option key={option.value} value={option.value}>
                             {option.name}
@@ -93,7 +95,7 @@ const HomeTodoWidgetContainer: React.FC = () => {
                 ))}
             </div>
             <div className="todo-list">
-                {todoList
+                {todos
                     .filter((todo) => todo.status === activeTab)
                     .map((todo) => (
                         <div key={todo.id} className="todo-item">

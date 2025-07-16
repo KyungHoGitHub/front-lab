@@ -27,7 +27,7 @@ interface UserData {
     createdAt: string;
 }
 
-const UserAvatar: React.FC<UserAvatarProps> = ({userData, dropdownItem}) => {
+const UserAvatar: React.FC<UserAvatarProps> = ({ dropdownItem}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [usersData, setUsersData] = useState<UserData|null>(null);
 
