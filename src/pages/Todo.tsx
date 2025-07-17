@@ -33,7 +33,7 @@ const Todo: React.FC = () => {
         }
     }
     // 상세 페이지로 이동하는 핸들러
-    const handleCellClick = (record :{idx :number}) => {
+    const handleCellClick = (record: { idx: number }) => {
         navigate(`/workspace/todo/detail/${record.idx}`); // 예: /activity/1로 이동
         // 또는 간단히 테스트용으로 alert 사용:
         // alert(`Clicked activity: ${record.action} (ID: ${record.id})`);
@@ -46,7 +46,7 @@ const Todo: React.FC = () => {
             // sorter: (a, b) => a.id - b.id, // 숫자 정렬
         },
         {
-            title:  t('work_space.todo.table_column.title'),
+            title: t('work_space.todo.table_column.title'),
             dataIndex: 'title',
             sorter: (a, b) => a.title.localeCompare(b.title),
             onCellClick: handleCellClick,
@@ -57,9 +57,21 @@ const Todo: React.FC = () => {
             sorter: (a, b) => a.status.localeCompare(b.status),
             render: (status: TodoFormData['status']) => {
                 const tagConfig = {
-                    TODO: {label: '할 일', className: 'todo', icon: <FaClock  style={{marginRight:"10px"}} className="tag-icon"/>},
-                    IN_PROGRESS: {label: '진행중', className: 'in-progress', icon: <FaSync style={{marginRight:"10px"}} className="tag-icon"/>},
-                    DONE: {label: '완료', className: 'done', icon: <FaCheckCircle style={{marginRight:"10px"}} className="tag-icon"/>},
+                    TODO: {
+                        label: '할 일',
+                        className: 'todo',
+                        icon: <FaClock style={{marginRight: "10px"}} className="tag-icon"/>
+                    },
+                    IN_PROGRESS: {
+                        label: '진행중',
+                        className: 'in-progress',
+                        icon: <FaSync style={{marginRight: "10px"}} className="tag-icon"/>
+                    },
+                    DONE: {
+                        label: '완료',
+                        className: 'done',
+                        icon: <FaCheckCircle style={{marginRight: "10px"}} className="tag-icon"/>
+                    },
                 };
                 const {label, className, icon} = tagConfig[status] || {label: status, className: '', icon: null};
                 return (
@@ -96,8 +108,6 @@ const Todo: React.FC = () => {
         };
         fetchTodo();
     }, [location]);
-
-
 
 
     return (

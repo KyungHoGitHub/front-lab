@@ -5,7 +5,7 @@
     padding: 20px;
     background-color:#FFFFFF;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 26%);
 }
 
 .todo-widget-container-header {
@@ -129,18 +129,24 @@
 }
 
 .todo-marker.in_progress {
-    background-color: #52c41a; /* Ant Design 초록색 */
+    background-color: #43c074; /* Ant Design 초록색 */
 }
 
 .todo-marker.todo {
-    background-color: #1890ff; /* Ant Design 파란색 */
+    background-color: rgba(153, 185, 238, 0.91); /* Ant Design 파란색 */
 }
 
 .todo-marker.done {
-    background-color: #d9d9d9; /* Ant Design 회색, 완료 상태 */
+    background-color: rgba(0, 0, 0, 0.35); /* Ant Design 회색, 완료 상태 */
 }
 
 .todo-marker-title-text {
     font-size: 10px;
     color: #000000;
+}
+
+.empty-message {
+    padding: 16px;
+    color: #999;
+    text-align: center;
 }

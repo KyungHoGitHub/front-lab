@@ -172,10 +172,12 @@ const TodoDetail: React.FC = () => {
                         <span className="todo-detail-label">{t('work_space.todo_detail.createdAt')}:</span>
                         <span className="todo-detail-value">{todo?.createdAt || 'N/A'}</span>
                     </div>
+                    {todo.updatedAt &&
                     <div className="todo-detail-field">
                         <span className="todo-detail-label">{t('work_space.todo_detail.updatedAt')}:</span>
                         <span className="todo-detail-value">{todo?.updatedAt || 'N/A'}</span>
                     </div>
+                    }
                 </div>
                 <div className="todo-detail-footer">
                     <button

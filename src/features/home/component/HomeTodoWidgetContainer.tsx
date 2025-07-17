@@ -1,6 +1,10 @@
 import React, {useState} from "react";
 import './HomeTodoWidgetContainer.css';
 import {useHomeTodoWidgetContainer} from "../hooks/useHomeTodoWigetContainer.ts";
+import {TodoStatus, TodoTab} from "../type/enums.ts";
+import dayjs from "dayjs";
+import {EMPTY_MESSAGE} from "../type/message.ts";
+import { isEmpty } from 'lodash';
 
 interface DueSelectList {
     name: string,
@@ -21,7 +25,10 @@ interface TodoItem {
 
 
 const HomeTodoWidgetContainer: React.FC = () => {
-    const {todoList, loading, selectedDue,handleDueChange} = useHomeTodoWidgetContainer();
+    const {todoList, loading, selectedDue, handleDueChange} = useHomeTodoWidgetContainer();
+    // 활성화된 탭 상태 관리
+    const [activeTab, setActiveTab] = useState("pending");
+
     const dueSelectList: DueSelectList[] = [
         {name: '이번달', value: 'month'},
         {name: '이번주', value: 'week'},
@@ -29,35 +36,24 @@ const HomeTodoWidgetContainer: React.FC = () => {
     ]
 
     const todoStatusList: TodoStatusList[] = [
-        {name: '예정된 업무', value: 'todo'},
-        {name: "완료된 업무", value: 'in_progress'},
+        {name: '예정된 업무', value: 'pending'},
+        {name: "완료된 업무", value: 'done'},
     ]
-
-    const todos: TodoItem[] = [
-        {id: 1, title: "오늘은 이거를 해야해", date: "2024-01-02", status: "in_progress"},
-        {id: 2, title: "이것도 해야해", date: "2024-01-02", status: "in_progress"},
-        {id: 3, title: "또 다른 할일", date: "2024-01-02", status: "in_progress"},
-        {id: 4, title: "예정된 작업", date: "2024-01-03", status: "todo"},
-        {id: 5, title: "완료된 작업", date: "2024-01-01", status: "done"},
-    ];
-
-    // 활성화된 탭 상태 관리
-    const [activeTab, setActiveTab] = useState("in_progress");
-
+    
     // 마커 생성 함수
     const getTodoMarker = (status: string) => {
         let markerClass = "";
         let content = "";
         switch (status) {
-            case "in_progress":
+            case "IN_PROGRESS":
                 markerClass = "todo-marker in_progress";
                 content = "진행중";
                 break;
-            case "todo":
+            case "TODO":
                 markerClass = "todo-marker todo";
                 content = "할일";
                 break;
-            case "done":
+            case "DONE":
                 markerClass = "todo-marker done";
                 content = "완료";
                 break;
@@ -70,6 +66,23 @@ const HomeTodoWidgetContainer: React.FC = () => {
         </div>;
     }
 
+    const filteredTodos = todoList?.filter((todo) => {
+        if (activeTab === TodoTab.PENDING) {
+            return todo.status === TodoStatus.TODO || todo.status === TodoStatus.IN_PROGRESS;
+        } else if (activeTab === TodoTab.DONE) {
+            return todo.status === TodoStatus.DONE;
+        }
+        return true;
+    }) || [];
+
+    const processedTodos = [...filteredTodos]
+        .sort((a,b)=> dayjs(a.createdAt).valueOf() - dayjs(b.createdAt).valueOf())
+        .map(todo =>({
+            ...todo,
+            createdAt : dayjs(todo.createdAt).format('MM-DD')
+            }));
+
+    const isTodoListEmpty = isEmpty(processedTodos);
 
     return (
         <div className="todo-widget-container">
@@ -95,15 +108,19 @@ const HomeTodoWidgetContainer: React.FC = () => {
                 ))}
             </div>
             <div className="todo-list">
-                {todos
-                    .filter((todo) => todo.status === activeTab)
-                    .map((todo) => (
-                        <div key={todo.id} className="todo-item">
+                {loading ? (
+                    <div className="empty-message">{EMPTY_MESSAGE.loading}</div>
+                ) : isTodoListEmpty ? (
+                    <div className="empty-message">{EMPTY_MESSAGE.noData}</div>
+                ) : (
+                    processedTodos.map((todo) => (
+                        <div key={todo.idx} className="todo-item">
                             {getTodoMarker(todo.status)}
                             <span>{todo.title}</span>
-                            <span>{todo.date}</span>
+                            <span>{todo.createdAt}</span>
                         </div>
-                    ))}
+                    ))
+                )}
             </div>
         </div>
     )

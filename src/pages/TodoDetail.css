@@ -33,7 +33,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px;
+    max-width: 1300px;
     overflow: hidden;
 }
 
@@ -335,4 +335,15 @@
 .todo-save:hover {
     background-color: #2563eb;
     border-color: #2563eb;
+}
+
+@media (max-width: 1180px) {
+    .todo-detail-card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        overflow: hidden;
+    }
 }

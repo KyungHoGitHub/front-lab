@@ -10,6 +10,7 @@ import {UserMeResponse} from "../features/mypage/type/mypage.ts";
 import {useAuth} from "../features/contexts/components/AuthProvider.tsx";
 import {jwtDecode} from "jwt-decode";
 import {extractData} from "../shared/utill/response.ts";
+import {useFormStatus} from "react-dom";
 
 
 interface JwtPayload {
@@ -27,6 +28,7 @@ const Mypage: React.FC = () => {
     const [userData, setUserData] = useState<UserMeResponse | null>(null);
     const [companyInfo, setCompanyInfo] = useState<UserInfoItem[]>([]);
     const {token} = useAuth();
+
 
 
     // const userInfo = Object.entries(userData)
@@ -99,7 +101,9 @@ const Mypage: React.FC = () => {
                 <span style={{padding: "10px"}}/>
                 <Card title={"기본정보"}>
                     <div style={{marginLeft: "100px"}}>
-                    <Avatar size={100} src={userData.imageUrl} onFileChange={handleFileChange}></Avatar>
+                        {userData?.imageUrl &&
+                            <Avatar size={100} src={userData.imageUrl} onFileChange={handleFileChange}></Avatar>
+                        }
                     </div>
                     <div style={{marginLeft: "400px"}}>
                     <Description items={companyInfo}/>

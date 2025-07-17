@@ -1,0 +1,15 @@
+.chart-container {
+    height: 400px; /* 차트 높이 설정 */
+    width: 100%; /* 반응형 너비 */
+    background-color: #ffffff; /* 배경색 (라이트 테마) */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    padding: 20px; /* 내부 여백 */
+}
+
+/* 다크 테마 지원 */
+@media (prefers-color-scheme: dark) {
+    .chart-container {
+        background-color: #1a1a1a; /* 다크 테마 배경색 */
+    }
+}
