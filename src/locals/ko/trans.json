@@ -5,7 +5,9 @@
     "menu2": "회원정보",
     "menu3": "통계정보",
     "menu4": "워크스페이스",
-    "menu5": "일정"
+    "menu5": "일정",
+    "menu6": "공지사항",
+    "menu7" : "관리"
   },
   "userInfo": {
     "user_settings": "계정설정",

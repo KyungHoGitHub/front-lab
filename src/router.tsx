@@ -16,6 +16,8 @@ import Memo from "./pages/Memo.tsx";
 import TodoDetail from "./pages/TodoDetail.tsx";
 import ChatBox from "./features/workspace/components/ChatBox.tsx";
 import Schedule from "./pages/Schedule.tsx";
+import UserManagement from "./pages/UserManagement.tsx";
+import AdminDashboard from "./features/admin/component/AdminDashboard.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -36,7 +38,7 @@ export const router = createBrowserRouter([
         element: <LoginSignupPage formComponent={<SignupForm title="Sign Up"/>}/>
     },
     {
-        element: <ProtectedRoute/>,
+        element: <ProtectedRoute allowesRoles={["user","admin"]}/>,
         children: [
             {
                 path: '/',
@@ -95,6 +97,19 @@ export const router = createBrowserRouter([
                 ]
             }
         ]
+    },
+    {
+        path: "admin",
+        element: <ProtectedRoute allowesRoles={["admin"]} />,
+        children: [
+            {
+                path: "",
+                element: <AdminDashboard />,
+                children: [
+                    { index: true, element: <UserManagement /> },
+                ],
+            },
+        ],
     },
     {
         path: '*',

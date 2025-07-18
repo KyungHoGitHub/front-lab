@@ -1,0 +1,108 @@
+
+/* 사이드바 컨테이너 */
+.admin-menu-container {
+    background-color: #ffffff; /* 라이트 테마: 흰색 */
+    color: #1f2937; /* 다크 그레이 텍스트 */
+    height: 100vh; /* 화면 전체 높이 */
+    width: 240px; /* 고정 너비 (shadcn/ui 스타일 참고) */
+    /*position: fixed; !* 화면 왼쪽 고정 *!*/
+    top: 0;
+    left: 0;
+    padding: 16px;
+    border-right: 1px solid #e5e7eb; /* 라이트 테마 구분선 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    transition: width 0.3s ease; /* 너비 전환 애니메이션 */
+    border-radius: 8px;
+}
+
+/* 다크 테마 지원 */
+@media (prefers-color-scheme: dark) {
+    .admin-menu-container {
+        background-color: #1f2937; /* 다크 테마: 다크 그레이 */
+        color: #d1d5db; /* 밝은 회색 텍스트 */
+        border-right: 1px solid #374151; /* 다크 테마 구분선 */
+    }
+}
+
+/* 메뉴 리스트 */
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0 0; /* 상단 여백 추가 */
+}
+
+/* 메뉴 항목 */
+.menu-item {
+    margin-bottom: 4px; /* 항목 간 간격 */
+}
+
+/* 메뉴 링크 */
+.menu-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    text-decoration: none;
+    color: #4b5563; /* 라이트 테마: 중간 회색 */
+    font-size: 14px; /* shadcn/ui의 컴팩트한 타이포그래피 */
+    font-weight: 500;
+    border-radius: 6px; /* 둥근 모서리 */
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+/* 호버 상태 */
+.menu-link:hover {
+    background-color: #f3f4f6; /* 라이트 테마: 밝은 회색 */
+    color: #1f2937; /* 다크 그레이 */
+    transform: translateX(4px); /* 미세한 이동 효과 */
+}
+
+/* 활성 상태 */
+.menu-link.active {
+    background-color: #e5e7eb; /* 라이트 테마: 회색 배경 */
+    color: #2563eb; /* 파란색 텍스트 */
+    font-weight: 600;
+}
+
+/* 다크 테마: 호버 및 활성 상태 */
+@media (prefers-color-scheme: dark) {
+    .menu-link {
+        color: #9ca3af; /* 다크 테마: 회색 텍스트 */
+    }
+
+    .menu-link:hover {
+        background-color: #374151; /* 다크 테마: 약간 밝은 회색 */
+        color: #ffffff; /* 흰색 */
+    }
+
+    .menu-link.active {
+        background-color: #2563eb; /* 파란색 배경 */
+        color: #ffffff; /* 흰색 */
+    }
+}
+
+/* 메뉴 텍스트 */
+.menu-text {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+/* 반응형: 모바일 (화면 너비 640px 이하) */
+@media (max-width: 640px) {
+    .admin-menu-container {
+        width: 64px; /* 축소된 너비 */
+        padding: 8px;
+    }
+
+    .menu-text {
+        display: none; /* 텍스트 숨김 (아이콘만 표시 가능) */
+    }
+
+    .menu-link {
+        justify-content: center; /* 링크 중앙 정렬 */
+        padding: 10px;
+    }
+
+    .main-area {
+        margin-left: 64px; /* 축소된 사이드바 너비에 맞춤 */
+    }
+}

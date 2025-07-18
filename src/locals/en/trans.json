@@ -5,7 +5,9 @@
     "menu2": "User Info",
     "menu3": "Status Info",
     "menu4": "Work Space",
-    "menu5": "Schedule"
+    "menu5": "Schedule",
+    "menu6": "Notification",
+    "menu7" : "Setting"
   },
   "userInfo": {
     "user_settings":  "User Settings",

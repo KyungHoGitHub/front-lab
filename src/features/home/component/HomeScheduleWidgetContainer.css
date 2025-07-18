@@ -1,0 +1,55 @@
+.schedule-widget-container {
+    width: 100%;
+    max-width: 600px;
+    /*margin: 0 auto;*/
+    padding: 20px;
+    background-color:#FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 26%);
+}
+
+.schedule-widget-container-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.schedule-widget-container-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.schedule-widget-container-main {
+    display: flex;
+    align-items: stretch; /* 세로로 꽉 채우도록 */
+    justify-content: space-between; /* 좌우 영역 균등 배치 */
+    height: 50%; /* 부모 높이 꽉 채움 */
+}
+
+.calendar-container {
+    flex: 1; /* 왼쪽 영역이 남은 공간을 차지 */
+    padding: 10px; /* 필요에 따라 패딩 추가 */
+}
+
+.schedule-container {
+    flex: 1; /* 오른쪽 영역이 남은 공간을 차지 */
+    padding: 10px; /* 필요에 따라 패딩 추가 */
+}
+
+.vertical-line {
+    width: 2px; /* 선의 두께 */
+    background-color: #ccc; /* 선 색상 */
+    margin: 0 10px; /* 좌우 여백 */
+}
+
+.calendar-container .calendar-wrapper {
+    width: 537px;
+    max-width: 78%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+}

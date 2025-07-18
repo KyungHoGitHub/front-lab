@@ -6,6 +6,7 @@ import {FcClock, FcConferenceCall, FcExpand, FcLowPriority} from "react-icons/fc
 import Table, {Column} from "../shared/component/common/Table.tsx";
 import {useNavigate} from "react-router";
 import WeatherWidget from "../features/widget/components/WeatherWidget.tsx";
+import BarChart from "../shared/component/chart/BarChart.tsx";
 
 interface MonthlyUsage {
     month: string; // 예: "2023-01"
@@ -14,6 +15,41 @@ interface MonthlyUsage {
 
 const Usage: React.FC = () => {
     const navigate = useNavigate();
+
+    const data =
+        [
+            { "date": "2025-07-01", "count": 3 },
+            { "date": "2025-07-02", "count": 7 },
+            { "date": "2025-07-03", "count": 4 },
+            { "date": "2025-07-04", "count": 10 },
+            { "date": "2025-07-05", "count": 2 },
+            { "date": "2025-07-06", "count": 8 },
+            { "date": "2025-07-07", "count": 6 },
+            { "date": "2025-07-08", "count": 12 },
+            { "date": "2025-07-09", "count": 9 },
+            { "date": "2025-07-10", "count": 5 },
+            { "date": "2025-07-11", "count": 15 },
+            { "date": "2025-07-12", "count": 3 },
+            { "date": "2025-07-13", "count": 7 },
+            { "date": "2025-07-14", "count": 11 },
+            { "date": "2025-07-15", "count": 4 },
+            { "date": "2025-07-16", "count": 6 },
+            { "date": "2025-07-17", "count": 5 },
+            { "date": "2025-07-18", "count": 9 },
+            { "date": "2025-07-19", "count": 13 },
+            { "date": "2025-07-20", "count": 8 },
+            { "date": "2025-07-21", "count": 10 },
+            { "date": "2025-07-22", "count": 4 },
+            { "date": "2025-07-23", "count": 6 },
+            { "date": "2025-07-24", "count": 7 },
+            { "date": "2025-07-25", "count": 11 },
+            { "date": "2025-07-26", "count": 3 },
+            { "date": "2025-07-27", "count": 5 },
+            { "date": "2025-07-28", "count": 9 },
+            { "date": "2025-07-29", "count": 12 },
+            { "date": "2025-07-30", "count": 6 },
+            { "date": "2025-07-31", "count": 8 }
+        ];
 // 월별 사용량 데이터 (예시)
     const monthlyUsageData: MonthlyUsage[] = [
         {month: '2023-01', usage: 120},
@@ -94,6 +130,7 @@ const Usage: React.FC = () => {
                 <Statistic title="총 사용자" value="1200" prefix={<FcConferenceCall/>} suffix="명"/>
 
             </div>
+            <BarChart data={data}/>
             <CustomLineChart
                 data={monthlyUsageData}
                 width={700}

@@ -20,17 +20,33 @@ interface BasicHeaderProps {
 
 const BasicHeader: React.FC<BasicHeaderProps> = () => {
     const {t} = useTranslation();
-    const {token,logout} = useAuth();
+    const {token, logout, user} = useAuth();
     // nav 열림 닫힘
     const [isNavOpen, setIsNavOpen] = useState(false);
 
-    const menuItems = [
-        {menuName: t('header.menu1'), path: '/usage'},
-        {menuName: t('header.menu2'), path: '/user-info'},
-        {menuName: t('header.menu3'), path: '/statistics-page'},
-        {menuName: t('header.menu4'), path: '/workspace'},
-        {menuName: t('header.menu5'), path: '/schedule'},
-    ];
+    const getMenuItems = () => {
+        const commonMenuItems = [
+            {menuName: t('header.menu1'), path: '/usage'},
+            {menuName: t('header.menu2'), path: '/user-info'},
+            {menuName: t('header.menu3'), path: '/statistics-page'},
+            {menuName: t('header.menu4'), path: '/workspace'},
+            {menuName: t('header.menu5'), path: '/schedule'},
+            {menuName: t('header.menu6'), path: '/schedule'},
+        ];
+
+        // admin 전용 메뉴
+        const adminMenuItem = [
+            {menuName: t('header.menu7'), path: '/admin'},
+        ]
+
+        if (user?.role === 'admin') {
+            return [...commonMenuItems, ...adminMenuItem]
+        }
+        return commonMenuItems;
+    }
+
+
+    const menuItems = getMenuItems();
     const userData =
         {name: 'peng', img: ''}
 

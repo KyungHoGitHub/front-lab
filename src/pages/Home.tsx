@@ -8,6 +8,8 @@ import HomeTodoWidgetContainer from "../features/home/component/HomeTodoWidgetCo
 import HomeBanner from "../features/home/component/HomeBanner.tsx";
 import useVisitLog from "../shared/hooks/useVisitLog.ts";
 import BarChart from "../shared/component/chart/BarChart.tsx";
+import HomeScheduleWidgetContainer from "../features/home/component/HomeScheduleWidgetContainer.tsx";
+import {useAuth} from "../features/contexts/components/AuthProvider.tsx";
 
 
 type RightSidebarContextType = {
@@ -16,9 +18,9 @@ type RightSidebarContextType = {
 
 const Home:React.FC =()=>{
     const context = useOutletContext<RightSidebarContextType | undefined>();
-
+    const {user} =useAuth();
     const {loading,visitLog} = useVisitLog();
-
+    console.log('ddddddddddddddddddddd',user)
     useEffect(() => {
         if (context?.setRightSidebarContent) {
             context?.setRightSidebarContent(<ScheduleCardContainer/>);
@@ -68,14 +70,15 @@ const Home:React.FC =()=>{
         <main className="home-page-main">
             <div className="home-header">
                 <HomeMenuContainer/>
+
             </div>
             <div>
-                <BarChart data={data}/>
+                {/*<BarChart data={data}/>*/}
                 <HomeBanner/>
             </div>
             <div className="home-board-main">
             <HomeTodoWidgetContainer/>
-            <HomeTodoWidgetContainer/>
+            <HomeScheduleWidgetContainer/>
             </div>
             <Outlet/>
         </main>
