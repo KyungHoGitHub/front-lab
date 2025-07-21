@@ -6,6 +6,7 @@ import test from '@assets/lefImage.png';
 import './Login.css';
 
 const Login: React.FC = () => {
+
     return (
         <div className="login-page-container">
             <LoginHeader/>

@@ -39,7 +39,7 @@ const HomeTodoWidgetContainer: React.FC = () => {
         {name: '예정된 업무', value: 'pending'},
         {name: "완료된 업무", value: 'done'},
     ]
-    
+
     // 마커 생성 함수
     const getTodoMarker = (status: string) => {
         let markerClass = "";
@@ -81,6 +81,7 @@ const HomeTodoWidgetContainer: React.FC = () => {
             ...todo,
             createdAt : dayjs(todo.createdAt).format('MM-DD')
             }));
+
 
     const isTodoListEmpty = isEmpty(processedTodos);
 
