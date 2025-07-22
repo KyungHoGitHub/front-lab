@@ -21,7 +21,7 @@ const UserManagement:React.FC = ()=>{
 
     return (
         <div className="workspace-content">
-  \
+            <Outlet/>
         </div>
     )
 }

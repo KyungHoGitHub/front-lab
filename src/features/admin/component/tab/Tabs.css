@@ -1,0 +1,44 @@
+/* src/styles/Tabs.css */
+.tabs-container {
+    width: 400px;
+    font-family: Arial, sans-serif;
+}
+
+.tabs-list {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabs-trigger {
+    border-radius : 0;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #666;
+
+}
+
+.tabs-trigger.active {
+    color: #000;
+    border-bottom: 2px solid #007bff;
+    font-weight: bold;
+}
+
+.tabs-trigger:hover {
+    background-color: #f5f5f5;
+}
+
+.tabs-content {
+    display: none;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+}
+
+.tabs-content.active {
+    display: block;
+}
