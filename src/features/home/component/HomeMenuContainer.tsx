@@ -6,6 +6,10 @@ import chatImg from '@assets/chat.png';
 import memoImg from '@assets/memo.png';
 import scheduleImg from '@assets/schedule.png';
 import mypageImg from '@assets/mypage.png';
+import settingImg from '@assets/setting.gif';
+import {excludedMenusByRole, MenuList} from "../enum/homeMenu.ts";
+import {useAuth} from "../../contexts/components/AuthProvider.tsx";
+import {jwtDecode} from "jwt-decode";
 
 interface MenuItemList {
     icon: string;
@@ -43,7 +47,7 @@ const MenuTitle: React.FC<{ menuName: string }> = ({ menuName }) => {
 
 const HomeMenuContainer: React.FC = () => {
     const [menuName, setMenuName] = useState<string>("");
-
+    const {token} = useAuth();
 
     // 메뉴 아이콘 클릭 이동을 위한 locagtionApi 훅 사용
     const navigate = useNavigate();
@@ -55,7 +59,17 @@ const HomeMenuContainer: React.FC = () => {
         {icon: memoImg, title: "Memo", menuName: "메모", path: "workspace/memo"},
         {icon: scheduleImg, title: "Schedule", menuName: "스케줄", path: "schedule"},
         {icon: mypageImg, title: "Mypage", menuName: "마이페이지", path: "mypage"},
+        {icon: settingImg, title: "Setting", menuName: "설정", path: "admin"},
     ];
+    console.log('menu list',menuItemList)
+    const getMenuByRole = (role:string, fullMenusList: MenuItemList[]):MenuItemList[] =>{
+        console.log('role',role)
+        console.log('full list',fullMenusList)
+        const excluded = excludedMenusByRole[role] || [];
+        return fullMenusList.filter(menu=> !excluded.includes(menu.title));
+    }
+    const decodeToken = jwtDecode(token);
+    console.log(getMenuByRole(decodeToken.role, menuItemList));
     return (
         <div className="home-menu-container">
             <div className="home-menu-header">

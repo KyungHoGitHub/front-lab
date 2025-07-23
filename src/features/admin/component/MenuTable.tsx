@@ -23,7 +23,7 @@ const MenuTable: React.FC<MenuTableProps> = ({ menus }) => {
     const [expandedRows, setExpandedRows] = useState<string[]>([]);
     const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
 
-    console.log(menus)
+
     // 화살표 클릭 시 하위 메뉴 토글
     const toggleSubMenu = (category: string) => {
         setExpandedRows((prev) =>

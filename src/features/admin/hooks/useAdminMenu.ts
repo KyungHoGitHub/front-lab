@@ -6,10 +6,10 @@ export const useAdminMenu = () => {
 
 
     const toggleDropdown = (key: number) => {
-        console.log('key 값 ->',key)
+
 
         setOpenDropdown(openDropdown === key ? null : key );
-        console.log('openDropDwon',openDropdown);
+
     };
 
 

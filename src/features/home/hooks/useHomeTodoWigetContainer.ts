@@ -20,7 +20,7 @@ export const useHomeTodoWidgetContainer = () => {
         try {
             setLoading(true);
             const res = await getTodoList(period);
-            console.log(res.data);
+
             setTodoList(res.data);
         } catch (error) {
             console.log(error.message);

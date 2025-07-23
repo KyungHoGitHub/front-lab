@@ -38,6 +38,17 @@ const Todo: React.FC = () => {
         // 또는 간단히 테스트용으로 alert 사용:
         // alert(`Clicked activity: ${record.action} (ID: ${record.id})`);
     };
+    const selctOtpions = [
+        {
+            label: "제목",
+            value: "title"
+        },
+        {
+            label: "내용",
+            value: "content"
+        }
+    ]
+
 
     const activityColumns = [
         {
@@ -119,7 +130,7 @@ const Todo: React.FC = () => {
                             {t('work_space.todo.table_searchButton.todo_add')}
                         </button>
 
-                        <SearchBar onSearch={handleSearch}/>
+                        <SearchBar onSearch={handleSearch} selectOptions={selctOtpions}/>
                     </div>
                     <TodoModal
                         isOpen={isModalOpen}

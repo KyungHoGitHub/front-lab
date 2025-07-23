@@ -42,7 +42,7 @@ const ProtectedRoute = ({allowesRoles}) => {
     }, []);
 
     const decoded = jwtDecode(token);
-    console.log('디코딩 된 토큰값-->',decoded);
+
     const location = useLocation();
     if (!decoded.role || !allowesRoles.includes(decoded.role)) {
         return <Navigate to="/unauthorized" replace />;

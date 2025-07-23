@@ -20,7 +20,7 @@ const Home:React.FC =()=>{
     const context = useOutletContext<RightSidebarContextType | undefined>();
     const {user} =useAuth();
     const {loading,visitLog} = useVisitLog();
-    console.log('ddddddddddddddddddddd',user)
+
     useEffect(() => {
         if (context?.setRightSidebarContent) {
             context?.setRightSidebarContent(<ScheduleCardContainer/>);

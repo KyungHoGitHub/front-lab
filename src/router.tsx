@@ -19,6 +19,7 @@ import Schedule from "./pages/Schedule.tsx";
 import UserManagement from "./pages/UserManagement.tsx";
 import AdminDashboard from "./features/admin/component/AdminDashboard.tsx";
 import MenuList from "./features/admin/pages/MenuPage.tsx";
+import UserPage from "./features/admin/pages/UserPage.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -111,6 +112,10 @@ export const router = createBrowserRouter([
                         path: '',
                         element: <UserManagement/>,
                         children: [
+                            {
+                                path: 'user-list',
+                                element: <UserPage/>
+                            },
                             {
                                 path: 'menu-list',
                                 element: <MenuList/>
