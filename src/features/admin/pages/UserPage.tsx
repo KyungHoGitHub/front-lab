@@ -2,70 +2,68 @@ import './userPage.css';
 import Table from "../../../shared/component/common/Table.tsx";
 import SearchBar from "../../../shared/component/common/SearchBar.tsx";
 import {useUserPage} from "../hooks/useUserPage.ts";
+import {useEffect} from "react";
+import {getUsers} from "../api/admin.ts";
 
-const UserPage:React.FC =()=>{
-    const {userList,handleSearch} = useUserPage();
-    const selctOptions = [
+const UserPage: React.FC = () => {
+    const {userList, handleSearch, setUserList} = useUserPage();
+    const selectOptions = [
         {
-          label: "이름",
-          value : "username"
+            label: "이름",
+            value: "username"
         },
         {
             label: "아이디",
-             value: "userId"
+            value: "userId"
         },
     ]
     const activityColumns = [
         {
             title: '아이디',
-            dataIndex: 'id',
+            dataIndex: 'userId',
             // sorter: (a, b) => a.id - b.id, // 숫자 정렬
         },
         {
-            title : '이름',
-            dataIndex: 'name',
+            title: '이름',
+            dataIndex: 'userName',
             sorter: (a, b) => a.id - b.id, // 숫자 정렬
         },
         {
 
             title: '이메일',
-            dataIndex: 'action',
+            dataIndex: 'email',
             sorter: (a, b) => a.action.localeCompare(b.action), // 문자열 정렬
         },
         {
-            title: '생성일자',
-            dataIndex: 'initDate',
-            sorter: (a, b) => a.initDate.localeCompare(b.initDate), // 날짜 문자열 정렬
+            title: '권한',
+            dataIndex: 'role',
         },
         {
-            title : '최근접속일자',
-            dataIndex: 'currentDate',
+            title: '생성일자',
+            dataIndex: 'createdAt',
+            sorter: (a, b) => a.initDate.localeCompare(b.initDate), // 날짜 문자열 정렬
         }
     ];
 
-    const activityData= [
-        { id: 1, name: '김길동',action: '로그인', initDate: '2023-10-01' ,currentDate:'2025-04-08'},
-        { id: 2,name: '홍길동', action: '프로필 업데이트', initDate: '2023-10-02',currentDate:'2025-04-08' },
-        { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
-        { id: 1, name: '김길동',action: '로그인', initDate: '2023-10-01' ,currentDate:'2025-04-08'},
-        { id: 2,name: '홍길동', action: '프로필 업데이트', initDate: '2023-10-02',currentDate:'2025-04-08' },
-        { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
-        { id: 1, name: '김길동',action: '로그인', initDate: '2023-10-01' ,currentDate:'2025-04-08'},
-        { id: 2,name: '홍길동', action: '프로필 업데이트', initDate: '2023-10-02',currentDate:'2025-04-08' },
-        { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
-        { id: 1, name: '김길동',action: '로그인', initDate: '2023-10-01' ,currentDate:'2025-04-08'},
-        { id: 2,name: '홍길동', action: '프로필 업데이트', initDate: '2023-10-02',currentDate:'2025-04-08' },
-        { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
-        { id: 1, name: '김길동',action: '로그인', initDate: '2023-10-01' ,currentDate:'2025-04-08'},
-        { id: 2,name: '홍길동', action: '프로필 업데이트', initDate: '2023-10-02',currentDate:'2025-04-08' },
-        { id: 3,name: '서초동', action: '로그아웃', initDate: '2023-10-03',currentDate:'2025-04-08' },
-    ];
-    return(
+    useEffect(() => {
+        const fetchUserList = async () => {
+            try {
+                const res = await getUsers();
+                console.log('res.data----------------<>',res.data);
+                setUserList(res.data);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchUserList();
+    }, []);
+
+    return (
         <div className="user-list-container">
-            <div className="user-list-header"><SearchBar onSearch={handleSearch} selectOptions={selctOptions}
+            <div className="user-list-header"><SearchBar onSearch={handleSearch} selectOptions={selectOptions}
             /></div>
-            <div style={{padding:"10px"}}></div>
-            <Table columns={activityColumns} dataSource={activityData}/>
+            <div style={{padding: "10px"}}></div>
+            <Table columns={activityColumns} dataSource={userList}/>
         </div>
     )
 }

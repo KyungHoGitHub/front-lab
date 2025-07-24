@@ -17,3 +17,7 @@ export const getUserList = async (searchBy: 'username'| 'userId', query :string)
 
     return resourceClient.get(`${ADMIN_ENDPOINTS.USERS.GET}?${queryString}`)
 }
+
+export const getUsers = async ()=>{
+    return resourceClient.get(ADMIN_ENDPOINTS.USERS.GET);
+}

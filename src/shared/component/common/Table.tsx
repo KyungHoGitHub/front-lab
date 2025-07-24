@@ -20,7 +20,7 @@ export interface TableProps<T> {
 }
 
 const Table = <T, >(props: TableProps<T>): React.ReactElement => {
-    const {columns, dataSource} = props;
+    const {columns, dataSource=[]} = props;
 
     const [sortState, setSortState] = useState<{
         key: keyof T | null;

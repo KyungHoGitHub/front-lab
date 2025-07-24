@@ -10,7 +10,16 @@ export const useUserPage = () => {
 
         try {
             const res = await getUserList(searchBy, searchTerm)
-            setUserList(res.data);
+
+            const userData = res.data
+                ? Array.isArray(res.data)
+                    ? res.data
+                    : [res.data]
+                : [];
+            console.log('------------L>', userData)
+            setUserList(userData);
+
+
         } catch (error) {
             console.log(error)
         } finally {
@@ -19,5 +28,5 @@ export const useUserPage = () => {
     }
 
 
-    return {userList, handleSearch}
+    return {userList, handleSearch,setUserList}
 };
