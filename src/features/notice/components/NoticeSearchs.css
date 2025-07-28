@@ -1,0 +1,114 @@
+/* CSS 변수 정의 */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --success-color: #28a745;
+    --success-hover: #1e7e34;
+    --border-radius: 0.5rem;
+    --padding-base: 0.75rem;
+    --font-size-base: 0.875rem;
+    --font-size-large: 1rem;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.2s ease-in-out;
+}
+
+.notice-search-container {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    padding: var(--padding-base);
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* 부모에서 넘긴 클래스명 test 스타일 */
+.test {
+    border-radius: var(--border-radius);
+    padding: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 600;
+
+}
+
+.search-select {
+    flex: 2;
+    min-width: 100px;
+    border-radius: var(--border-radius);
+    padding: var(--padding-base);
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+}
+
+.search-input {
+    flex: 6;
+    min-width: 150px;
+    border-radius: var(--border-radius);
+    padding: var(--padding-base);
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+    border: 1px solid #ced4da;
+}
+
+/* 포커스 스타일 추가 */
+.search-select:focus,
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* 기본 버튼 스타일 */
+.search-button {
+    flex: 1;
+    min-width: 80px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: var(--padding-base) 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.search-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+/* CreateButton 스타일 */
+.create-button {
+    flex: 1;
+    min-width: 80px;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: var(--padding-base) 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-button:hover {
+    background-color: var(--success-hover);
+    transform: translateY(-1px);
+}
+
+.create-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3);
+}

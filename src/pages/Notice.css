@@ -1,0 +1,30 @@
+
+/* 메인 콘텐츠 */
+.main-content {
+    flex: 3; /* 약 60% 정도 */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+/* 전체 레이아웃 */
+.main-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가운데 정렬 */
+}
+
+/* 콘텐츠 행 */
+.content-row {
+    display: flex;
+    width: 90%; /* 좌우 여백을 위해 90% 너비 */
+    max-width: 1850px; /* 최대 너비 증가 */
+    margin: 20px auto; /* 상하 마진과 좌우 가운데 정렬 */
+    gap: 20px; /* 영역 간 간격 */
+}

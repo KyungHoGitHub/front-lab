@@ -31,7 +31,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
             {menuName: t('header.menu3'), path: '/statistics-page'},
             {menuName: t('header.menu4'), path: '/workspace'},
             {menuName: t('header.menu5'), path: '/schedule'},
-            {menuName: t('header.menu6'), path: '/schedule'},
+            {menuName: t('header.menu6'), path: '/notice'},
         ];
 
         // admin 전용 메뉴

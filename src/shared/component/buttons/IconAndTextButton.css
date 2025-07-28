@@ -1,0 +1,19 @@
+.icon-text-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.icon-span {
+    display: flex;
+    align-items: center;
+}
+
+.text-span {
+    font-size: 16px;
+}
