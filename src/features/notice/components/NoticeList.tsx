@@ -1,6 +1,8 @@
 import './NoticeList.css';
 import React, {cloneElement, ReactElement, ReactNode, useState} from "react";
 import notice from "../../../pages/Notice.tsx";
+import * as FaIcons from "react-icons/fa";
+import {FaAngleDoubleLeft, FaAngleDoubleRight, FaChevronDown, FaChevronUp} from "react-icons/fa";
 
 interface Notice {
     idx: string;
@@ -34,6 +36,11 @@ interface NoticePageFooterProps {
     totalPages: number;
     onPageChange : (page: number) => void;
     children?: ReactNode;
+}
+
+const dynamicIcon  = (text: string) =>{
+    const IconComponent = FaIcons[text as keyof typeof FaIcons];
+    return IconComponent ? <IconComponent /> : null;
 }
 
 const NoticeList = ({className, children,notices=[]}: NoticeListProps) => {
@@ -129,11 +136,11 @@ const NoticeCard = ({ idx, category, title, createdAt, content, isActive, onClic
                 <span className="notice-category">{category}</span>
                 <span className="notice-title">{title}</span>
                 <button className="notice-toggle" onClick={toggleDropdown}>
-                    {isOpen ? '∧' : '∨'}
+                    {isOpen ? <FaChevronUp /> : <FaChevronDown />}
                 </button>
             </div>
             <span className="notice-date">{createdAt}</span>
-            {isOpen && <div className="notice-content">{content}</div>}
+            {isOpen && <div className="notice-content"   dangerouslySetInnerHTML={{ __html: content }}></div>}
         </div>
     );
 }
@@ -164,7 +171,7 @@ const NoticePageFooter = ({ currentPage, totalPages, onPageChange, children }:No
             {children || (
                 <>
                     <button onClick={handleFirstPage} disabled={currentPage === 1}>
-                        ≪
+                        <FaAngleDoubleLeft />
                     </button>
                     {getPageNumbers().map((page) => (
                         <button
@@ -176,7 +183,7 @@ const NoticePageFooter = ({ currentPage, totalPages, onPageChange, children }:No
                         </button>
                     ))}
                     <button onClick={handleLastPage} disabled={currentPage === totalPages}>
-                        ≫
+                        <FaAngleDoubleRight />
                     </button>
                 </>
             )}

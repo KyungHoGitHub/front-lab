@@ -39,7 +39,13 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const submit = async (formData: LoginFormData) => {
         setLoading(true);
         try {
-            const res = await loginForm(formData);
+
+            const test = {
+                ...formData,
+                loginType: "ID_PASSWORD"
+            }
+            console.log('test', test);
+            const res = await loginForm(test);
             const  data = extractData(res)
             if (data.accessToken) {
                 login(data.accessToken);

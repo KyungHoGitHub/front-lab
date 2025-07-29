@@ -1,0 +1,146 @@
+.notice-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.notice-modal-content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    max-width: 600px; /* CKEditor 크기에 맞게 약간 넓게 */
+    width: 90%;
+    max-height: 80vh; /* 모달 최대 높이: 뷰포트의 80% */
+    overflow-y: auto; /* 세로 스크롤 추가 */
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+.notice-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.notice-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.notice-modal-header span {
+    font-size: 14px;
+    color: #666;
+}
+
+.notice-modal-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+}
+
+.notice-modal-body {
+    padding: 20px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.notice-modal-body small {
+    display: block;
+    margin-top: 10px;
+    color: #999;
+}
+
+.notice-form-group {
+    margin-bottom: 15px;
+}
+
+.notice-form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.notice-form-group input{
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.notice-form-group select {
+    width: auto;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.notice-form-group .ck-editor__editable {
+    max-height: 300px; /* CKEditor 입력 영역 최대 높이 */
+    overflow-y: auto; /* CKEditor 내부 스크롤 추가 */
+}
+
+.modal-footer {
+    display: flex;
+    padding-top: 10px;
+    gap: 10px;
+    text-align: right;
+}
+
+.modal-footer button {
+    padding: 8px 16px;
+    background: none;
+    border: 1px solid #1a73e8;
+    color: #1a73e8;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modal-footer button:hover {
+    background-color: #1a73e8;
+    color: #ffffff;
+}
+
+.ck-content {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.ck-content p {
+    margin: 0 0 10px;
+}
+
+.ck-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

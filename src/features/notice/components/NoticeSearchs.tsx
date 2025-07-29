@@ -1,5 +1,6 @@
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 import'./NoticeSearchs.css';
+import * as FaIcons from "react-icons/fa";
 
 interface NoticeSearchsProps {
     children: ReactNode;
@@ -29,6 +30,11 @@ interface ButtonProps {
     onClick: () => void;
     title: string;
     className?: string;
+}
+
+const dynamicIcon  = (text: string) =>{
+    const IconComponent = FaIcons[text as keyof typeof FaIcons];
+    return IconComponent ? <IconComponent /> : null;
 }
 
 const NoticeSearchs = ({children, className = ""}: NoticeSearchsProps) => {
@@ -62,13 +68,15 @@ const SearchInput = ({value,placeholder = "",onChange,className}:SearchInputProp
 }
 const SearchButton = ({onClick, title,className}: ButtonProps) => {
     return (
-        <button onClick={onClick} className={`search-button ${className}`}>{title}</button>
+        <button onClick={onClick} className={`search-button ${className}`}>
+            <span>{dynamicIcon(title)}</span>
+        </button>
     )
 }
 
 const CreateButton = ({onClick, title,className}: ButtonProps) => {
     return (
-        <button onClick={onClick} className={`create-button ${className}`}>{title}</button>
+        <button onClick={onClick} className={`create-button ${className}`}><span>{dynamicIcon(title)}</span></button>
     )
 }
 

@@ -9,3 +9,4 @@ export const searchNotice = async (searchBy: string, query:string) =>{
     });
     return resourceClient.get(`${NOTICE_ENDPOINT.NOTICE.SEARCH}?${queryString}`);
 }
+

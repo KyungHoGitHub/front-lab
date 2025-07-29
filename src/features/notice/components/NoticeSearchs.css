@@ -2,8 +2,8 @@
 :root {
     --primary-color: #007bff;
     --primary-hover: #0056b3;
-    --success-color: #28a745;
-    --success-hover: #1e7e34;
+    --success-color: rgba(241, 73, 73, 0.78);
+    --success-hover: rgba(241, 57, 57, 0.87);
     --border-radius: 0.5rem;
     --padding-base: 0.75rem;
     --font-size-base: 0.875rem;

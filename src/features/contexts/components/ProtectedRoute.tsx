@@ -41,11 +41,15 @@ const ProtectedRoute = ({allowesRoles}) => {
         checkToken();
     }, []);
 
+    if (!token || typeof token !== "string") {
+        return <Navigate to="/login" replace />;
+    }
+
     const decoded = jwtDecode(token);
 
-    const location = useLocation();
+
     if (!decoded.role || !allowesRoles.includes(decoded.role)) {
-        return <Navigate to="/unauthorized" replace />;
+        return <Navigate to="/login" replace />;
     }
     return <Outlet/>
 }

@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+    "@ckeditor/ckeditor5-react": "^11.0.0",
     "@nivo/bar": "^0.99.0",
     "@nivo/core": "^0.99.0",
     "@react-oauth/google": "^0.12.1",
