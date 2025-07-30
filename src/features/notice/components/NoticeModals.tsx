@@ -32,8 +32,6 @@ const NoticeModals = ({isOpen, onClose}:NoticeModalsProps) =>{
         })
     );
 
-
-
     const handleSubmit = async ()=>{
         setLoading(true);
 
@@ -43,10 +41,10 @@ const NoticeModals = ({isOpen, onClose}:NoticeModalsProps) =>{
             content: content,
         }
         try{
-            const response = await resourceClient.post("editor/image.upload", formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            const response = await resourceClient.post("notice", formData, {
+                // headers: {
+                //     'Content-Type': 'multipart/form-data',
+                // },
             });
 
         }catch (error) {

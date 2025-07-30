@@ -28,3 +28,18 @@ body {
     margin: 20px auto; /* 상하 마진과 좌우 가운데 정렬 */
     gap: 20px; /* 영역 간 간격 */
 }
+
+.notice-content-list figure.table {
+    overflow-x: auto;
+}
+
+.notice-content-list figure.table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.notice-content-list figure.table td,
+.notice-content-list figure.table th {
+    border: 1px solid #ccc;
+    padding: 8px;
+}

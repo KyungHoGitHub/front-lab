@@ -10,3 +10,7 @@ export const searchNotice = async (searchBy: string, query:string) =>{
     return resourceClient.get(`${NOTICE_ENDPOINT.NOTICE.SEARCH}?${queryString}`);
 }
 
+export const getNoticeList =async ()=>{
+    return resourceClient.get(NOTICE_ENDPOINT.NOTICE.LIST);
+}
+

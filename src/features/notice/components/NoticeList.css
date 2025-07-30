@@ -29,9 +29,28 @@
 .notice-category,
 .notice-title,
 .notice-date {
+    margin-left: 15px;
     flex: 1;
     text-align: left;
 }
+.notice-category.RELEASE{
+    flex : 0.1;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-right: 8px;
+    border: 1px solid transparent;
+    background: #f6ffed;
+    border-color: #b7eb8f;
+    color: #52c41a;
+    white-space: nowrap;
+}
+
 .notice-title {
     flex: 2;
 }
@@ -45,9 +64,26 @@
 .notice-content {
     margin-top: 10px;
     padding: 10px;
+
     /*background-color: #f9f9f9;*/
     border-radius: 4px;
 }
+
+.notice-content figure.table {
+    overflow-x: auto;
+}
+
+.notice-content figure.table table {
+    border-collapse: collapse;
+
+}
+
+.notice-content figure.table td,
+.notice-content figure.table th {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
 .notice-card.active {
     /*background-color: #f0f0f0;*/
     /*font-weight: bold;*/

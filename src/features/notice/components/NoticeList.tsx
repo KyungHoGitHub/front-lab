@@ -17,15 +17,16 @@ interface NoticeListProps {
     children?: ReactNode;
     notices?: Notice[];
 }
+
 interface NoticeListHeaderLineProps {
     children?: React.ReactNode;
 }
 
 interface NoticeCardProps {
-    idx : string;
-    category : string;
+    idx: string;
+    category: string;
     title: string;
-    createdAt : string;
+    createdAt: string;
     content: string;
     isActive?: boolean;
     onClick?: (id: string) => void;
@@ -34,22 +35,74 @@ interface NoticeCardProps {
 interface NoticePageFooterProps {
     currentPage: number;
     totalPages: number;
-    onPageChange : (page: number) => void;
+    onPageChange: (page: number) => void;
     children?: ReactNode;
 }
 
-const dynamicIcon  = (text: string) =>{
+const dynamicIcon = (text: string) => {
     const IconComponent = FaIcons[text as keyof typeof FaIcons];
-    return IconComponent ? <IconComponent /> : null;
+    return IconComponent ? <IconComponent/> : null;
 }
 
-const NoticeList = ({className, children,notices=[]}: NoticeListProps) => {
+interface CategoryStyle {
+    label: string;
+    style: React.CSSProperties;
+}
+
+const categoryMap: Record<string, CategoryStyle> = {
+    RELEASE: {
+        label: '릴리스',
+        style: {
+            background: '#f6ffed',
+            border: '1px solid #b7eb8f',
+            color: '#52c41a',
+        },
+    },
+    BASIC: {
+        label: '일반',
+        style: {
+            background: '#e6f4ff',
+            border: '1px solid #91d5ff',
+            color: '#1890ff',
+        },
+    },
+    BUG_FIX: {
+        label: '버그 수정',
+        style: {
+            background: '#fff7e6',
+            border: '1px solid #ffe58f',
+            color: '#faad14',
+        },
+    },
+};
+
+const baseStyle: React.CSSProperties = {
+    display: 'inline-block',
+    padding: '2px 8px',
+    borderRadius: '4px',
+    fontSize: '12px',
+    lineHeight: '20px',
+    marginRight: '8px',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+};
+const formatCategory = (category: string) => {
+    const categoryInfo = categoryMap[category];
+    if (!categoryInfo) return null;
+
+    return (
+        <span style={{...baseStyle, ...categoryInfo.style}}>
+      {categoryInfo.label}
+    </span>
+    );
+};
+const NoticeList = ({className, children, notices = []}: NoticeListProps) => {
     const [activeNoticeId, setActiveNoticeId] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const startIndex = (currentPage -1) * itemsPerPage;
-    const currentNotices = notices.slice(startIndex, startIndex  + itemsPerPage)
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentNotices = notices.slice(startIndex, startIndex + itemsPerPage)
     const totalPages = Math.ceil(notices.length / itemsPerPage);
     return (
         <div className={`notice-list-container ${className}`}>
@@ -124,7 +177,7 @@ const NoticeListHeaderLine = ({children}: NoticeListHeaderLineProps) => {
         </div>
     )
 }
-const NoticeCard = ({ idx, category, title, createdAt, content, isActive, onClick }:NoticeCardProps) => {
+const NoticeCard = ({idx, category, title, createdAt, content, isActive, onClick}: NoticeCardProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = (e: React.MouseEvent) => {
         e.stopPropagation(); // 이벤트 버블링 방지
@@ -133,19 +186,19 @@ const NoticeCard = ({ idx, category, title, createdAt, content, isActive, onClic
     return (
         <div className={`notice-card ${isActive ? 'active' : ''}`} onClick={() => onClick?.(idx)}>
             <div className="notice-card-header">
-                <span className="notice-category">{category}</span>
+                {formatCategory(category)}
                 <span className="notice-title">{title}</span>
                 <button className="notice-toggle" onClick={toggleDropdown}>
-                    {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+                    {isOpen ? <FaChevronUp/> : <FaChevronDown/>}
                 </button>
             </div>
             <span className="notice-date">{createdAt}</span>
-            {isOpen && <div className="notice-content"   dangerouslySetInnerHTML={{ __html: content }}></div>}
+            {isOpen && <div className="notice-content" dangerouslySetInnerHTML={{__html: content}}></div>}
         </div>
     );
 }
 
-const NoticePageFooter = ({ currentPage, totalPages, onPageChange, children }:NoticePageFooterProps) => {
+const NoticePageFooter = ({currentPage, totalPages, onPageChange, children}: NoticePageFooterProps) => {
     const handleFirstPage = () => onPageChange(1);
     const handleLastPage = () => onPageChange(totalPages);
     const handlePageChange = (page: number) => {
@@ -171,7 +224,7 @@ const NoticePageFooter = ({ currentPage, totalPages, onPageChange, children }:No
             {children || (
                 <>
                     <button onClick={handleFirstPage} disabled={currentPage === 1}>
-                        <FaAngleDoubleLeft />
+                        <FaAngleDoubleLeft/>
                     </button>
                     {getPageNumbers().map((page) => (
                         <button
@@ -183,7 +236,7 @@ const NoticePageFooter = ({ currentPage, totalPages, onPageChange, children }:No
                         </button>
                     ))}
                     <button onClick={handleLastPage} disabled={currentPage === totalPages}>
-                        <FaAngleDoubleRight />
+                        <FaAngleDoubleRight/>
                     </button>
                 </>
             )}
@@ -192,4 +245,4 @@ const NoticePageFooter = ({ currentPage, totalPages, onPageChange, children }:No
 };
 
 
-export {NoticeList,NoticeListHeaderLine, NoticeCard,NoticePageFooter };
+export {NoticeList, NoticeListHeaderLine, NoticeCard, NoticePageFooter};

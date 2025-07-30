@@ -1,6 +1,7 @@
 export const NOTICE_ENDPOINT ={
     NOTICE:{
-        SEARCH : 'notice/search'
+        SEARCH : 'notice/search',
+        LIST : 'notice-list'
     }
 }
 export const QUERY_PARAMS = {

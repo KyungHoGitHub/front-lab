@@ -20,6 +20,7 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const {login} = useAuth();
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -87,7 +88,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 <div className="form-group">
                     <label htmlFor="password"></label>
                     <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="password"
                         disabled={loading}
                         {...register("password", {
@@ -95,6 +96,27 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                         })}
                         placeholder="패스워드를 입력하세요"
                     />
+                </div>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
+                    <label
+                        style={{
+                            display: "flex",         // 내부 요소를 수평 정렬
+                            alignItems: "center",
+                            justifyContent: "flex-start" // 라벨 안 요소 왼쪽 정렬
+                        }}
+                    >
+                        <input
+                            type="checkbox"
+                            checked={showPassword}
+                            onChange={(e) => setShowPassword(e.target.checked)}
+                            style={{marginRight: "0px"}}
+                        />
+                        비밀번호 보기
+                    </label>
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
                 <div className="button-container">
