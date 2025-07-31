@@ -1,0 +1,27 @@
+.custom-date-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 200px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.custom-date-input:hover {
+    border-color: #007bff;
+}
+
+.calendar-icon {
+    color: #888;
+    font-size: 16px;
+}
+
+.date-value {
+    font-size: 14px;
+    color: #333;
+}

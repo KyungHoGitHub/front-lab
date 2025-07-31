@@ -64,7 +64,6 @@ const Mypage: React.FC = () => {
             {label: '이메일', value: data.email || '-'},
             {label: '아이디', value: data.userId},
             {label: '이름', value: data.username},
-            {label: '패스워드', value: 'abab'},
         ]
     }
     // const jwtTokenParsedUserIdx = (toekn: string)=>{

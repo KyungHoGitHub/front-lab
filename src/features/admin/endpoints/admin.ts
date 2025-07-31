@@ -1,6 +1,8 @@
 export const ADMIN_ENDPOINTS = {
     USERS: {
-        GET : 'users/list'
+        GET : 'users/list',
+        COUNT : 'users/count',
+        VISITOR_LIST : 'users/visitor'
     }
 }
 

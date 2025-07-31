@@ -21,3 +21,11 @@ export const getUserList = async (searchBy: 'username'| 'userId', query :string)
 export const getUsers = async ()=>{
     return resourceClient.get(ADMIN_ENDPOINTS.USERS.GET);
 }
+
+export const getUserCountList = async  ()=>{
+    return resourceClient.get(ADMIN_ENDPOINTS.USERS.COUNT);
+}
+
+export const getUserVisitList = async () =>{
+    return resourceClient.get(ADMIN_ENDPOINTS.USERS.VISITOR_LIST);
+}

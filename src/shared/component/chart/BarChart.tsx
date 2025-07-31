@@ -4,6 +4,7 @@ import './BarChart.css';
 // 데이터 타입 정의
 interface VisitStatsDto {
     date: string;
+    month?: string;
     count: number;
 }
 
@@ -17,12 +18,12 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
             <ResponsiveBar
                 data={data}
                 keys={['count']} // 바 차트의 값으로 사용할 키
-                indexBy="date" // X축에 사용할 키
+                indexBy="month" // X축에 사용할 키
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.1} // 바 간 간격
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
-                colors={{ scheme: 'nivo' }} // 색상 스킴
+                colors={{ scheme: 'greens' }} // 색상 스킴
                 borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
                 axisTop={null}
                 axisRight={null}
