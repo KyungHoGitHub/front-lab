@@ -22,6 +22,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({form, onSubmit, loading}) =>
     const selectCategoryOptions: SelectOptions[] = [
         {name: '회사', value: 'company'},
         {name: '개인', value: 'personal'},
+        {name: '일정', value: 'event'},
     ]
 
     return (

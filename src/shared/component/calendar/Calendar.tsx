@@ -16,6 +16,7 @@ import {Category} from "../../../features/schedule/api/enum/category.ts";
 
 interface Schedule {
     category: string;
+    title: string;
     content: string;
     startDateTime: string;
     endDateTime: string;
@@ -246,7 +247,7 @@ const Calendar: React.FC<CalendarProps> = ({selectedDate, onDateSelect, data,onM
                     style={{top: `${tooltip.y}px`, left: `${tooltip.x}px`}}
                     onClick={closeTooltip}
                 >
-                    <div className="tooltip-content">{tooltip.schedule.content}</div>
+                    <div className="tooltip-title">{tooltip.schedule.title}</div>
                     <div className="tooltip-time">
                         {format(parseISO(tooltip.schedule.startDateTime), 'HH:mm')} -{' '}
                         {format(parseISO(tooltip.schedule.endDateTime), 'HH:mm')}

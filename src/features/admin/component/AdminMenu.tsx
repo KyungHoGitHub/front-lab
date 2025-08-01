@@ -50,7 +50,7 @@ const AdminMenu: React.FC = () => {
         menuFetch();
     }, []);
 
-    console.log('관리자 왼쪽 메뉴 리스트',menuList)
+
     return (
         <div className="admin-menu-container">
             <ul className="menu-list">

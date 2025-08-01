@@ -1,6 +1,7 @@
 import React, {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router";
 import {jwtDecode} from "jwt-decode";
+import {useUserStore} from "../../../storage/userStore.ts";
 
 interface AuthContextType {
     token: string | null;
@@ -33,6 +34,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) =>{
 
     const logout = () => {
         localStorage.removeItem('accessToken');
+        useUserStore.getState().clearUser();
         setToken(null);
         window.location.href = '/login';
         // navigate('/login');

@@ -140,7 +140,7 @@
     animation: fadeIn 0.2s ease-out;
 }
 
-.tooltip-content {
+.tooltip-title {
     font-size: 14px;
     font-weight: 600;
     color: #333;

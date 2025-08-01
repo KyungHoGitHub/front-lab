@@ -16,7 +16,7 @@ export const useUserPage = () => {
                     ? res.data
                     : [res.data]
                 : [];
-            console.log('------------L>', userData)
+
             setUserList(userData);
 
 

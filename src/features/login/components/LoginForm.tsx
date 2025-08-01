@@ -11,10 +11,22 @@ import {toast} from "react-toastify";
 import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
 import KakaoLoginButton from "./KakaoLoginButton.tsx";
 import {extractData} from "../../../shared/utill/response.ts";
+;
 import dayjs from "dayjs";
+import {useUserStore} from "../../../storage/userStore.ts";
 
 interface LoginFormProps {
     title: string,
+}
+
+const parseJwt = (token:string) => {
+    try{
+        const base64Payload = token.split('.')[1];
+        const playload = atob(base64Payload);
+        return JSON.parse(playload)
+    }catch (e){
+        return null;
+    }
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({title}) => {
@@ -23,6 +35,8 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>("");
+
+    const setUser = useUserStore((state)=> state.setUser);
 
     const {
         register,
@@ -45,9 +59,18 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 ...formData,
                 loginType: "ID_PASSWORD"
             }
-            console.log('test', test);
+
             const res = await loginForm(test);
             const  data = extractData(res)
+            const payload = parseJwt(data.accessToken);
+            const userData = {
+                userId: payload.userId,
+                username : payload.sub,
+                role: payload.role,
+            }
+
+            setUser(userData);
+
             if (data.accessToken) {
                 login(data.accessToken);
                 navigate("/home");

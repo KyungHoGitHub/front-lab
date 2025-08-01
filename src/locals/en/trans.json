@@ -1,13 +1,10 @@
 {
   "header": {
     "title": "Oops",
-    "menu1": "Usage Status",
-    "menu2": "User Info",
-    "menu3": "Status Info",
-    "menu4": "Work Space",
-    "menu5": "Schedule",
-    "menu6": "Notification",
-    "menu7" : "Setting"
+    "menu-workspace": "Work Space",
+    "menu-schedule": "Schedule",
+    "menu-notice": "Notification",
+    "menu-admin" : "Setting"
   },
   "userInfo": {
     "user_settings":  "User Settings",

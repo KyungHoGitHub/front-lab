@@ -11,7 +11,6 @@ const UserManagement:React.FC = ()=>{
     const context = useOutletContext<LeftSidebarContextType | undefined>();
 
     useEffect(() => {
-        console.log("Context in UserManagement:", context);
         if (context?.setLeftSidebarContent) {
 
             context.setLeftSidebarContent(<AdminMenu/>);

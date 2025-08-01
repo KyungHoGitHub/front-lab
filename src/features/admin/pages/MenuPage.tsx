@@ -186,7 +186,7 @@ const MenuPage:React.FC =()=>{
             };
         });
 
-    console.log('qteqfdascads',transformMenuData(transformMenu(menuList)));
+
     const tabs: TabData[] = [
         { id: 'menu-list', label: '메뉴 목록', content: <MenuTable menus={transformMenuData(transformMenu(menuList))}/> },
         { id: 'menu-insert', label: '메뉴 등록', content:  '준비중'},

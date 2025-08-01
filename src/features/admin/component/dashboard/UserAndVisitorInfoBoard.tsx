@@ -14,7 +14,7 @@ const UserAndVisitorInfoBoard:React.FC =() =>{
             try {
                 const res = await getUserCountList();
                     setData(res.data.data);
-                    console.log(res.data.data)
+
             }catch (error){
                 console.log(error);
             }finally {

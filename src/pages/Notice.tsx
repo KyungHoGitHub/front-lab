@@ -60,7 +60,7 @@ const Notice = () => {
             try {
                 const res = await getNoticeList();
                 setData(res.data);
-                console.log(res.data)
+
             }catch (error){
                 console.log(error)
             }

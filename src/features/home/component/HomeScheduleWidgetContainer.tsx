@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import scheduleCalendarImg from '@assets/schedule-calendar.gif';
 import './HomeScheduleWidgetContainer.css'
 import ScheduleCardContainer from "../../schedule/components/ScheduleCardContainer.tsx";
 import Calendar from "../../../shared/component/calendar/Calendar.tsx";
+import useScheduleCalendar from "../../schedule/hooks/useScheduleCalendar.ts";
 
 const mockData = [
     {
@@ -45,6 +46,15 @@ const mockData = [
 ];
 
 const HomeScheduleWidgetContainer:React.FC =()=>{
+    const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth() + 1);
+    const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+
+    const {currentMonthSchedules, getCurrentMonthSchedules, loading} = useScheduleCalendar();
+
+    useEffect(() => {
+        getCurrentMonthSchedules(String(currentYear), String(currentMonth));
+    }, [currentYear, currentMonth]);
+
 
     return(
         <div className="schedule-widget-container">
@@ -55,7 +65,11 @@ const HomeScheduleWidgetContainer:React.FC =()=>{
             </div>
             <div className="schedule-widget-container-main">
                 <div className="calendar-container">
-                    <Calendar data={mockData}/>
+                    <Calendar data={currentMonthSchedules}
+                              onMonthChange={(year, month) => {
+                                  setCurrentYear(year);
+                                  setCurrentMonth(month);
+                              }}/>
                 </div>
                 {/*<div className="vertical-line"></div>*/}
 

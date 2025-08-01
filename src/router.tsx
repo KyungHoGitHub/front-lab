@@ -54,21 +54,6 @@ export const router = createBrowserRouter([
                         element: <Home/>,
                     },
                     {
-                        index: true,
-                        path: 'usage',
-                        element: <Usage/>,
-                    },
-                    {
-                        index: true,
-                        path: 'user-info',
-                        element: <Usage/>,
-                    },
-                    {
-                        index: true,
-                        path: 'statistics-page',
-                        element: <Statistics/>,
-                    },
-                    {
                         path: 'workspace',
                         element: <Workspace/>,
                         children: [

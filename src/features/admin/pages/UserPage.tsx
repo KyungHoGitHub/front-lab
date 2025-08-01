@@ -49,7 +49,7 @@ const UserPage: React.FC = () => {
         const fetchUserList = async () => {
             try {
                 const res = await getUsers();
-                console.log('res.data----------------<>',res.data);
+
                 setUserList(res.data);
             } catch (error) {
                 console.log(error)

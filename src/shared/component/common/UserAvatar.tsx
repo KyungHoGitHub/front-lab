@@ -3,6 +3,8 @@ import {useNavigate} from "react-router";
 import './UserAvatar.css';
 import {useAuth} from "../../../features/contexts/components/AuthProvider.tsx";
 import {getUserInfo} from "../../api/user.ts";
+import {jwtDecode} from "jwt-decode";
+import {useUserStore} from "../../../storage/userStore.ts";
 interface UserInfo {
     name: string;
     img: string;
@@ -30,7 +32,7 @@ interface UserData {
 const UserAvatar: React.FC<UserAvatarProps> = ({ dropdownItem}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [usersData, setUsersData] = useState<UserData|null>(null);
-
+    const user = useUserStore((state) => state.user);
     const {logout} = useAuth();
     const navigate = useNavigate();
 
@@ -48,9 +50,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ dropdownItem}) => {
         setIsOpen(false);
     }
 
-
    useEffect(() => {
-
        const fetchUser = async ()=>{
            try {
                const response = await getUserInfo();
@@ -85,7 +85,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ dropdownItem}) => {
                 role="button"
             >
                 <img src={usersData?.imageUrl} alt="alt"/>
-                <span>{usersData?.id}</span>
+                <span>{user?.userId}</span>
             </div>
             {
                 isOpen && (

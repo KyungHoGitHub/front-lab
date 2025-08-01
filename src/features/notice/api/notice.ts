@@ -1,4 +1,4 @@
-import {buildQueryString} from "../../workspace/api/utils.ts";
+import {buildQueryString} from "../../../shared/utill/url/queryString.ts";
 import resourceClient from "../../../shared/api/resourceClient.ts";
 import {NOTICE_ENDPOINT, QUERY_PARAMS} from "../endpoints/noticeEndpoints.ts";
 

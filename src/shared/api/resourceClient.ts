@@ -1,13 +1,12 @@
 import axios from "axios";
 import config from "../../config.ts";
 import {HttpStatus} from "./httpStatus.ts";
+import {Http} from "../utill/constants/http.ts";
 
 // 리소스애 대한 http 요청 구성
 const resourceClient = axios.create({
     baseURL: config.resourceServer,
-    headers: {
-        "Content-Type": "application/json",
-    },
+    headers: Http.CONTENT_TYPE.APPLICATION_JSON,
     responseType: 'json',
 });
 

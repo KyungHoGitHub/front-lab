@@ -61,15 +61,13 @@ const HomeMenuContainer: React.FC = () => {
         {icon: mypageImg, title: "Mypage", menuName: "마이페이지", path: "mypage"},
         {icon: settingImg, title: "Setting", menuName: "설정", path: "admin"},
     ];
-    console.log('menu list',menuItemList)
+
     const getMenuByRole = (role:string, fullMenusList: MenuItemList[]):MenuItemList[] =>{
-        console.log('role',role)
-        console.log('full list',fullMenusList)
         const excluded = excludedMenusByRole[role] || [];
         return fullMenusList.filter(menu=> !excluded.includes(menu.title));
     }
     const decodeToken = jwtDecode(token);
-    console.log(getMenuByRole(decodeToken.role, menuItemList));
+
     return (
         <div className="home-menu-container">
             <div className="home-menu-header">

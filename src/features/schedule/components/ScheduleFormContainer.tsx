@@ -11,11 +11,24 @@ interface ScheduleRequestDto {
     startTime: string;
     endDate: string;
     endTime: string;
+    title: string;
     content: string;
     color: string;
 }
 
-const ScheduleFormContainer: React.FC = () => {
+interface Schedules {
+    idx: number;
+    category: string;
+    content: string;
+    startDateTime: string;
+    endDateTime: string;
+}
+
+interface ScheduleFormContainerProps {
+    onDataUpdate: (newData: Schedules) => void;
+}
+
+const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
     const {loading, scheduleSubmit} = useScheduleForm();
 
     // 스케줄 폼 속성값
@@ -26,6 +39,7 @@ const ScheduleFormContainer: React.FC = () => {
             startTime: '',
             endDate: '',
             endTime: '',
+            title: '',
             content: '',
             color: '',
         },
@@ -35,14 +49,20 @@ const ScheduleFormContainer: React.FC = () => {
 
     const onSubmit = async (data: ScheduleRequestDto) => {
         try {
-            const serverData ={
+            const serverData = {
                 category: data.category,
-                startDateTime : `${data.startDate}T${data.startTime || '00:00'}:00`,
+                startDateTime: `${data.startDate}T${data.startTime || '00:00'}:00`,
                 endDateTime: `${data.endDate}T${data.endTime || '00:00'}:00`,
+                title: data.title,
                 content: data.content,
             }
 
-            await scheduleSubmit(serverData);
+            const res = await scheduleSubmit(serverData);
+
+            if (res) {
+                onDataUpdate(res);
+            }
+
             // form.reset();
         } catch (error) {
             console.error('Failed to create schedule:', error);

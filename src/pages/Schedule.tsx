@@ -14,16 +14,28 @@ type SidebarContextType = {
     setLeftSidebarContent: (content: React.ReactNode) => void;
 }
 
+interface Schedules {
+    idx: number;
+    category: string;
+    content: string;
+    startDateTime: string;
+    endDateTime: string;
+}
+
 const Schedule: React.FC = () => {
     const context = useOutletContext<SidebarContextType | undefined>();
     const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth() + 1);
     const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+    const [data, setData] = useState<Schedules | null>(null);
 
+    const handleDataUpdate = (newData:Schedules) => {
+        setData(newData);
+    };
     const {currentMonthSchedules, getCurrentMonthSchedules, loading} = useScheduleCalendar();
 
     useEffect(() => {
         getCurrentMonthSchedules(String(currentYear), String(currentMonth));
-    }, [currentYear, currentMonth]);
+    }, [currentYear, currentMonth,data]);
 
     useEffect(() => {
         if (context?.setRightSidebarContent) {
@@ -33,7 +45,7 @@ const Schedule: React.FC = () => {
         if (context?.setLeftSidebarContent) {
             context?.setLeftSidebarContent(
                 loading ? <div> 로딩중~~</div> : (
-                    <Calendar data={currentMonthSchedules}
+                    <Calendar data={data || currentMonthSchedules}
                               onMonthChange={(year, month) => {
                                   setCurrentYear(year);
                                   setCurrentMonth(month);
@@ -49,7 +61,7 @@ const Schedule: React.FC = () => {
     return (
         <main className="schedule-page-main">
             <ImageBlock src={scheduleImg} width="200px" height="200px"/>
-            <ScheduleFormContainer/>
+            <ScheduleFormContainer  onDataUpdate={handleDataUpdate}/>
             <Outlet/>
         </main>
     )

@@ -60,7 +60,7 @@ const Editor:React.FC = ({data, setData}:EditorProps)=>{
 
                     const data = editor.getData();
                     setData(data);
-                    console.log('변경되는 데이터 확인',{event, editor, data});
+
                 }}
                 onBlur={(event, editor) => {
                     console.log('Blur.', editor);

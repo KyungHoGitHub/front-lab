@@ -75,7 +75,7 @@ const Mypage: React.FC = () => {
         const fetchMypage = async () => {
             try {
                 const decoded = jwtDecode<JwtPayload>(token);
-                console.log('decoded',decoded);
+
                 const response = await getUserInfo();
                 const data =  extractData(response);
                 const test = {
@@ -92,7 +92,7 @@ const Mypage: React.FC = () => {
         }
         fetchMypage();
     }, []);
-    console.log('data 확인 ----->', userData);
+
 
     return (
         <>

@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import LanguageSelectorButton from "../../common/LanguageSelectorButton.tsx";
 import logoImg from '@assets/mainLogo.png';
 import {useAuth} from "../../../../features/contexts/components/AuthProvider.tsx";
+import {useUserStore} from "../../../../storage/userStore.ts";
 
 
 // BasicHeader 프로젝트의 기본으로 사용되는 헤더 영역 컴포넌트
@@ -24,19 +25,17 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
     // nav 열림 닫힘
     const [isNavOpen, setIsNavOpen] = useState(false);
 
+
     const getMenuItems = () => {
         const commonMenuItems = [
-            {menuName: t('header.menu1'), path: '/usage'},
-            {menuName: t('header.menu2'), path: '/user-info'},
-            {menuName: t('header.menu3'), path: '/statistics-page'},
-            {menuName: t('header.menu4'), path: '/workspace'},
-            {menuName: t('header.menu5'), path: '/schedule'},
-            {menuName: t('header.menu6'), path: '/notice'},
+            {menuName: t('header.menu-workspace'), path: '/workspace'},
+            {menuName: t('header.menu-schedule'), path: '/schedule'},
+            {menuName: t('header.menu-notice'), path: '/notice'},
         ];
 
         // admin 전용 메뉴
         const adminMenuItem = [
-            {menuName: t('header.menu7'), path: '/admin'},
+            {menuName: t('header.menu-admin'), path: '/admin'},
         ]
 
         if (user?.role === 'admin') {
@@ -78,15 +77,12 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
                         <Menu menuItems={menuItems}/>
                     </nav>
                 </div>
-
                 <LanguageSelectorButton dropdownItem={languageItem}/>
-
                 <ToggleButton
                     setIsOpen={setIsNavOpen}
                     classElement="nav-toggle"
                     isOpen={isNavOpen}
                 />
-
                 <UserAvatar title="" dropdownItem={dropdownItems}/>
             </div>
         </header>
