@@ -49,7 +49,7 @@ const Calendar: React.FC<CalendarProps> = ({selectedDate, onDateSelect, data,onM
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-
+    console.log(data)
     // 연도 목록 생성 (2020~2030)
     const years = Array.from({length: 11}, (_, i) => 2020 + i);
     // 월 목록 생성 (1~12)
@@ -249,6 +249,7 @@ const Calendar: React.FC<CalendarProps> = ({selectedDate, onDateSelect, data,onM
                 >
                     <div className="tooltip-title">{tooltip.schedule.title}</div>
                     <div className="tooltip-time">
+                        일시 :
                         {format(parseISO(tooltip.schedule.startDateTime), 'HH:mm')} -{' '}
                         {format(parseISO(tooltip.schedule.endDateTime), 'HH:mm')}
                     </div>

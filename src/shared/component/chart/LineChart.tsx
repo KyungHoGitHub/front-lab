@@ -1,7 +1,20 @@
 import {ResponsiveLine} from "@nivo/line";
+import React from "react";
 
-const LineChart = () => {
-   const  data= [
+const LineChart:React.FC = ({data}) => {
+
+    const transformed = [
+        {
+            id: '방문자',
+            data: data.map(item => ({
+                x: `${item.month}월`,
+                y: item.totalVisitors,
+            })),
+        }
+    ];
+
+    console.log('ddddd',transformed)
+   const  dataa= [
 
 
                 {
@@ -29,7 +42,7 @@ const LineChart = () => {
     return (
         <div style={{height: 400}}>
             <ResponsiveLine
-                data={data}
+                data={transformed}
                 margin={{top: 50, right: 110, bottom: 50, left: 60}}
                 xScale={{type: 'point'}}
                 yScale={{

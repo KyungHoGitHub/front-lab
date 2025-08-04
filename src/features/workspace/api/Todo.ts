@@ -29,7 +29,7 @@ export const getTodoById = async (idx: number)=>{
 }
 
 export const updateTodo = async (idx: number, data :any)=>{
-    return resourceClient.post(`${WORKSPACE_ENDPOINTS.TODOS.PUT}/${idx}`,data);
+    return resourceClient.post(WORKSPACE_ENDPOINTS.TODOS.PUT(idx),data);
 }
 export const updateTodoIsDelete = async (idx: number) =>{
     return resourceClient.put(WORKSPACE_ENDPOINTS.TODOS.DETAIL(idx));

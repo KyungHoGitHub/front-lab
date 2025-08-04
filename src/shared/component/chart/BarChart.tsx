@@ -5,7 +5,7 @@ import './BarChart.css';
 interface VisitStatsDto {
     date: string;
     month?: string;
-    count: number;
+    totalVisitors: number;
 }
 
 interface BarChartProps {
@@ -17,7 +17,7 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
         <div className="chart-container">
             <ResponsiveBar
                 data={data}
-                keys={['count']} // 바 차트의 값으로 사용할 키
+                keys={['totalVisitors']} // 바 차트의 값으로 사용할 키
                 indexBy="month" // X축에 사용할 키
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.1} // 바 간 간격
@@ -34,11 +34,11 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
                     legend: '일자',
                     legendPosition: 'middle',
                     legendOffset: 32,
-                    format: (value: string) => {
-                        // "2025-07-01" -> "1일"
-                        const day = value.split('-')[2];
-                        return `${parseInt(day)}`;
-                    },
+                    // format: (value: string) => {
+                    //     // "2025-07-01" -> "1일"
+                    //     const day = value.split('-')[2];
+                    //     return `${parseInt(day)}`;
+                    // },
                 }}
                 axisLeft={{
                     tickSize: 5,

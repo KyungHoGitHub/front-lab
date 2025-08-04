@@ -1,17 +1,15 @@
-
-import { useState} from "react";
+import {useState} from "react";
 
 export const useAdminMenu = () => {
-    const [openDropdown, setOpenDropdown] = useState<number |null>(null);
+    const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
 
     const toggleDropdown = (key: number) => {
 
 
-        setOpenDropdown(openDropdown === key ? null : key );
+        setOpenDropdown(openDropdown === key ? null : key);
 
     };
-
 
 
     return {openDropdown, toggleDropdown}

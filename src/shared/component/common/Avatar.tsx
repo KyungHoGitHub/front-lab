@@ -6,10 +6,10 @@ import {postUserProfile} from "../../../features/mypage/api/Mypage.ts";
 interface AvatarProps {
     size?: number;
     src?: string;
-    onFileChange?: (file: File) => void;
+    onProfileChange?: (file: File) => void;
 }
 
-const Avatar: React.FC<AvatarProps> = ({size, src, onFileChange}) => {
+const Avatar: React.FC<AvatarProps> = ({size, src, onProfileChange}) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleButtonClick = () => {
@@ -17,19 +17,20 @@ const Avatar: React.FC<AvatarProps> = ({size, src, onFileChange}) => {
         fileInputRef.current?.click();
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
-        onFileChange?.(file); // 부모 컴포넌트의 콜백 호출
+        onProfileChange?.(file); // 부모 컴포넌트의 콜백 호출
     };
+
     return (
         <div className="avatar-container">
             <img className="avatar-image" src={src} style={{width: size, height: size}}/>
             <input
                 type="file"
                 className="avatar-upload-input"
-                onChange={handleFileChange}
+                onChange={onChangeFile}
                 ref={fileInputRef}
                 style={{ display: 'none' }} // input 태그 숨김
             />

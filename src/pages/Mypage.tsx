@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import './Mypage.css';
 import Card from "../shared/component/common/Card.tsx";
 import Avatar from "../shared/component/common/Avatar.tsx";
 import Description from "../shared/component/common/Description.tsx";
 import {useNavigate} from "react-router";
-import {postUserProfile} from "../features/mypage/api/Mypage.ts";
+import {postUserProfile, uploadProfile} from "../features/mypage/api/Mypage.ts";
 import {getUserInfo} from "../shared/api/user.ts";
 import {UserMeResponse} from "../features/mypage/type/mypage.ts";
 import {useAuth} from "../features/contexts/components/AuthProvider.tsx";
@@ -19,73 +19,59 @@ interface JwtPayload {
     userId : string;
 }
 
+// Description UI props item interface
 interface UserInfoItem {
     label : string;
     value : string;
 }
+
 const Mypage: React.FC = () => {
+    const [loading, setLoading] = useState<boolean>(false);
     const [avartarSrc, setAvartarSrc] = useState('');
     const [userData, setUserData] = useState<UserMeResponse | null>(null);
     const [companyInfo, setCompanyInfo] = useState<UserInfoItem[]>([]);
     const {token} = useAuth();
 
-
-
-    // const userInfo = Object.entries(userData)
-    //     .filter(([key]) => key === "id" || key === "username")
-    //     .map(([key, value]) => ({
-    //         label: key === "id" ? "ID" : "이름",
-    //         // value: value.toString(),
-    //     }));
-
-
-    // const companyInfo: { label: string; value: string }[] = [
-    //     {label: '이메일', value: 'ykh12@dgtpharm.com'},
-    //     {label: '아이디', value: 'abab'},
-    //     {label: '이름', value: '오렌지'},
-    //     {label: '패스워드', value: 'abab'},
-    // ];
-
-    const handleFileChange = async (file: File) => {
+    const onProfileChange = async (file: File) => {
         const formData = new FormData();
         formData.append('file', file);
+
         try {
-            const res = await postUserProfile(formData);
+            const res = await uploadProfile(formData);
             // 여기 나중에 서버에서 전달주는 객체로 이름 변경해야할듯
-            console.log(res.data);
+
             setAvartarSrc(res.data.imageUrl);
         } catch (q) {
             console.log(q);
         }
     }
 
-    const fomatUserInfo = (data : UserMeResponse): UserInfoItem[] =>{
+    const formatUserInfo = (data : UserMeResponse): UserInfoItem[] =>{
         return [
             {label: '이메일', value: data.email || '-'},
             {label: '아이디', value: data.userId},
             {label: '이름', value: data.username},
         ]
     }
-    // const jwtTokenParsedUserIdx = (toekn: string)=>{
-    //     const decodedJwt = jwtDecode(token);
-    //     const userIdx = decodedJwt.
-    // }
+
 
     useEffect(() => {
         const fetchMypage = async () => {
             try {
+
                 const decoded = jwtDecode<JwtPayload>(token);
 
                 const response = await getUserInfo();
                 const data =  extractData(response);
                 const test = {
-                    email: "", idx: 0,
+                    email: "",
+                    idx: 0,
                     imageUrl: data.imageUrl,
                     username : decoded.sub,
                     userId : decoded.userId
                 }
                 setUserData(test);
-                setCompanyInfo(fomatUserInfo(test));
+                setCompanyInfo(formatUserInfo(test));
             } catch (error) {
                 console.log(error);
             }
@@ -101,7 +87,7 @@ const Mypage: React.FC = () => {
                 <Card title={"기본정보"}>
                     <div style={{marginLeft: "100px"}}>
                         {userData?.imageUrl &&
-                            <Avatar size={100} src={userData.imageUrl} onFileChange={handleFileChange}></Avatar>
+                            <Avatar size={100} src={userData.imageUrl} onProfileChange={onProfileChange}></Avatar>
                         }
                     </div>
                     <div style={{marginLeft: "400px"}}>

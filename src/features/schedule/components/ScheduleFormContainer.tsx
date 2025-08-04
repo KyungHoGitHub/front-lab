@@ -29,7 +29,7 @@ interface ScheduleFormContainerProps {
 }
 
 const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
-    const {loading, scheduleSubmit} = useScheduleForm();
+    const {loading, submitScheduleForm} = useScheduleForm();
 
     // 스케줄 폼 속성값
     const form = useForm<ScheduleRequestDto>({
@@ -47,7 +47,7 @@ const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
         reValidateMode: 'onChange',
     })
 
-    const onSubmit = async (data: ScheduleRequestDto) => {
+    const handleSubmitSchedule = async (data: ScheduleRequestDto) => {
         try {
             const serverData = {
                 category: data.category,
@@ -57,7 +57,7 @@ const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
                 content: data.content,
             }
 
-            const res = await scheduleSubmit(serverData);
+            const res = await submitScheduleForm(serverData);
 
             if (res) {
                 onDataUpdate(res);
@@ -73,7 +73,7 @@ const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
 
     return (
         <div className="schedule-form-container">
-            <ScheduleForm form={form} onSubmit={onSubmit} loaidng={loading}/>
+            <ScheduleForm form={form} onSubmit={handleSubmitSchedule} loaidng={loading}/>
         </div>
     )
 

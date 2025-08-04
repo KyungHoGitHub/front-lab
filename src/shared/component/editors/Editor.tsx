@@ -4,6 +4,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import './Editor.css';
 import axios from "axios";
 import resourceClient from "../../api/resourceClient.ts";
+import {Http} from "../../utill/constants/http.ts";
 
 interface EditorProps {
     data : string;
@@ -21,9 +22,7 @@ const Editor:React.FC = ({data, setData}:EditorProps)=>{
 
                 try {
                     const response = await resourceClient.post("editor/image-upload", formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
+                        headers: Http.CONTENT_TYPE.MULTIPART_FORM,
                     });
 
                     // 응답은 { url: 'https://...' } 형식이어야 함

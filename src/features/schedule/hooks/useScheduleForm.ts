@@ -14,7 +14,7 @@ interface ScheduleRequestDto{
 const useScheduleForm=()=>{
      const [loading, setLoading]  = useState<boolean>(false);
 
-    const scheduleSubmit = async (data:ScheduleRequestDto)=>{
+    const submitScheduleForm = async (data:ScheduleRequestDto)=>{
         setLoading(true);
         try{
             const res = await createSchedule(data);
@@ -28,6 +28,6 @@ const useScheduleForm=()=>{
             setLoading(false);
         }
     }
-    return {loading, scheduleSubmit};
+    return {loading, submitScheduleForm};
 }
 export default useScheduleForm;

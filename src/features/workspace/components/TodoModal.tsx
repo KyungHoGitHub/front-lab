@@ -9,6 +9,7 @@ interface TodoModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (todo: { title: string; description: string }) => void;
+    onDataUpdate : () => void;
 }
 
 // require -> file 입력 필드 추가로
@@ -17,7 +18,7 @@ export interface ExtendedTodoFormData extends TodoFormData {
     file?: File | null;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({isOpen, onClose}) => {
+const TodoModal: React.FC<TodoModalProps> = ({isOpen, onClose,onDataUpdate}) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -52,7 +53,8 @@ const TodoModal: React.FC<TodoModalProps> = ({isOpen, onClose}) => {
             if (data.file) {
                 formData.append('file', data.file);
             }
-            await todoModalSubmit(formData);
+            const res = await todoModalSubmit(formData);
+            onDataUpdate(res.data);
             reset();
             onClose();
         } catch (e) {

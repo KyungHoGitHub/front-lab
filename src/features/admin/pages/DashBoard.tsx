@@ -13,7 +13,7 @@ import {getUserVisitList} from "../api/admin.ts";
 
 const DashBoard = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
     const [startDate, setStartDate] = useState<Date | null>(new Date());
     const monthlyApiCallData = [
         {month: "1", count: 1200},
@@ -30,25 +30,27 @@ const DashBoard = () => {
         {month: "12", count: 1920}
     ];
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //        setLoading(true);
-    //         try {
-    //             const result = await getUserVisitList();
-    //                 setData(result.data.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         } finally {
-    //             setLoading(false;)
-    //         }
-    //
-    //     }
-    // }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+           setLoading(true);
+            try {
+                const result = await getUserVisitList();
+                    setData(result.data.data);
+
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
+    console.log('서버에서의 응답',data)
     return (
         <div className="dashboard-container">
             <div className="dashboard-first-layer">
                 <UserAndVisitorInfoBoard/>
-                <LineChart/>
+                <LineChart data={data}/>
                 <Divider/>
             </div>
             <div className="dashboard-second-layer">
@@ -63,7 +65,7 @@ const DashBoard = () => {
                         <p>test</p>
                     </Card>
                 </div>
-                <BarChart data={monthlyApiCallData}/>
+                {/*<BarChart data={[]}/>*/}
             </div>
         </div>
     )

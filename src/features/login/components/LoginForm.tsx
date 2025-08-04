@@ -6,7 +6,7 @@ import {GoogleOAuthProvider} from "@react-oauth/google";
 import OathLoginButton from "./OathLoginButton.tsx";
 import {loginForm} from "../api/login.ts";
 import {useAuth} from "../../contexts/components/AuthProvider.tsx";
-import {LoginFormData} from "../types/login.ts";
+import {LoginFormData, LoginFormExtendData} from "../types/login.ts";
 import {toast} from "react-toastify";
 import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
 import KakaoLoginButton from "./KakaoLoginButton.tsx";
@@ -14,6 +14,7 @@ import {extractData} from "../../../shared/utill/response.ts";
 ;
 import dayjs from "dayjs";
 import {useUserStore} from "../../../storage/userStore.ts";
+import {LoginTypes} from "../enums/loginTypes.ts";
 
 interface LoginFormProps {
     title: string,
@@ -51,13 +52,13 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
         reValidateMode: "onChange",
     })
 
-    const submit = async (formData: LoginFormData) => {
+    const handleLogin = async (formData: LoginFormData) => {
         setLoading(true);
         try {
 
-            const test = {
+            const test:LoginFormExtendData = {
                 ...formData,
-                loginType: "ID_PASSWORD"
+                loginType: LoginTypes.ID_PASSWORD,
             }
 
             const res = await loginForm(test);
@@ -93,7 +94,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
             <div className="login-form-sub">
                 추가적인 설명이 필요 할때
             </div>
-            <form className="login-form" onSubmit={handleSubmit(submit)}>
+            <form className="login-form" onSubmit={handleSubmit(handleLogin)}>
                 <div className="form-group">
                     <label htmlFor="userId"></label>
                     <input

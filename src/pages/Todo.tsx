@@ -22,6 +22,11 @@ const Todo: React.FC = () => {
     const location = useLocation();
     const isDetailPage = location.pathname.includes('detail');
 
+    const [data, setData] = useState(null);
+    const handleDataUpdate = (newData) =>{
+        setData(newData);
+    };
+
     // 검색 핸들러
     const handleSearch = async (searchBy: 'title' | 'description', searchTerm: string) => {
         try {
@@ -118,7 +123,7 @@ const Todo: React.FC = () => {
             }
         };
         fetchTodo();
-    }, [location]);
+    }, [location,data]);
 
 
     return (
@@ -135,6 +140,7 @@ const Todo: React.FC = () => {
                     <TodoModal
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
+                        onDataUpdate={handleDataUpdate}
                         // onSubmit={handleAddTodo}
                     />
                     <Table columns={activityColumns} dataSource={todos}/>

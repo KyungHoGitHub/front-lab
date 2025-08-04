@@ -130,7 +130,7 @@ const Usage: React.FC = () => {
                 <Statistic title="총 사용자" value="1200" prefix={<FcConferenceCall/>} suffix="명"/>
 
             </div>
-            <BarChart data={data}/>
+            {/*<BarChart data={data}/>*/}
             <CustomLineChart
                 data={monthlyUsageData}
                 width={700}

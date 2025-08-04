@@ -7,7 +7,7 @@ import memoImg from '@assets/memo.png';
 import scheduleImg from '@assets/schedule.png';
 import mypageImg from '@assets/mypage.png';
 import settingImg from '@assets/setting.gif';
-import {excludedMenusByRole, MenuList} from "../enum/homeMenu.ts";
+import {excludedMenusByRole} from "../enum/homeMenu.ts";
 import {useAuth} from "../../contexts/components/AuthProvider.tsx";
 import {jwtDecode} from "jwt-decode";
 
