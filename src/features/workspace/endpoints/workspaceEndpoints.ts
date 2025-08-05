@@ -4,8 +4,8 @@ export const WORKSPACE_ENDPOINTS = {
         GET: 'todo',
         SEARCH: 'todo/search',
         DETAIL : (idx:number) => `todo/detail/${idx}`,
-        // PUT: 'todo/detail',
-        PUT : (idx: number) => ` todo/detail/${idx}`
+
+        PUT : (idx: number) => `todo/detail/${idx}`
     },
     CHAT:{
         GET :{

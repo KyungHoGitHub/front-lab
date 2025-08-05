@@ -1,4 +1,4 @@
-```css
+
 /* src/features/workspace/components/TodoDetail.css */
 
 /* 컨테이너: 중앙 정렬, 패딩 */
@@ -6,8 +6,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f8fafc;
+    /*min-height: 100vh;*/
+    /*background-color: #f8fafc;*/
     padding: 20px;
 }
 
@@ -117,6 +117,7 @@
     align-items: flex-start;
     margin-bottom: 16px;
     white-space: pre-line;
+
 }
 
 .todo-detail-label {
@@ -335,6 +336,53 @@
 .todo-save:hover {
     background-color: #2563eb;
     border-color: #2563eb;
+}
+
+.download-button {
+    margin-left: 10px;
+    width: 130px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background-color: rgba(47, 166, 42, 0.75);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.download-button:hover {
+    background-color: #0056b3;
+}
+
+.download-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.download-button::before {
+    content: "📥"; /* 다운로드 아이콘 */
+    font-size: 16px;
+}
+
+/* 로딩 상태 스타일 */
+.download-button--loading {
+    background-color: #6c757d;
+    cursor: wait;
+}
+
+.download-button--loading::before {
+    content: "⏳";
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 @media (max-width: 1180px) {

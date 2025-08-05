@@ -9,6 +9,7 @@ const WorkspaceMenu: React.FC = () => {
         {name: t('work_space.left_menu.todo'), path: 'todo', icon: <FaTasks/>},
         {name: t('work_space.left_menu.chat'), path: 'chat', icon: <FaComments/>},
         {name: t('work_space.left_menu.memo'), path: 'memo', icon: <FaStickyNote/>},
+        {name: "간트차트", path: 'gant', icon: <FaStickyNote/>},
     ];
 
     return (

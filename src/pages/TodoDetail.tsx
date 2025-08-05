@@ -5,6 +5,7 @@ import {Todo} from "../features/workspace/type/TodoFormData.ts";
 import {getTodoById, updateTodo, updateTodoIsDelete} from "../features/workspace/api/Todo.ts";
 import {FiEdit, FiTrash2} from "react-icons/fi";
 import {useTranslation} from "react-i18next";
+import axios from "axios";
 
 const TodoDetail: React.FC = () => {
     const {idx} = useParams<{ idx: string }>();
@@ -16,7 +17,57 @@ const TodoDetail: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [downloadingFileId, setDownloadingFileId] = useState<number | null>(null);
 
+    const handleDownload = async (fileMetaData: { idx: number; title: string }) => {
+        setDownloadingFileId(fileMetaData.idx); // 로딩 시작
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/uploads/files/${fileMetaData.idx}/download`,
+                {
+                    responseType: 'blob',
+                    timeout: 30000, // 30초 타임아웃
+                }
+            );
+
+            // Content-Type 확인 (선택적)
+            const contentType = response.headers['content-type'];
+
+            const url = window.URL.createObjectURL(
+                new Blob([response.data], { type: contentType })
+            );
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileMetaData.title);
+            link.style.display = 'none'; // 숨김 처리
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // appendChild와 일치하게 수정
+
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error('파일 다운로드 실패:', error);
+
+            // 에러 타입별 메시지
+            if (axios.isAxiosError(error)) {
+                if (error.code === 'ECONNABORTED') {
+                    alert('다운로드 시간이 초과되었습니다. 다시 시도해주세요.');
+                } else if (error.response?.status === 404) {
+                    alert('파일을 찾을 수 없습니다.');
+                } else {
+                    alert('파일 다운로드에 실패했습니다.');
+                }
+            } else {
+                alert('알 수 없는 오류가 발생했습니다.');
+            }
+        } finally {
+            setDownloadingFileId(null); // 로딩 종료
+        }
+    };
     const onIsDeleteUpdate = async () => {
         const parsedIdx = Number(idx);
         // 처리 전에는 로딩값 true 로 로딩 상태 처리함
@@ -73,14 +124,14 @@ const TodoDetail: React.FC = () => {
             await updateTodo(Number(idx), updatedTodo);
             const res = await getTodoById(Number(idx));
             setTodo(res.data);
-            setSuccessMessage(t('work_space.todo_detail.todo-updateSuccessMessage'));
+            setSuccessMessage('정상적으로 처리 되었습니다.');
             setLoading(false);
             setIsEditing(false);
             setTimeout(() => {
                 setSuccessMessage(null);
             }, 1000)
         } catch (e) {
-            setError('수정 싪패');
+            setError('수정 실패');
         } finally {
             setLoading(false);
         }
@@ -130,7 +181,7 @@ const TodoDetail: React.FC = () => {
         label: todo.status,
         className: 'todo-badge default',
     };
-
+    console.log('데이터 확인',todo);
     return (
 
         <div className="todo-detail-container">
@@ -177,6 +228,24 @@ const TodoDetail: React.FC = () => {
                         <span className="todo-detail-label">{t('work_space.todo_detail.updatedAt')}:</span>
                         <span className="todo-detail-value">{todo?.updatedAt || 'N/A'}</span>
                     </div>
+                    }
+                    {todo?.fileMetaData &&
+                        <div className="todo-detail-field">
+                            <span className="todo-detail-label">파일:</span>
+                            {todo.fileMetaData.title}
+                            <button
+                                className={`download-button ${
+                                    downloadingFileId === todo.fileMetaData.idx ? 'download-button--loading' : ''
+                                }`}
+                                onClick={() => handleDownload(todo.fileMetaData)}
+                                disabled={downloadingFileId === todo.fileMetaData.idx}
+                            >
+                                {downloadingFileId === todo.fileMetaData.idx
+                                    ? '다운로드 중...'
+                                    : `다운로드`
+                                }
+                            </button>
+                        </div>
                     }
                 </div>
                 <div className="todo-detail-footer">

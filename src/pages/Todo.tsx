@@ -57,8 +57,8 @@ const Todo: React.FC = () => {
 
     const activityColumns = [
         {
-            title: t('work_space.todo.table_column.id'),
-            dataIndex: 'id',
+            title: '번호',
+            dataIndex: 'orderNum',
             // sorter: (a, b) => a.id - b.id, // 숫자 정렬
         },
         {
@@ -114,7 +114,12 @@ const Todo: React.FC = () => {
 
             try {
                 const res = await getTodoList();
-                setTodos(res.data);
+                const testData = res.data.map((item, index)=>({
+                   ...item,
+                   orderNum: index +1,
+                }));
+                 console.log('순서표시를 위한 데이터 가공',testData);
+                setTodos(testData);
             } catch (e) {
 
                 console.log(e);
