@@ -11,21 +11,20 @@ import {toast} from "react-toastify";
 import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
 import KakaoLoginButton from "./KakaoLoginButton.tsx";
 import {extractData} from "../../../shared/utill/response.ts";
-;
-import dayjs from "dayjs";
 import {useUserStore} from "../../../storage/userStore.ts";
 import {LoginTypes} from "../enums/loginTypes.ts";
+import {userIdValidation, userPasswordValidation} from "../../../shared/utill/validation/validationRules.ts";
 
 interface LoginFormProps {
     title: string,
 }
 
-const parseJwt = (token:string) => {
-    try{
+const parseJwt = (token: string) => {
+    try {
         const base64Payload = token.split('.')[1];
         const playload = atob(base64Payload);
         return JSON.parse(playload)
-    }catch (e){
+    } catch (e) {
         return null;
     }
 }
@@ -36,8 +35,8 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>("");
-
-    const setUser = useUserStore((state)=> state.setUser);
+    const [loginType, setLoginType] = useState<LoginTypes>(LoginTypes.ID_PASSWORD);
+    const setUser = useUserStore((state) => state.setUser);
 
     const {
         register,
@@ -53,20 +52,22 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
     })
 
     const handleLogin = async (formData: LoginFormData) => {
+
         setLoading(true);
+
         try {
-
-            const test:LoginFormExtendData = {
+            const extendFormData: LoginFormExtendData = {
                 ...formData,
-                loginType: LoginTypes.ID_PASSWORD,
+                loginType: loginType,
             }
+            const res = await loginForm(extendFormData);
+            const data = extractData(res);
 
-            const res = await loginForm(test);
-            const  data = extractData(res)
             const payload = parseJwt(data.accessToken);
+
             const userData = {
                 userId: payload.userId,
-                username : payload.sub,
+                username: payload.sub,
                 role: payload.role,
             }
 
@@ -92,7 +93,6 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
         <div className="login-form-container">
             <div className="login-form-title">{title}</div>
             <div className="login-form-sub">
-                추가적인 설명이 필요 할때
             </div>
             <form className="login-form" onSubmit={handleSubmit(handleLogin)}>
                 <div className="form-group">
@@ -102,9 +102,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                         type="text"
                         id="userId"
                         disabled={loading}
-                        {...register("userId", {
-                            required: "아이디 입력은 필수 입니다."
-                        })}
+                        {...register("userId", userIdValidation)}
                         placeholder="아이디를 입력하세요"
                     />
                 </div>
@@ -115,9 +113,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                         type={showPassword ? "text" : "password"}
                         id="password"
                         disabled={loading}
-                        {...register("password", {
-                            required: "패스워드 입력은 필수 입니다."
-                        })}
+                        {...register("password", userPasswordValidation)}
                         placeholder="패스워드를 입력하세요"
                     />
                 </div>
@@ -144,7 +140,7 @@ const LoginForm: React.FC<LoginFormProps> = ({title}) => {
                 </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
                 <div className="button-container">
-                    <button className="login-form-leftButton" type="submit" disabled={loading}>
+                    <button className="login-form-leftButton" type="submit" onClick={()=> setLoginType(LoginTypes.ID_PASSWORD)} disabled={loading}>
                         {loading ? (<><span className="spinner"> 로그인 중...</span></>) : "로그인"}
                     </button>
                     <GoogleOAuthProvider clientId={"test"}>

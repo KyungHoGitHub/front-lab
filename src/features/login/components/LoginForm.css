@@ -40,6 +40,11 @@
     min-width: 360px;
 }
 
+.form-group-email {
+    display: flex;
+    gap: 20px;
+}
+
 .form-group-id {
     margin-bottom: 15px;
     width: 100%;
@@ -173,13 +178,13 @@ button {
     text-align: center;
 }
 
-.error-message{
+.error-message {
     color: red;
     margin-top: 8px;
     font-size: 0.9rem;
 }
 
-.spinner{
+.spinner {
     border: 2px solid #f3f3f3;
     border-top: 2px solid #555;
     border-radius: 50%;

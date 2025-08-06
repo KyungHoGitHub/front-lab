@@ -9,9 +9,20 @@ import {SignupFormData} from "../types/signup.ts";
 import {toSignupRequest} from "../mappers/sigunupMapper.ts";
 import {mapErrorMessage} from "../../../shared/utill/errorUtill.ts";
 import {toast} from "react-toastify";
+import {extractData} from "../../../shared/utill/response.ts";
+import {
+    userEmailValidation,
+    userIdValidation,
+    userPasswordValidation
+} from "../../../shared/utill/validation/validationRules.ts";
 
 interface SignupFormProps {
     title: string;
+}
+
+type EmailSelectOptions = {
+    label: string;
+    value: string;
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({title}) => {
@@ -30,6 +41,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
         handleSubmit,
         formState: {errors},
         getValues, // getValues 추가
+        trigger,
     } = useForm<SignupFormData>({
         defaultValues: {
             email: "",
@@ -44,15 +56,25 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+    const emailSelectOptions: EmailSelectOptions[] = [
+        {
+            label: "@naver.com",
+            value: "naver.com"
+        },
+        {
+            label: "@google.com",
+            value: "google.com"
+        },
+    ]
     const submit = async (values: SignupFormData) => {
         setLoading(true);
         try {
             // const { confirmPassword, ...signupData } = values;
             const formData = toSignupRequest(values);
             const res = await signup(formData);
-
+            const data = extractData(res);
             if (res.data) {
-                const userInfo = await getUserInfo(res.data.data.idx);
+                const userInfo = await getUserInfo(data.idx);
                 setUser(userInfo.data.data);
             }
             navigate("/login");
@@ -70,21 +92,27 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
     }, [user]);
 
     const userIdCheckClick = async () => {
-
+        const isValid = await trigger("userId");
+        if (!isValid) {
+            toast.warning("아이디 형식을 다시 확인해주세요.");
+            return;
+        }
         try {
             const values = getValues(); // 현재 폼 값 가져오기
-            if (!values.userId) {
 
+            if (!values.userId) {
+                toast.warning("아이디를 입력해주세요.");
                 return;
             }
-
             const res = await validUserId(values.userId);
+
             setUserIdCheck(true);
             setSuccessMessage("이용 가능한 아이디 입니다.");
             setTimeout(() => {
                 setSuccessMessage("");
             }, 2000);
         } catch (error) {
+            setUserIdCheck(false);
             console.log(error);
         }
     };
@@ -101,16 +129,21 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
             <form className="signup-form" onSubmit={handleSubmit(submit)} noValidate>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
-                    <input
-                        className={errors.email ? "input-error" : ""}
-                        type="email"
-                        id="email"
-                        disabled={loading}
-                        {...register("email", {
-                            required: "이메일 입력은 필수 입니다.",
-                        })}
-                        placeholder="이메일을 입력하세요"
-                    />
+                    <div className="form-group-email">
+                        <input
+                            className={errors.email ? "input-error" : ""}
+                            type="email"
+                            id="email"
+                            disabled={loading}
+                            {...register("email", userEmailValidation)}
+                            placeholder="이메일을 입력하세요"
+                        />
+                        <select>
+                            {emailSelectOptions.map((item) => (
+                                <option value={item.value}>{item.label}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
                 {errors.email && <span className="error">{errors.email.message}</span>}
                 <div className="form-group-id">
@@ -120,9 +153,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                         type="text"
                         id="userId"
                         disabled={loading}
-                        {...register("userId", {
-                            required: "아이디 입력은 필수 입니다.",
-                        })}
+                        {...register("userId", userIdValidation)}
                         placeholder="아이디를 입력하세요"
                     />
                     <button type="button"
@@ -130,10 +161,7 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                             className="user-id-check-button" onClick={userIdCheckClick}>
                         중복체크
                     </button>
-                    {/*{userIdCheck === true && <span className="success">사용 가능한 ID입니다.</span>}*/}
                     {userIdCheck === false && <span className="error">이미 사용 중인 ID입니다.</span>}
-                    {/*<button type="button" className="user-id-check-button" onClick={() => userIdCheckClick(values)}>*/}
-                    {/*</button>*/}
                 </div>
                 {errors.userId && <span className="error">{errors.userId.message}</span>}
                 <div className="form-group">
