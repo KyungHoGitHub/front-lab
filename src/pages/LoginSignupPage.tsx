@@ -23,9 +23,9 @@ const LoginSignupPage: React.FC<LoginSignupProps> = ({formComponent}) => {
         <div className="loginSignup-page-container">
             <LoginHeader/>
             <main className="loginSignup-page-main">
-                <div className="loginSignup-image">
-                    <img src={loginCheck ? test : signup} alt="..." className="loginSignup-image-img"/>
-                </div>
+                {/*<div className="loginSignup-image">*/}
+                {/*    <img src={loginCheck ? test : signup} alt="..." className="loginSignup-image-img"/>*/}
+                {/*</div>*/}
                 <div className="loginSignup-page-form-wrapper">
                     {formComponent}
                 </div>

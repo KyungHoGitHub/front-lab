@@ -5,6 +5,7 @@ import {createMemo} from "../api/memo.ts";
 import {jwtDecode} from "jwt-decode";
 import "./MemoForm.css";
 import {useForm} from "react-hook-form";
+import {memoTitleValidation} from "../../../shared/utill/validation/validationRules.ts";
 
 interface MemoFormProps {
     onSubmit: (data: { title: string, dueDate: string }) => void;
@@ -45,9 +46,7 @@ const MemoForm: React.FC = () => {
                 type="text"
                 id="title"
                 placeholder="제목을 입력하세요"
-                {...register("title", {
-                    required: "제목을 필수 입니다."
-                })}
+                {...register("title", memoTitleValidation)}
             />
             <label htmlFor="content">내용</label>
             <textarea

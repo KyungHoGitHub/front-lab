@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-
+import path from "path"
+import tailwindcss from "@tailwindcss/vite"
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(),tailwindcss()],
   define:{
     global: {},
   },
@@ -12,6 +13,7 @@ export default defineConfig({
       '@assets': '/src/assets',
       '@components': '/src/components',
       '@images': '/src/assets/images',
+          "@": path.resolve(__dirname, "./src"),
     }
   },
   server: {

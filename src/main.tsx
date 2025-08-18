@@ -8,7 +8,7 @@ import {I18nextProvider} from "react-i18next";
 import AuthProvider from "./features/contexts/components/AuthProvider.tsx";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import './index.css';
 createRoot(document.getElementById('root')!).render(
     <I18nextProvider i18n={i18n}>
         <AuthProvider>
