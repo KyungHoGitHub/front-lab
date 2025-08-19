@@ -1,10 +1,11 @@
 
 export interface SignupFormData {
     email: string;
+    emailDomain: string;
     userId: string;
-    userName: string;
     password: string;
-    confirmPassword: string;
+    userName: string;
+    role: string;
 }
 
 export interface SignupRequest {
@@ -12,4 +13,5 @@ export interface SignupRequest {
     userId: string;
     userName: string;
     password: string;
+    role: string;
 }

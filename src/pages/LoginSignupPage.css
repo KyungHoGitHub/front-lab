@@ -42,6 +42,35 @@
     background-color: #fff;
 }
 
+.custom-alert {
+    position: relative;
+    border-radius: 0.5rem; /* rounded-lg */
+    padding: 16px 12px; /* px-4 py-3 */
+    font-size: 14px; /* text-sm */
+    display: grid;
+    grid-template-columns: [calc(var(--spacing)*4) 1fr]; /* SVG 있을 때 */
+    grid-template-columns: [0 1fr]; /* SVG 없을 때 */
+    gap: 12px 2px; /* gap-x-3 gap-y-0.5 */
+    align-items: start; /* items-start */
+    max-width: 384px; /* max-w-sm */
+    width: 100%; /* w-full */
+    background-color: #fff; /* bg-white */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+    border: 1px solid #34d399; /* border-green-200 */
+    overflow: hidden; /* 추가: 텍스트 잘림 방지 */
+    text-overflow: ellipsis; /* 추가: 긴 텍스트 말줄임표 */
+    white-space: normal; /* 추가: 줄바꿈 허용 */
+    word-break: break-word; /* 추가: 긴 단어 강제 줄바꿈 */
+}
+
+.custom-alert-title,
+.custom-alert-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+}
+
 /* 반응형 조정 */
 @media (max-width: 768px) {
     .loginSignup-page-main {

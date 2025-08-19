@@ -8,10 +8,12 @@ import {extractData} from "@/shared/utill/response.ts";
 import {useUserStore} from "@/storage/userStore.ts";
 import {mapErrorMessage} from "@/shared/utill/errorUtill.ts";
 import {toast} from "react-toastify";
+import {useNavigate} from "react-router";
 
 export const useSignup = () =>{
     const {user, setUser} = useUserStore();
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
 
     const onSubmit = async (values: SignupFormData)=> {
@@ -24,6 +26,7 @@ export const useSignup = () =>{
                 const userInfo = await getUserInfo(data.idx);
                 setUser(userInfo.data.data);
             }
+            navigate("/login", { state: { signupSuccess: true } }); // 성공 상태
         }   catch (error){
             const message = mapErrorMessage(error);
             toast.error(message);
