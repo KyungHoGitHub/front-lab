@@ -4,6 +4,7 @@ import {ScheduleRequestDto} from "../types/scheduleType.ts";
 import ScheduleForm from "./ScheduleForm.tsx";
 import useScheduleForm from "../hooks/useScheduleForm.ts";
 import './ScheduleCardContainer.css';
+import {DateTimePicker} from "@/shared/component/datepicker/DateTimePicker.tsx";
 
 interface ScheduleRequestDto {
     category: string;

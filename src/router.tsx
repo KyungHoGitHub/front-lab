@@ -23,6 +23,8 @@ import UserPage from "./features/admin/pages/UserPage.tsx";
 import Notice from "./pages/Notice.tsx";
 import DashBoard from "./features/admin/pages/DashBoard.tsx";
 import Gant from "./pages/Gant.tsx";
+import Lab from "@/pages/Lab.tsx";
+import FilePage from "@/features/lab/components/FiePage.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -82,6 +84,13 @@ export const router = createBrowserRouter([
                     {
                         path: 'notice',
                         element: <Notice/>,
+                    },
+                    {
+                        path: 'lab',
+                        element: <Lab/>,
+                        children: [
+                            {path: 'file', element: <FilePage/>},
+                        ]
                     },
                     {
                         index: true,

@@ -3,6 +3,9 @@ import {useForm, UseFormReturn} from "react-hook-form";
 import {ScheduleRequestDto} from "../types/scheduleType.ts";
 import GenericForm from "../../../shared/component/form/GenericForm.tsx";
 import './ScheduleForm.css';
+import {DateTimePicker} from "@/shared/component/datepicker/DateTimePicker.tsx";
+import {TypographyH3} from "@/components/ui/typography/TypographyH3.tsx";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 
 interface ScheduleFormProps {
     form: UseFormReturn<ScheduleRequestDto>;
@@ -28,60 +31,77 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({form, onSubmit, loading}) =>
     return (
         <GenericForm form={form} onSubmit={onSubmit} loading={loading}>
             <div className="form-row">
-                <div className="schedule-form-field">
-                    <label htmlFor="startDate">시작일</label>
-                    <input
-                        type="date"
-                        id="startDate"
-                        {...register('startDate', {required: '시작일을 입력하세요'})}
-                    />
 
-                </div>
-                <div className="schedule-form-field">
-                    <label htmlFor="startTime">시작 시간</label>
-                    <input
-                        type="time"
-                        id="startTime"
-                        {...register('startTime', {required: '시작 시간을 입력하세요'})}
-                    />
 
-                </div>
-                <div className="schedule-form-field">
-                    <label htmlFor="endDate">종료일</label>
-                    <input
-                        type="date"
-                        id="endDate"
-                        {...register('endDate', {required: '종료일을 입력하세요'})}
-                    />
+                <DateTimePicker title={"시작일시"}/>
+                <DateTimePicker title={"종료일시"}/>
+                {/*<div className="schedule-form-field">*/}
 
-                </div>
-                <div className="schedule-form-field">
-                    <label htmlFor="endTime">종료 시간</label>
-                    <input
-                        type="time"
-                        id="endTime"
-                        {...register('endTime', {required: '종료 시간을 입력하세요'})}
-                    />
+                {/*    <label htmlFor="startDate">시작일</label>*/}
+                {/*    <input*/}
+                {/*        type="date"*/}
+                {/*        id="startDate"*/}
+                {/*        {...register('startDate', {required: '시작일을 입력하세요'})}*/}
+                {/*    />*/}
 
-                </div>
+                {/*</div>*/}
+                {/*<div className="schedule-form-field">*/}
+                {/*    <label htmlFor="startTime">시작 시간</label>*/}
+                {/*    <input*/}
+                {/*        type="time"*/}
+                {/*        id="startTime"*/}
+                {/*        {...register('startTime', {required: '시작 시간을 입력하세요'})}*/}
+                {/*    />*/}
+
+                {/*</div>*/}
+                {/*<div className="schedule-form-field">*/}
+                {/*    <label htmlFor="endDate">종료일</label>*/}
+                {/*    <input*/}
+                {/*        type="date"*/}
+                {/*        id="endDate"*/}
+                {/*        {...register('endDate', {required: '종료일을 입력하세요'})}*/}
+                {/*    />*/}
+
+                {/*</div>*/}
+                {/*<div className="schedule-form-field">*/}
+                {/*    <label htmlFor="endTime">종료 시간</label>*/}
+                {/*    <input*/}
+                {/*        type="time"*/}
+                {/*        id="endTime"*/}
+                {/*        {...register('endTime', {required: '종료 시간을 입력하세요'})}*/}
+                {/*    />*/}
+
+                {/*</div>*/}
             </div>
             <div className="form-row">
                 <div className="schedule-form-field category">
                     <label htmlFor="category">분류</label>
-                    <select
-                        id="category"
-                        {...register('category', {required: '분류를 선택하세요'})}
-                        defaultValue=""
-                    >
-                        <option value="" disabled>
-                            선택하세요
-                        </option>
-                        {selectCategoryOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.name}
-                            </option>
-                        ))}
-                    </select>
+                    <Select>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="분류 선택"/>
+                        </SelectTrigger >
+                            <SelectContent>
+                                {selectCategoryOptions.map((option)=>(
+                                <SelectItem key={option.value} value={option.value}>
+                                    {option.name}
+                                </SelectItem>
+                                    ))}
+                            </SelectContent>
+                    </Select>
+                    {/*<select*/}
+                    {/*    id="category"*/}
+                    {/*    {...register('category', {required: '분류를 선택하세요'})}*/}
+                    {/*    defaultValue=""*/}
+                    {/*>*/}
+                    {/*    <option value="" disabled>*/}
+                    {/*        선택하세요*/}
+                    {/*    </option>*/}
+                    {/*    {selectCategoryOptions.map((option) => (*/}
+                    {/*        <option key={option.value} value={option.value}>*/}
+                    {/*            {option.name}*/}
+                    {/*        </option>*/}
+                    {/*    ))}*/}
+                    {/*</select>*/}
 
                 </div>
             </div>

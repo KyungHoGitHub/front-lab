@@ -1,0 +1,47 @@
+.lab-menu {
+    padding: 16px;
+}
+
+.lab-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* 수직 배치 */
+    gap: 8px; /* 메뉴 간격 */
+}
+
+.lab-menu li {
+    width: 100%;
+}
+
+.lab-menu a {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.lab-menu a:hover {
+    background-color: #f0f4f8; /* 호버 시 배경 */
+    color: #007bff;
+}
+
+.lab-menu a.active {
+    background-color: #e6f0fa; /* 활성 상태 배경 */
+    color: #0056b3;
+    font-weight: 600;
+}
+
+.menu-icon {
+    margin-right: 8px;
+    display: inline-flex;
+    vertical-align: middle;
+}
+.menu-text {
+    vertical-align: middle;
+}

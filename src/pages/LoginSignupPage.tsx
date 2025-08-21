@@ -20,7 +20,7 @@ const LoginSignupPage: React.FC<LoginSignupProps> = ({formComponent}) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [showConfetti, setShowConfetti] = useState(false);
-    const [showAlert, setShowAlert] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
     const [loginCheck, setLoginCheck] = useState<boolean>();
     const [hasShownConfetti, setHasShownConfetti] = useState(false);
     const testValue = location.pathname.includes("login");
@@ -34,7 +34,7 @@ const LoginSignupPage: React.FC<LoginSignupProps> = ({formComponent}) => {
             setTimeout(() => {
                 setShowAlert(false);
                 setShowConfetti(false);
-            }, 3000);
+            }, 5000);
             navigate("/login", { replace: true, state: {} });
         }
     }, [testValue,state]);
