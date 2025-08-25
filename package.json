@@ -13,6 +13,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^41.4.2",
     "@ckeditor/ckeditor5-react": "^11.0.0",
+    "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^5.2.1",
     "@nivo/bar": "^0.99.0",
     "@nivo/core": "^0.99.0",
@@ -27,8 +28,10 @@
     "@react-oauth/google": "^0.12.1",
     "@stomp/stompjs": "^7.1.1",
     "@tailwindcss/vite": "^4.1.11",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/react-select": "^5.0.0",
     "axios": "^1.8.4",
+    "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -65,7 +68,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/lodash": "^4.17.20",
-    "@types/node": "^22.17.1",
+    "@types/node": "^22.17.2",
     "@types/react": "^18.3.23",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18.3.7",
@@ -86,6 +89,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.4"
   }
 }

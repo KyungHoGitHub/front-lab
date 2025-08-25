@@ -25,6 +25,7 @@ import DashBoard from "./features/admin/pages/DashBoard.tsx";
 import Gant from "./pages/Gant.tsx";
 import Lab from "@/pages/Lab.tsx";
 import FilePage from "@/features/lab/components/FiePage.tsx";
+import MailPage from "@/features/lab/components/MailPage.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -90,6 +91,7 @@ export const router = createBrowserRouter([
                         element: <Lab/>,
                         children: [
                             {path: 'file', element: <FilePage/>},
+                            {path: 'mail', element: <MailPage/>},
                         ]
                     },
                     {

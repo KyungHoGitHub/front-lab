@@ -10,6 +10,9 @@ const LabSideMenu: React.FC =() =>{
         {
             name: '파일', paht: 'file'
         },
+        {
+            name: '메일', paht: 'mail'
+        }
     ]
 
     return(
