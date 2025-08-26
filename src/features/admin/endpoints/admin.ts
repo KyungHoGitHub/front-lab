@@ -3,7 +3,8 @@ export const ADMIN_ENDPOINTS = {
         GET : 'users/list',
         COUNT : 'users/count',
         VISITOR_LIST : 'users/visitor'
-    }
+    },
+    TOKEN_POLICY: 'token-policy'
 }
 
 export const QUERY_PARAMS = {

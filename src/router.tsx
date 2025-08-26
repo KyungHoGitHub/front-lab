@@ -26,6 +26,7 @@ import Gant from "./pages/Gant.tsx";
 import Lab from "@/pages/Lab.tsx";
 import FilePage from "@/features/lab/components/FiePage.tsx";
 import MailPage from "@/features/lab/components/MailPage.tsx";
+import TokenSettingPage from "@/features/admin/pages/TokenSettingPage.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -126,6 +127,10 @@ export const router = createBrowserRouter([
                             {
                                 path: 'dashboard',
                                 element: <DashBoard/>
+                            },
+                            {
+                                path: 'token-setting',
+                                element: <TokenSettingPage/>
                             },
                         ]
                     },

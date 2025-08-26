@@ -60,7 +60,7 @@ const Schedule: React.FC = () => {
 
     return (
         <main className="schedule-page-main">
-            <ImageBlock src={scheduleImg} width="200px" height="200px"/>
+            {/*<ImageBlock src={scheduleImg} width="200px" height="200px"/>*/}
             <ScheduleFormContainer  onDataUpdate={handleDataUpdate}/>
             <Outlet/>
         </main>

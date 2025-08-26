@@ -55,7 +55,7 @@ const MailForm: React.FC = () => {
             confetti({
                 particleCount: 150,
                 spread: 70,
-                origin: { y: 0.6 },
+                origin: {y: 0.6},
             });
             form.reset(); // 폼 초기화
         } catch (error) {
@@ -74,9 +74,9 @@ const MailForm: React.FC = () => {
                     <FormField
                         control={form.control}
                         name="name"
-                        render={({ field }) => (
+                        render={({field}) => (
                             <FormItem className="flex flex-col space-y-1">
-                                <FormLabel className="text-sm font-medium text-gray-700"><LuUserRoundPen />이름</FormLabel>
+                                <FormLabel className="text-sm font-medium text-gray-700"><LuUserRoundPen/>이름</FormLabel>
                                 <FormControl>
                                     <Input
                                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -84,16 +84,16 @@ const MailForm: React.FC = () => {
                                         {...field}
                                     />
                                 </FormControl>
-                                <FormMessage className="text-xs text-red-500" />
+                                <FormMessage className="text-xs text-red-500"/>
                             </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="email"
-                        render={({ field }) => (
+                        render={({field}) => (
                             <FormItem className="flex flex-col space-y-1">
-                                <FormLabel className="text-sm font-medium text-gray-700"><LuMailPlus />이메일</FormLabel>
+                                <FormLabel className="text-sm font-medium text-gray-700"><LuMailPlus/>이메일</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="email"
@@ -102,16 +102,16 @@ const MailForm: React.FC = () => {
                                         {...field}
                                     />
                                 </FormControl>
-                                <FormMessage className="text-xs text-red-500" />
+                                <FormMessage className="text-xs text-red-500"/>
                             </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="message"
-                        render={({ field }) => (
+                        render={({field}) => (
                             <FormItem className="flex flex-col space-y-1">
-                                <FormLabel className="text-sm font-medium text-gray-700"><LuHighlighter />메시지</FormLabel>
+                                <FormLabel className="text-sm font-medium text-gray-700"><LuHighlighter/>메시지</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent "
@@ -119,7 +119,7 @@ const MailForm: React.FC = () => {
                                         {...field}
                                     />
                                 </FormControl>
-                                <FormMessage className="text-xs text-red-500" />
+                                <FormMessage className="text-xs text-red-500"/>
                             </FormItem>
                         )}
                     />
@@ -127,7 +127,7 @@ const MailForm: React.FC = () => {
                         type="submit"
                         className="w-full bg-blue-900 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200"
                     >
-                        <LuSend />보내기
+                        <LuSend/>보내기
                     </Button>
                 </form>
             </Form>

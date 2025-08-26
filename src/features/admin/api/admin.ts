@@ -30,3 +30,7 @@ export const getUserCountList = async  ()=>{
 export const getUserVisitList = async () =>{
     return resourceClient.get(ADMIN_ENDPOINTS.USERS.VISITOR_LIST);
 }
+
+export const postTokenPolicy = async (data) =>{
+    return resourceClient.post(ADMIN_ENDPOINTS.TOKEN_POLICY,data);
+}
