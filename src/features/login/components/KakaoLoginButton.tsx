@@ -22,8 +22,16 @@ const KakaoLoginButton = () => {
                 <img
                     src={kakaoImg}
                     alt="kakao"
-                    style={{cursor: 'pointer', width: '320px',height:'47px'}}
+                    style={{cursor: 'pointer'}}
                     onClick={onClick}
+                    className="
+                     w-[320px] h-[47px] cursor-pointer
+                     transition-transform duration-100 ease-in-out
+                     hover:scale-105
+                     active:scale-95
+                     rounded-lg
+                     shadow-md
+                      "
                 />
             )}
         />

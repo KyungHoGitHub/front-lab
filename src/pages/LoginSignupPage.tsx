@@ -62,16 +62,15 @@ const LoginSignupPage: React.FC<LoginSignupProps> = ({formComponent}) => {
                 </div>
             )}
             <main className="loginSignup-page-main">
-                {/*<div className="loginSignup-image">*/}
-                {/*    <img src={loginCheck ? test : signup} alt="..." className="loginSignup-image-img"/>*/}
-                {/*</div>*/}
 
+                <div
+                    className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-[url('/src/assets/test.jpg')] opacity-98"/>
                 <p>{state?.signupSuccess}</p>
-                <div className="loginSignup-page-form-wrapper">
+                <div className="loginSignup-page-form-wrapper z-10">
                     {formComponent}
                 </div>
             </main>
-            <LoginFooter/>
+            <LoginFooter />
         </div>
     )
 }

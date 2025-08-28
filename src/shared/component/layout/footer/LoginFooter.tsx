@@ -10,7 +10,7 @@ const LoginFooter:React.FC = ()=>{
     제품에 대한 추가적인 정보가 필요할때
 `
     return(
-        <div className="login-footer">
+        <div className="login-footer z-10">
             <p className="footer-text" style={{ whiteSpace: 'pre-line' }}>{data}</p>
             <div className="login-footer-options">
                 <button className="login-footer-button" onClick={openPrivacyPolicy}>

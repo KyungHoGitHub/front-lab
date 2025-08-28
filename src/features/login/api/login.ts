@@ -5,3 +5,7 @@ import {LOGIN_ENDPOINT} from "../endpoints/login.ts";
 export const loginForm = async (data: LoginFormRequest) => {
     return authClient.post(LOGIN_ENDPOINT.AUTH.LOGIN, data);
 }
+
+export const googleLoginForm = async (data)=>{
+    return authClient.post(LOGIN_ENDPOINT.AUTH.GOOGLE_LOGIN,data)
+}

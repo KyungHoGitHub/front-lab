@@ -27,10 +27,17 @@ const TokenSettingPage:React.FC =()=>{
 
     const onSubmit = async (formData)=>{
         console.log('데이터 들어오나',formData)
-        try{
-            const res = await postTokenPolicy(formData)
-        }catch(error){
 
+
+
+        const data ={
+            accessTokenExp : formData.accessTokenExp * 600000,
+            refreshTokenExp : formData.refreshTokenExp * 600000
+        }
+        try{
+            const res = await postTokenPolicy(data)
+        }catch(error){
+            console.log(error)
         }
     }
     return(

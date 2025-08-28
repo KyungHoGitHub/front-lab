@@ -118,7 +118,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
     ];
 
     return (
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-6 border border-gray-300 rounded-lg shadow-lg w-[435px] h-[735px]" >
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit((data) => {
@@ -127,7 +127,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ title }) => {
                     })}
                     className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg"
                 >
-                    <TypographyH2 title="회원가입" className="text-center"/>
+                    <TypographyH2 title="회원가입" className="text-center mt-8"/>
                     <div className="flex gap-2">
                         <FormField
                             control={form.control}
