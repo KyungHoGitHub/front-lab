@@ -25,7 +25,7 @@ const KakaoLoginButton = () => {
                     style={{cursor: 'pointer'}}
                     onClick={onClick}
                     className="
-                     w-[320px] h-[47px] cursor-pointer
+                     w-[320px] h-[45px] cursor-pointer
                      transition-transform duration-100 ease-in-out
                      hover:scale-105
                      active:scale-95

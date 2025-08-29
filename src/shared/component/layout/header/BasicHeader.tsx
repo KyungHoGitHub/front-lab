@@ -9,6 +9,7 @@ import LanguageSelectorButton from "../../common/LanguageSelectorButton.tsx";
 import logoImg from '@assets/mainLogo.png';
 import {useAuth} from "../../../../features/contexts/components/AuthProvider.tsx";
 import {useUserStore} from "../../../../storage/userStore.ts";
+import {TokenTimer} from "@/shared/component/timer/TokenTimer.tsx";
 
 
 // BasicHeader 프로젝트의 기본으로 사용되는 헤더 영역 컴포넌트
@@ -21,9 +22,11 @@ interface BasicHeaderProps {
 
 const BasicHeader: React.FC<BasicHeaderProps> = () => {
     const {t} = useTranslation();
-    const {token, logout, user} = useAuth();
+    const {token, logout} = useAuth();
     // nav 열림 닫힘
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const {user} = useUserStore();
+
 
 
     const getMenuItems = () => {
@@ -64,7 +67,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
         {name: '한글', value: 'ko'},
         {name: '영어', value: 'en'},
     ]
-
+    console.log('전역 유저 값 확인', user);
     return (
         <header className="basic-header">
             <div className="header-container">
@@ -78,6 +81,7 @@ const BasicHeader: React.FC<BasicHeaderProps> = () => {
                         <Menu menuItems={menuItems}/>
                     </nav>
                 </div>
+                <TokenTimer exp={user?.exp}/>
                 <LanguageSelectorButton dropdownItem={languageItem}/>
                 <ToggleButton
                     setIsOpen={setIsNavOpen}

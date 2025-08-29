@@ -48,7 +48,12 @@ const OathLoginButton: React.FC = () => {
 
     return (
         <div className="p-4">
-            <button type="button" className="google-login-button flex items-center justify-between px-4 py-3 w-[320px]" onClick={() => login()}>
+            <button type="button" className="google-login-button flex items-center justify-between px-4 py-3 w-[320px] h-[45px]
+                     transition-transform duration-100 ease-in-out
+                     hover:scale-105
+                     active:scale-95
+                     rounded-lg
+                     shadow-md" onClick={() => login()}>
                 <img src={googleLogoImg} alt="" className="w-7 h-7 -ml-3 mr-3" />
                 <span className="flex-1 text-center">Google 로그인</span>
             </button>

@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
     // },
     {
         path: '/login',
-        element: <LoginSignupPage formComponent={<LoginForm title="로그인"/>}/>
+        element: <LoginSignupPage formComponent={<LoginForm/>}/>
     },
     {
         path: '/signup',

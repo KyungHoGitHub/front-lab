@@ -10,6 +10,6 @@ export interface LoginFormData {
     password: string;
 }
 
-export interface LoginFormExtendData  extends LoginFormData{
+export interface LoginFormWithLoginType  extends LoginFormData{
     loginType : LoginTypes;
 }

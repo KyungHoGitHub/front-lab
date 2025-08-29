@@ -1,3 +1,4 @@
+import {UserRole} from "@/features/signup/types/UserRole.ts";
 
 export interface SignupFormData {
     email: string;
@@ -5,7 +6,8 @@ export interface SignupFormData {
     userId: string;
     password: string;
     userName: string;
-    role: string;
+    role: UserRole;
+    confirmPassword: string;
 }
 
 export interface SignupRequest {
