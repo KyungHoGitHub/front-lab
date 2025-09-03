@@ -7,5 +7,5 @@ export const loginForm = async (data: LoginFormRequest) => {
 }
 
 export const googleLoginForm = async (data)=>{
-    return authClient.post(LOGIN_ENDPOINT.AUTH.GOOGLE_LOGIN,data)
+    return authClient.post(LOGIN_ENDPOINT.AUTH.LOGIN,data)
 }

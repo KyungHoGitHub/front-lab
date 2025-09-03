@@ -5,6 +5,7 @@ import "./OathLoginButton.css";
 import {FaGoogle} from "react-icons/fa";
 import {googleLoginForm} from "@/features/login/api/login.ts";
 import googleLogoImg from '@assets/google.svg';
+import {LoginTypes} from "@/features/login/enums/loginTypes.ts";
 interface UserInfo {
     name: string;
     email: string;
@@ -23,7 +24,10 @@ const OathLoginButton: React.FC = () => {
                 console.log('토큰 정보', tokenResponse);
 
                 const data = {
-                    token : tokenResponse.access_token
+                    data: {
+                        token : tokenResponse.access_token,
+                    },
+                    loginType : LoginTypes.GOOGLE
                 }
                 // 2. 백엔드(Spring)에 토큰 전달 → JWT 발급
                 const serverRes = await googleLoginForm(data);

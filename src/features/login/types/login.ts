@@ -5,11 +5,7 @@ export interface LoginFormRequest {
     password: string;
 }
 
-export interface LoginFormData {
-    userId: string;
-    password: string;
-}
-
-export interface LoginFormWithLoginType  extends LoginFormData{
+export interface LoginFormWithLoginType {
+    data : LoginFormRequest,
     loginType : LoginTypes;
 }

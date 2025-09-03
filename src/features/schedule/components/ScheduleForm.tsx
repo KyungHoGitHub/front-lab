@@ -10,6 +10,7 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/components/ui/input.tsx";
 import {LuHighlighter} from "react-icons/lu";
 import {Textarea} from "@/components/ui/textarea.tsx";
+import {FcRight} from "react-icons/fc";
 
 interface ScheduleFormProps {
     form: UseFormReturn<ScheduleRequestDto>;
@@ -35,52 +36,37 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({form, onSubmit, loading}) =>
     return (
         <GenericForm form={form} onSubmit={onSubmit} loading={loading}>
             <Form {...form}>
-                <div className="form-row">
-                    <div className="flex gap-4">
-                        <FormField
-                            control={form.control}
-                            name="startDateTime"
-                            rules={{ required: '시작일시를 입력하세요' }}
-                            render={({field}) => (
-                                <FormItem className="flex flex-col space-y-1">
-                                    <FormLabel>시작일시</FormLabel>
-                                    <FormControl>
-                                        <DateTimePicker
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="endDateTime"
-                            render={({field}) => (
-                                <FormItem className="flex flex-col space-y-1">
-                                    <FormLabel>종료일시</FormLabel>
-                                    <FormControl>
-                                        <DateTimePicker
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                <div className="space-y-200">
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        rules={{required: '제목을 입력하세요'}}
+                        render={({field}) => (
+                            <FormItem className=" w-[300px] flex justify-between">
+                                <FormLabel>제목</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="w-[180px]"
+                                        placeholder="제목를 입력해주세요" {...field}
+                                        value={field.value || ""}
+                                    />
+                                </FormControl>
+                                {/*<FormMessage/>*/}
+                            </FormItem>
+                        )}
+                    />
                 </div>
-                <div className="form-row">
+                <div className="form-row flex justify-between">
                     <FormField
                         control={form.control}
                         name="category"
                         rules={{required: '분류를 선택하세요'}}
                         render={({field}) => (
-                            <FormItem className="schedule-form-field category">
+                            <FormItem className="schedule-form-field category w-[300px] flex justify-between ">
                                 <FormLabel>분류</FormLabel>
                                 <FormControl>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <SelectTrigger className="w-[180px]"
+                                        <SelectTrigger className="w-[180px] "
                                         >
                                             <SelectValue placeholder="분류 선택"/>
                                         </SelectTrigger>
@@ -98,36 +84,49 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({form, onSubmit, loading}) =>
                         )}
                     />
                 </div>
-                <div className="form-row">
-                    <FormField
-                        control={form.control}
-                        name="title"
-                        rules={{required: '제목을 입력하세요'}}
-                        render={({field}) => (
-                            <FormItem >
-                                <FormLabel>제목</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className="w-[180px]"
-                                        placeholder="제목를 입력해주세요" {...field}
-                                        value={field.value || ""}
-                                    />
-                                </FormControl>
-                                {/*<FormMessage/>*/}
-                            </FormItem>
-                        )}
-                    />
+                <div className="flex flex-row max-w-[425px]">
+                    <FormLabel className="w-24 text-right pr-30 whitespace-nowrap">일정</FormLabel>
+                    <div className="flex flex-row gap-4 flex-1 items-center">
+                        <FormField
+                            control={form.control}
+                            name="startDateTime"
+                            rules={{required: "시작일시를 입력하세요"}}
+                            render={({field}) => (
+                                <FormItem className="flex flex-col space-y-2 flex-1">
+                                    <FormControl>
+                                        <DateTimePicker value={field.value} onChange={field.onChange}/>
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FcRight />
+                        <FormField
+                            control={form.control}
+                            name="endDateTime"
+                            render={({field}) => (
+                                <FormItem className="flex flex-col space-y-2 flex-1">
+                                    <FormControl>
+                                        <DateTimePicker value={field.value} onChange={field.onChange}/>
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                 </div>
+                <div className="flex flex-row max-w-[425px]">
+                    <FormLabel className="w-24 text-right pr-30 whitespace-nowrap">설명</FormLabel>
                 <FormField
                     control={form.control}
                     name="content"
-                    render={({ field }) => (
+                    render={({field}) => (
                         <FormItem>
-                            <FormLabel className="">내용</FormLabel>
+
                             <FormControl>
                                 <Textarea
-                                    className="w-[300px]"
-                                    placeholder="내용을를 입력하세요"
+                                    className="w-[500px] h-[200px]"
+                                    placeholder="내용을 입력하세요"
                                     {...field}
                                 />
                             </FormControl>
@@ -135,7 +134,9 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({form, onSubmit, loading}) =>
                         </FormItem>
                     )}
                 />
+                </div>
             </Form>
+
         </GenericForm>
     )
 }

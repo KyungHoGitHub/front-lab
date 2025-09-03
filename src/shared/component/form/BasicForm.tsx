@@ -1,5 +1,6 @@
 import React from "react";
 import './basicForm.css';
+import {Button} from "@/components/ui/button.tsx";
 
 interface BasicFormProps {
     children: React.ReactNode;
@@ -12,9 +13,7 @@ const BasicForm:React.FC<BasicFormProps> = ({children,onSubmit,loading}) =>{
     return(
         <form className="base-form" onSubmit={onSubmit}>
             <div className="base-form-content">{children}</div>
-            <button type="submit" className="base-form-submit-button">
-                {loading ? "submit중~" : "sumit"}
-            </button>
+            <Button className="ml-auto item w-[100px]" type="submit"> {loading ? "submit중~" : "등록"}</Button>
         </form>
     )
 }

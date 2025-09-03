@@ -60,9 +60,9 @@ export function DateTimePicker({ title, value, onChange }: DateTimePickerProps) 
             <Label>{title}</Label>
             <div className="flex flex-row gap-10">
                 <div className="flex flex-col gap-3">
-                    <Label htmlFor="date-picker" className="px-1">
-                        날짜
-                    </Label>
+                    {/*<Label htmlFor="date-picker" className="px-1">*/}
+                    {/*    날짜*/}
+                    {/*</Label>*/}
                     <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger>
                             <Button
@@ -86,9 +86,9 @@ export function DateTimePicker({ title, value, onChange }: DateTimePickerProps) 
                     </Popover>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <Label htmlFor="time-picker" className="px-1">
-                        시간
-                    </Label>
+                    {/*<Label htmlFor="time-picker" className="px-1">*/}
+                    {/*    시간*/}
+                    {/*</Label>*/}
                     <Input
                         type="time"
                         id="time-picker"

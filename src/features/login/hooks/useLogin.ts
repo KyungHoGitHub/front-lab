@@ -16,14 +16,17 @@ interface JwtPayload {
     userIdx: number;
 }
 
-export const useLogin = () =>{
+export const useLogin = () => {
     const {login} = useAuth();
     const setUser = useUserStore((state) => state.setUser);
 
-    const loginUser = async (formData: LoginFormData, loginType: LoginTypes):Promise<boolean> =>{
-        try{
+    const loginUser = async (formData: LoginFormData, loginType: LoginTypes): Promise<boolean> => {
+        try {
             const formDataWithLoginType: LoginFormWithLoginType = {
-                ...formData,
+                data: {
+                    userId: formData.userId,
+                    password: formData.password,
+                },
                 loginType: loginType
             }
 
@@ -32,7 +35,7 @@ export const useLogin = () =>{
             const data = extractData(res);
 
             // 1. 토큰값 유무로 정상적으로 발급 되었는지 확인
-            if(!data.accessToken){
+            if (!data.accessToken) {
                 throw new Error("토큰 정보를 받아오지 못했습니다.")
             }
 
@@ -56,7 +59,7 @@ export const useLogin = () =>{
             login(data.accessToken);
             return true;
 
-        }catch (error: unknown){
+        } catch (error: unknown) {
             const message = mapErrorMessage(error);
             toast.error(message);
             console.error(error);
@@ -64,7 +67,7 @@ export const useLogin = () =>{
         }
     }
 
-    return{
+    return {
         loginUser,
     }
 }
