@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {ReactNode, useEffect, useState} from "react";
 import './Schedule.css';
 
 import ScheduleCardContainer from "../features/schedule/components/ScheduleCardContainer.tsx";
@@ -17,6 +17,11 @@ import {
 } from "@/components/ui/dropdown-menu.tsx";
 import dayjs from "dayjs";
 import {Badge} from "@/components/ui/badge.tsx";
+import {useScheduleStore} from "@/storage/scheduleStore.ts";
+import resourceClient from "@/shared/api/resourceClient.ts";
+import {deleteSchedule, deleteScheduleData} from "@/features/schedule/api/schedule.ts";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
+import {FaCalendarDay, FaMale, FaMapPin, FaRegBuilding} from "react-icons/fa";
 
 type SidebarContextType = {
     setRightSidebarContent: (content: React.ReactNode) => void;
@@ -38,73 +43,58 @@ enum Category {
     ETC = "ETC",
 }
 
+enum Status {
+    SCHEDULED = "SCHEDULED",
+    IN_PROGRESS = "IN_PROGRESS",
+    COMPLETED = "COMPLETED",
+}
+
 const Schedule: React.FC = () => {
     const context = useOutletContext<SidebarContextType | undefined>();
     const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth() + 1);
     const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
-    const [data, setData] = useState<Schedules | null>(null);
+    const [calendarData, setCalendarData] = useState<Schedules | null>(null);
     const [modal, setModal] = useState<boolean>(false);
 
+    const [dataCheck, setDataCheck] = useState(false);
+    const { data } = useScheduleStore();
+
+
     // 스케줄 분류 Map 정의
-    const categoryMap: Record<Category,{label:string; className: string}> = {
-        [Category.PERSONAL]: { label: "개인", className: "bg-blue-100 text-blue-700" },
-        [Category.COMPANY]: { label: "회사", className: "bg-green-100 text-green-700" },
-        [Category.EVENT]: { label: "일정", className: "bg-red-100 text-red-700" },
-        [Category.ETC]: { label: "기타", className: "bg-gray-100 text-gray-600" },
+    const categoryMap: Record<Category,{icon: ReactNode; label:string; className: string}> = {
+        [Category.PERSONAL]: { icon: <FaMale />, label: "개인", className: "bg-blue-100 text-blue-700" },
+        [Category.COMPANY]: { icon : <FaRegBuilding /> ,label: "회사", className: "bg-green-100 text-green-700" },
+        [Category.EVENT]: {icon:<FaCalendarDay />, label: "일정", className: "bg-red-100 text-red-700" },
+        [Category.ETC]: { icon: <FaMapPin />, label: "기타", className: "bg-gray-100 text-gray-600" },
     };
 
+    // 스케줄 상태 Map 정의
+    const statusMap: Record<Status, { label:string; className: string}> = {
+        [Status.SCHEDULED] : {label: "예정", className: "bg-green-300 text-white"},
+        [Status.IN_PROGRESS] : {label: "진행중", className: "bg-blue-200 text-white"},
+        [Status.COMPLETED] : {label: "완료", className: "bg-green-300 text-white"},
+    }
     const renderCategoryTag = (category?: Category) => {
         const item = category ? categoryMap[category] : categoryMap[Category.ETC];
-        return <Badge variant="outline" className={item.className}>{item.label}</Badge>;
+        return <Badge variant="outline" className={item.className}>{item?.icon}{item.label}</Badge>;
     };
 
-    const mockUsers = Array.from({ length: 20 }, (_, index) => {
-        const id = (index + 1).toString(); // 고유한 id 생성
-        const baseData =  [
-            {
-                id: "1",
-                category: "company",
-                title: "주간 스프린트 회의",
-                startDateTime: "2025-07-14 09:00:00",
-                endDateTime: "2025-07-14 10:30:00",
-                createdAt: "2025-06-30T08:00:00Z",
-            },
-            {
-                id: "2",
-                category: "company",
-                title: "고객사 미팅 (프로젝트 진행 보고)",
-                startDateTime: "2025-07-15 14:00:00",
-                endDateTime: "2025-07-15 15:30:00",
-                createdAt: "2025-07-01T11:20:00Z",
-            },
-            {
-                id: "3",
-                category: "event",
-                title: "Spring Boot 세미나 참석",
-                startDateTime: "2025-07-16 13:00:00",
-                endDateTime: "2025-07-16 17:00:00",
-                createdAt: "2025-07-02T09:30:00Z",
-            },
-            {
-                id: "4",
-                category: "company",
-                title: "분기 매출 보고서 작성 마감",
-                startDateTime: "2025-07-17 09:00:00",
-                endDateTime: "2025-07-17 18:00:00",
-                createdAt: "2025-07-03T10:00:00Z",
-            },
-            {
-                id: "5",
-                category: "company",
-                title: "보안 점검 결과 회의",
-                startDateTime: "2025-07-18 11:00:00",
-                endDateTime: "2025-07-18 12:00:00",
-                createdAt: "2025-07-04T13:15:00Z",
-            },
-        ];
-        return baseData[index % 5]; // 5개 데이터 반복, id는 고유
-    }).map((item, index) => ({ ...item, id: (index + 1).toString() })); // id 재설
+    const renderStatusTag = (status?: Status) => {
+        const item  = status ? statusMap[status] : "";
+        return <Badge variant="outline" className={item.className}>{item.label}</Badge>;
+    }
 
+    console.log('dddddata',data);
+
+    const deleteSchedule = async (idx:number)=>{
+
+        try{
+            const res = await deleteScheduleData(idx)   ;
+            console.log(res);
+        }catch (error){
+            console.log(error)
+        }
+    }
     const columns = [
         {
             accessorKey: "title",
@@ -128,7 +118,22 @@ const Schedule: React.FC = () => {
             cell: ({ row }) => renderCategoryTag(row.getValue("category")),
             enableHiding: true,
         },
-       
+        {
+            accessorKey: "status",
+            id: "status",
+            header: ({ column }) => (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    상태
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            ),
+            cell: ({ row }) => renderStatusTag(row.getValue("status")),
+            enableHiding: true,
+        },
+
         {
             accessorKey: "startDateTime",
             id: "startDateTime",
@@ -171,9 +176,10 @@ const Schedule: React.FC = () => {
             id: "actions",
             enableHiding: false,
             cell: ({ row }) => {
-
+                console.log('로우 데이터',row)
                 const user = row.original;
                 const displayId = user.category === "personal" ? user.title : user.createdAt;
+                const scheduleIdx = user.idx;
 
                 return (
                     <DropdownMenu>
@@ -187,13 +193,12 @@ const Schedule: React.FC = () => {
                             <DropdownMenuLabel>더보기</DropdownMenuLabel>
                             <DropdownMenuItem
                                 onClick={() => {
-                                    if (displayId) {
-                                        navigator.clipboard.writeText(displayId);
-
-                                    }
+                                    deleteSchedule(scheduleIdx);
                                 }}
                             >
-                                일정 수정하기
+                                <Badge variant="default" className="bg-red-500 text-white ">
+                                    일정 삭제
+                                </Badge>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -202,14 +207,13 @@ const Schedule: React.FC = () => {
         },
     ];
 
-    const handleDataUpdate = (newData:Schedules) => {
-        setData(newData);
-    };
+    // const handleDataUpdate = (newData:Schedules) => {
+    //     setData(newData);
+    // };
     const {currentMonthSchedules, getCurrentMonthSchedules, loading} = useScheduleCalendar();
-
     useEffect(() => {
         getCurrentMonthSchedules(String(currentYear), String(currentMonth));
-    }, [currentYear, currentMonth,data]);
+    }, [currentYear, currentMonth,calendarData,data]);
 
     useEffect(() => {
         if (context?.setRightSidebarContent) {
@@ -219,7 +223,7 @@ const Schedule: React.FC = () => {
         if (context?.setLeftSidebarContent) {
             context?.setLeftSidebarContent(
                 loading ? <div> 로딩중~~</div> : (
-                    <Calendar data={data || currentMonthSchedules}
+                    <Calendar data={calendarData || currentMonthSchedules}
                               onMonthChange={(year, month) => {
                                   setCurrentYear(year);
                                   setCurrentMonth(month);
@@ -232,9 +236,22 @@ const Schedule: React.FC = () => {
         };
     }, [context, currentMonthSchedules]);
          console.log("currentMonthSchedules",currentMonthSchedules)
+
+    const tableData = data && data.length > 0 ? data : currentMonthSchedules;
     return (
         <main className="schedule-page-main">
-            <DataTable columns={columns} data={currentMonthSchedules} isDataAdd={true} setModal={setModal} />
+            <Tabs defaultValue="account" className="w-[400px]">
+                <TabsList>
+                    <TabsTrigger value="account">일정목록</TabsTrigger>
+                    <TabsTrigger value="password">Password</TabsTrigger>
+                </TabsList>
+                <TabsContent className="w-[1000px]" value="account">
+                    <DataTable columns={columns} data={tableData ?? []} isDataAdd={true} setModal={setModal} setDataCheck={setDataCheck} />
+
+                </TabsContent>
+                <TabsContent value="password">Change your password here.</TabsContent>
+            </Tabs>
+
             {/*<ImageBlock src={scheduleImg} width="200px" height="200px"/>*/}
             {/*<ScheduleFormContainer  onDataUpdate={handleDataUpdate}/>*/}
             <Outlet/>

@@ -8,8 +8,10 @@ import {DateTimePicker} from "@/shared/component/datepicker/DateTimePicker.tsx";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import {useScheduleStore} from "@/storage/scheduleStore.ts";
 interface ScheduleRequestDto {
     category: string;
+    status: string;
     startDateTime: Date;
     endDateTime: Date;
     title: string;
@@ -33,11 +35,12 @@ const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
     const {loading, submitScheduleForm} = useScheduleForm();
     dayjs.extend(utc);
     dayjs.extend(timezone);
-
+    const {setData} = useScheduleStore();
     // 스케줄 폼 속성값
     const form = useForm<ScheduleRequestDto>({
         defaultValues: {
             category: '',
+            status:'',
             startDateTime: undefined,
             endDateTime: undefined,
             title: '',
@@ -54,6 +57,7 @@ const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
         try {
             const serverData = {
                 category: data.category,
+                status: data.status,
                 startDateTime: dayjs(data.startDateTime).tz("Asia/Seoul").format("YYYY-MM-DDTHH:mm:ss"),
                 endDateTime: dayjs(data.endDateTime).tz("Asia/Seoul").format("YYYY-MM-DDTHH:mm:ss"),
                 title: data.title,
@@ -62,7 +66,8 @@ const ScheduleFormContainer = ({onDataUpdate}: ScheduleFormContainerProps) => {
 
             console.log("전송 데이터",  serverData);
             const res = await submitScheduleForm(serverData);
-
+            setData(res.data);
+            // 여기에 수정된 데이터 호출 API
             if (res) {
                 onDataUpdate(res);
             }

@@ -243,7 +243,7 @@ const Calendar: React.FC<CalendarProps> = ({selectedDate, onDateSelect, data,onM
             </div>
             {tooltip.schedule && (
                 <div
-                    className="tooltip"
+                    className="tooltips"
                     style={{top: `${tooltip.y}px`, left: `${tooltip.x}px`}}
                     onClick={closeTooltip}
                 >

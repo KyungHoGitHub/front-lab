@@ -71,7 +71,7 @@ export function DateTimePicker({ title, value, onChange }: DateTimePickerProps) 
                                 id="date-picker"
                                 className="w-32 justify-between font-normal"
                             >
-                                {selectedDate ? selectedDate.toLocaleDateString() : "Select date"}
+                                {selectedDate ? selectedDate.toLocaleDateString() : "일자선택"}
                                 <ChevronDownIcon />
                             </Button>
                         </PopoverTrigger>

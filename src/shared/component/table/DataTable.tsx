@@ -38,9 +38,10 @@ interface DataTableProps<TData, TValue> {
     data: TData[];
     isDataAdd?: boolean;
     setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+    setDataCheck ?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function DataTable<TData, TValue>({ columns, data,isDataAdd=false,setModal }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data,isDataAdd=false,setModal, setDataCheck }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

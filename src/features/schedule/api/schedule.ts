@@ -13,3 +13,7 @@ export const getScheduleList = async ()=>{
 export const getCurrentScheduleList = async (year:string, month:string)=>{
     return resourceClient.get(SCHEDULE_ENDPOINTS.SCHEDULE.CURRENT_MONTH_LIST(year,month))
 }
+
+export const deleteScheduleData = async (idx: number) =>{
+    return resourceClient.delete(SCHEDULE_ENDPOINTS.SCHEDULE.DELETE(idx))
+}

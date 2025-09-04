@@ -8,10 +8,10 @@ const LabSideMenu: React.FC =() =>{
 
     const menuItems = [
         {
-            name: '파일', paht: 'file'
+            name: 'mock 파일 만들기', paht: 'file'
         },
         {
-            name: '메일', paht: 'mail'
+            name: '메일 보내기', paht: 'mail'
         }
     ]
 
