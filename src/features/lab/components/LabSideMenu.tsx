@@ -12,7 +12,11 @@ const LabSideMenu: React.FC =() =>{
         },
         {
             name: '메일 보내기', paht: 'mail'
+        },
+        {
+            name: '로그 통계', paht: 'log-statistics'
         }
+
     ]
 
     return(
