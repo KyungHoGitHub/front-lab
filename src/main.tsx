@@ -9,18 +9,24 @@ import AuthProvider from "./features/contexts/components/AuthProvider.tsx";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById('root')!).render(
     <I18nextProvider i18n={i18n}>
-        <AuthProvider>
-            <RouterProvider router={router}/>
-            <ToastContainer position="top-center"
-                            autoClose={3000}
-                            hideProgressBar={false}
-                            newestOnTop
-                            closeOnClick
-                            pauseOnHover
-                            draggable
-                            theme="light"/>
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+                <RouterProvider router={router}/>
+                <ToastContainer position="top-center"
+                                autoClose={3000}
+                                hideProgressBar={false}
+                                newestOnTop
+                                closeOnClick
+                                pauseOnHover
+                                draggable
+                                theme="light"/>
+            </AuthProvider>
+        </QueryClientProvider>
     </I18nextProvider>
 )

@@ -28,6 +28,7 @@ import FilePage from "@/features/lab/components/FiePage.tsx";
 import MailPage from "@/features/lab/components/MailPage.tsx";
 import TokenSettingPage from "@/features/admin/pages/TokenSettingPage.tsx";
 import LogStatistics from "@/features/lab/components/LogStatistics.tsx";
+import UrlShort from "@/features/lab/components/UrlShort.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -94,7 +95,8 @@ export const router = createBrowserRouter([
                         children: [
                             {path: 'file', element: <FilePage/>},
                             {path: 'mail', element: <MailPage/>},
-                            {path: 'log-statistics', element: <LogStatistics/> },
+                            {path: 'log-statistics', element: <LogStatistics/>},
+                            {path: 'url-short', element: <UrlShort/>},
                         ]
                     },
                     {

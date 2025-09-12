@@ -31,6 +31,7 @@ const fileFormSchema = z.object({
 
 const FileForm: React.FC = () => {
     const {onSubmit} =useFileForm();
+
     const emailDomainOptions = [
         {label: "MB", value: "mb"},
         {label: "KB", value: "kb"},

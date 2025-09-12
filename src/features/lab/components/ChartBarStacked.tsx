@@ -59,7 +59,7 @@ export function ChartBarStacked({data}:any) {
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
-          
+
                     <BarChart accessibilityLayer data={data}>
                         <CartesianGrid vertical={false} />
                         <XAxis

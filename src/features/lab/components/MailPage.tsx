@@ -10,7 +10,7 @@ const MailPage:React.FC = () => {
         <div>
             <Popover>
                 <PopoverTrigger>
-                    <Button variant="outline">Open popover</Button>
+                    <Button variant="outline">메일 팝업 열기</Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-120">
                     <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />

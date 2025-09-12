@@ -15,6 +15,9 @@ const LabSideMenu: React.FC =() =>{
         },
         {
             name: '로그 통계', paht: 'log-statistics'
+        },
+        {
+            name: 'url 줄이기', paht: 'url-short'
         }
 
     ]

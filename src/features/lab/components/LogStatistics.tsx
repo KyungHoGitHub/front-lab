@@ -9,28 +9,42 @@ import resourceClient from "@/shared/api/resourceClient.ts";
 const LogStatistics = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [logData, setLogData] = useState();
+    const [pieData, setPieData] = useState();
+
+
+    const fetchStaticLogList = async () => {
+        setLoading(true);
+        try {
+            const res = await resourceClient.get("/log/static?month=7");
+            setPieData(res.data);
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
+        const fetchLogList = async () => {
+            try {
+                setLoading(true)
+                const res = await resourceClient.get("/log");
+                setLogData(res.data);
 
-            const fetchLogList = async () => {
-                try {
-                    setLoading(true)
-                    const res = await resourceClient.get("/log");
-                    setLogData(res.data);
-
-
-                } catch (error) {
-                    console.log(error);
-                } finally {
-                    setLoading(false);
-                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
             }
+        }
 
-            fetchLogList();
+        fetchLogList();
+        fetchStaticLogList();
+
+    }, []);
 
 
-        }, []);
-    console.log(logData);
+    console.log(pieData);
     return (
         <div>
             <LogStatisticsTitleHeader/>
