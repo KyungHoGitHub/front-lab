@@ -278,6 +278,9 @@ const TodoDetail: React.FC = () => {
                                     <label htmlFor="description" className="form-label">{t('work_space.todo_detail.content')}</label>
                                     <textarea
                                         id="description"
+                                        style={{
+                                            height: "300px"
+                                        }}
                                         value={editForm.description || ''}
                                         onChange={(e) => setEditForm({...editForm, description: e.target.value})}
                                         className="form-textarea"

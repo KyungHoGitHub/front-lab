@@ -18,6 +18,9 @@ const LabSideMenu: React.FC =() =>{
         },
         {
             name: 'url 줄이기', paht: 'url-short'
+        },
+        {
+            name: 'UI play ground', paht: 'ui-playground'
         }
 
     ]

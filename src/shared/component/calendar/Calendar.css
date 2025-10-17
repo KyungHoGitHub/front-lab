@@ -55,7 +55,7 @@
     transform: scale(1.1);
 }
 
-.grid {
+.calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 0px;

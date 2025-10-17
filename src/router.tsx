@@ -29,6 +29,7 @@ import MailPage from "@/features/lab/components/MailPage.tsx";
 import TokenSettingPage from "@/features/admin/pages/TokenSettingPage.tsx";
 import LogStatistics from "@/features/lab/components/LogStatistics.tsx";
 import UrlShort from "@/features/lab/components/UrlShort.tsx";
+import UiPlayground from "@/features/lab/components/UiPlayground.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -97,6 +98,7 @@ export const router = createBrowserRouter([
                             {path: 'mail', element: <MailPage/>},
                             {path: 'log-statistics', element: <LogStatistics/>},
                             {path: 'url-short', element: <UrlShort/>},
+                            {path: 'ui-playground', element: <UiPlayground/>},
                         ]
                     },
                     {

@@ -210,7 +210,7 @@ const Calendar: React.FC<CalendarProps> = ({selectedDate, onDateSelect, data,onM
                 </div>
                 <button onClick={goToNextMonth}>{">"}</button>
             </div>
-            <div className="grid">
+            <div className="calendar-grid">
                 {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
                     <div key={day} className="day-header">
                         {day}

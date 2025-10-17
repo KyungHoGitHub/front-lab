@@ -106,9 +106,12 @@ const TodoModal: React.FC<TodoModalProps> = ({isOpen, onClose,onDataUpdate}) => 
                         {errors.status && <p style={{color: 'red'}}>{errors.status.message}</p>}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="description">설명</label>
+                        <label htmlFor="description">내용</label>
                         <textarea
                             id="description"
+                            style={{
+                                height: "300px"
+                            }}
                             {...register('description', {required: '내용를 입력하세요.'})}
                         />
                         {errors.description && <p style={{color: 'red'}}>{errors.description.message}</p>}

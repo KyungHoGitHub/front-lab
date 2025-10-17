@@ -6,6 +6,7 @@ import {FaGoogle} from "react-icons/fa";
 import {googleLoginForm} from "@/features/login/api/login.ts";
 import googleLogoImg from '@assets/google.svg';
 import {LoginTypes} from "@/features/login/enums/loginTypes.ts";
+import {useNavigate} from "react-router";
 interface UserInfo {
     name: string;
     email: string;
@@ -14,7 +15,7 @@ interface UserInfo {
 
 const OathLoginButton: React.FC = () => {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-
+    const navigate = useNavigate();
     const login = useGoogleLogin({
         flow: 'implicit',
         scope: 'openid profile email',
@@ -32,8 +33,8 @@ const OathLoginButton: React.FC = () => {
                 // 2. 백엔드(Spring)에 토큰 전달 → JWT 발급
                 const serverRes = await googleLoginForm(data);
 
-                console.log(serverRes);
-
+                console.log('ddddddd',serverRes);
+                navigate("/login", { replace: true, state: {} });
             } catch (error) {
                 console.log(error);
             }
