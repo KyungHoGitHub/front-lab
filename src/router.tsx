@@ -30,6 +30,7 @@ import TokenSettingPage from "@/features/admin/pages/TokenSettingPage.tsx";
 import LogStatistics from "@/features/lab/components/LogStatistics.tsx";
 import UrlShort from "@/features/lab/components/UrlShort.tsx";
 import UiPlayground from "@/features/lab/components/UiPlayground.tsx";
+import NotFoundPage from "@/pages/NotFoundPage.tsx";
 
 // createBrowserRouter : react-router 라이브러리 제공 API
 /*
@@ -146,6 +147,6 @@ export const router = createBrowserRouter([
     },
     {
         path: '*',
-        element: <div>not foud 404</div>
+        element: <NotFoundPage/>
     }
 ])
