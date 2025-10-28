@@ -40,7 +40,7 @@ const UrlShort: React.FC = () => {
     };
 
 
-    console.log("결과값",mutation.data?.data);
+
     return (
         <div className="flex flex-col space-y-5">
             <Form {...form}>

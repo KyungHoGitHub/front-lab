@@ -44,7 +44,7 @@ const LogStatistics = () => {
     }, []);
 
 
-    console.log(pieData);
+
     return (
         <div>
             <LogStatisticsTitleHeader/>

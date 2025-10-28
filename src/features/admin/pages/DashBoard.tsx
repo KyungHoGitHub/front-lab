@@ -45,7 +45,7 @@ const DashBoard = () => {
         }
         fetchData();
     }, []);
-    console.log('서버에서의 응답',data)
+
     return (
         <div className="dashboard-container">
             <div className="dashboard-first-layer">

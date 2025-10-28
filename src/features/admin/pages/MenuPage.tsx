@@ -131,11 +131,8 @@ const MenuPage:React.FC =()=>{
 
         // 결과를 저장할 배열
         const result: Menus[] = [];
-        console.log('key 별 ', groupedByKey);
         // 각 key 그룹 처리
         Object.entries(groupedByKey).forEach(([key, items]) => {
-            console.log('키값',key);
-            console.log('아이템값',items);
             const mainMenu: MainMenu[] = items.map((item) => ({ name: item.menuName }));
             const subMenus: SubMenu[] = items.flatMap((item) =>
                 item.children && item.children.length > 0 // children이 존재하고 비어있지 않은 경우만 처리

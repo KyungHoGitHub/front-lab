@@ -1,13 +1,10 @@
 import {createBrowserRouter} from "react-router";
 import Home from "./pages/Home.tsx";
 import App from "./App.tsx";
-import Login from "./pages/Login.tsx";
 import LoginForm from "./features/login/components/LoginForm.tsx";
 import SignupForm from "./features/signup/components/SignupForm.tsx";
 import LoginSignupPage from "./pages/LoginSignupPage.tsx";
 import Mypage from "./pages/Mypage.tsx";
-import Usage from "./pages/Usage.tsx";
-import Statistics from "./pages/Statistics.tsx";
 import ProtectedRoute from "./features/contexts/components/ProtectedRoute.tsx";
 import Workspace from "./pages/Workspace.tsx";
 import Todo from "./pages/Todo.tsx";
@@ -32,16 +29,7 @@ import UrlShort from "@/features/lab/components/UrlShort.tsx";
 import UiPlayground from "@/features/lab/components/UiPlayground.tsx";
 import NotFoundPage from "@/pages/NotFoundPage.tsx";
 
-// createBrowserRouter : react-router 라이브러리 제공 API
-/*
-path : 라우팅 경로 (예 : ' /login')
-
-* */
 export const router = createBrowserRouter([
-    // {
-    //     path: '/login',
-    //     element: <Login/>
-    // },
     {
         path: '/login',
         element: <LoginSignupPage formComponent={<LoginForm/>}/>
@@ -51,7 +39,7 @@ export const router = createBrowserRouter([
         element: <LoginSignupPage formComponent={<SignupForm title="Sign Up"/>}/>
     },
     {
-        element: <ProtectedRoute allowesRoles={["user", "admin"]}/>,
+        element: <ProtectedRoute allowedRoles={["user", "admin"]}/>,
         children: [
             {
                 path: '/',
@@ -113,7 +101,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "admin",
-        element: <ProtectedRoute allowesRoles={["admin"]}/>,
+        element: <ProtectedRoute allowedRoles={["admin"]}/>,
         children: [
             {
                 path: "",

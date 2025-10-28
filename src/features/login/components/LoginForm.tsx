@@ -20,6 +20,7 @@ import boomImg from '@assets/prefix.jpeg';
 import {useLogin} from "@/features/login/hooks/useLogin.ts";
 import {clsx} from "clsx";
 import {CLIENT_ID} from "@/config.ts";
+import TermsModal from "@/features/login/components/TermsModal.tsx";
 
 // 로그인 폼 유효성 검사 객체 정의
 const FormSchema = z.object({
@@ -42,6 +43,7 @@ const LoginForm: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [loginType, setLoginType] = useState<LoginTypes>(LoginTypes.ID_PASSWORD);
     const { loginUser } = useLogin();
+    const [isTermsModalOpen, setIsTermsModalOpen] = useState<boolean>(false);
 
     // todo 로그인 버튼 className 선언 -> 나중에 cva 로 적용하기!
     const loginButtonClass = clsx(
@@ -69,6 +71,7 @@ const LoginForm: React.FC = () => {
     const onSubmit = async (formData: LoginFormData) => {
         setLoading(true);
         const res = await loginUser(formData,loginType);
+
         if(res){
             navigate("/home");
         }
@@ -84,6 +87,12 @@ const LoginForm: React.FC = () => {
                     <AvatarFallback>Null</AvatarFallback>
                 </Avatar>
             </div>
+            {isTermsModalOpen && (
+                <TermsModal
+                    isOpen={isTermsModalOpen}
+                    onClose={() => setIsTermsModalOpen(false)}
+                />
+            )}
             <div className="flex justify-center">
                 <Form {...form}>
                     <form
@@ -158,7 +167,9 @@ const LoginForm: React.FC = () => {
                         <div className="flex flex-col gap-3 items-center">
                             <GoogleOAuthProvider
                                 clientId={CLIENT_ID}>
-                                <OathLoginButton/>
+                                <OathLoginButton
+                                    setIsTermsModalOpen={setIsTermsModalOpen}
+                                />
                             </GoogleOAuthProvider>
                             <KakaoLoginButton/>
                         </div>

@@ -33,7 +33,7 @@ const MailForm: React.FC = () => {
     });
 
     const onSubmit = async (values: FormValues) => {
-        console.log("들어옴>")
+
         try {
             // EmailJS send 메서드 호출 (템플릿 파라미터 직접 전달)
             const response = await emailjs.send(

@@ -1,5 +1,5 @@
 import {useAuth} from "./AuthProvider.tsx";
-import {Navigate, Outlet, useLocation} from "react-router";
+import {Navigate, Outlet} from "react-router";
 import {useEffect, useState} from "react";
 import {validationToken} from "../api/conxext.ts";
 import {TokenStatus} from "../type/Status.ts";
@@ -7,14 +7,22 @@ import {toast} from "react-toastify";
 import {jwtDecode} from "jwt-decode";
 
 interface ProtectedRouteProps {
-    allowedRoles : string[];
+    allowedRoles: string[];
 }
 
-const ProtectedRoute = ({allowesRoles}) => {
+interface Decode {
+    exp: number;
+    role: string;
+    sub: string;
+    userId: string;
+    userIdx: string;
+}
+
+
+const ProtectedRoute = ({allowedRoles}:ProtectedRouteProps) => {
     const {token, logout, isAuthenticated} = useAuth();
     // 유효 여부 값
     const [isVerified, setIsVerified] = useState<boolean>(false);
-
 
     // 값 싱태갑 변경에 따른 체크 하기 위해
     useEffect(() => {
@@ -45,12 +53,12 @@ const ProtectedRoute = ({allowesRoles}) => {
         return <Navigate to="/login" replace />;
     }
 
-    const decoded = jwtDecode(token);
+    const decoded = jwtDecode<Decode>(token);
 
 
-    if (!decoded.role || !allowesRoles.includes(decoded.role)) {
-        return <Navigate to="/login" replace />;
-    }
+    // if (!decoded.role || !allowedRoles.includes(decoded.role)) {
+    //     return <Navigate to="/login" replace/>;
+    // }
     return <Outlet/>
 }
 export default ProtectedRoute;

@@ -26,10 +26,6 @@ const TokenSettingPage:React.FC =()=>{
     });
 
     const onSubmit = async (formData)=>{
-        console.log('데이터 들어오나',formData)
-
-
-
         const data ={
             accessTokenExp : formData.accessTokenExp * 600000,
             refreshTokenExp : formData.refreshTokenExp * 600000

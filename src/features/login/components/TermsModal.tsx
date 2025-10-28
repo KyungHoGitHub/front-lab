@@ -22,9 +22,11 @@ import {useForm} from "react-hook-form";
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form.tsx";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {getAllTermsList, termsForm} from "@/features/login/api/login.ts";
+import {useNavigate} from "react-router";
+import {useAuth} from "@/features/contexts/components/AuthProvider.tsx";
 
 interface TermsItem {
-    id : string;
+    id: string;
     key: string;          // React key 또는 유니크 ID
     title: string;        // 약관 제목
     description?: string; // 요약/설명
@@ -32,12 +34,21 @@ interface TermsItem {
 }
 
 interface TermsFormValues {
-    terms: Record<string,boolean>;
+    terms: Record<string, boolean>;
 }
 
-const TermsModal = () => {
+interface TermsModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const TermsModal: React.FC<TermsModalProps> = ({isOpen, onClose}) => {
     const form = useForm({});
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    // const [isOpen, setIsOpen] = useState<boolean>(false);
+    const {login} = useAuth();
+
+
+    const navigate = useNavigate();
 
     // 모달에 사용하는 문자열 목록
     const textList = {
@@ -51,167 +62,154 @@ const TermsModal = () => {
         agreeAllTitle: "이용약관,개인정보 수집에 모두 동의합니다. (선택동의 포함)",
     };
 
-    // const termsList: TermsItem[] = [
-    //     {
-    //         key: "privacy",
-    //         title: "개인정보 수집 및 이용",
-    //         description: "당사는 회원가입 및 서비스 이용 과정에서 개인정보를 수집합니다...",
-    //         required: true,
-    //     },
-    //     {
-    //         key: "public",
-    //         title: "자사 서비스 개인 정보 사용 동의 및 이용",
-    //         description: "당사는 회원가입 및 서비스 이용 과정에서 개인정보를 수집합니다...",
-    //         required: true,
-    //     },
-    //     {
-    //         key: "marketing",
-    //         title: "마케팅 정보 수신 동의",
-    //         description: "서비스 관련 정보 및 이벤트 안내를 받는 것에 동의합니다.",
-    //         required: false,
-    //     },
-    //     {
-    //         key: "advertisement",
-    //         title: "광고 정보 동의",
-    //         description: "서비스 관련 정보 및 이벤트 안내를 받는 것에 동의합니다.",
-    //         required: false,
-    //     },
-    // ];
-
     const getTermsList = async () => {
         const res = await getAllTermsList();
-        return  res.data;
+        return res.data;
     };
 
-    const {data , isLoading, isError} = useQuery({
+    const {data, isLoading, isError} = useQuery({
         queryKey: ["TermsList"],
-        queryFn : getTermsList,
-        staleTime : 1000 * 60 * 10,
+        queryFn: getTermsList,
+        staleTime: 1000 * 60 * 10,
     });
 
-    const submitTerms = async  (payload: { id: string; agreed: boolean }[])  =>{
+    // Todo 폼 제출 정상 확인후 삭제
+    const submitTerms = async (payload: { id: string; agreed: boolean }[]) => {
         const res = await termsForm(payload);
         return res.data;
     }
 
     const mutation = useMutation({
-        mutationFn: submitTerms,
-        onSuccess: (data) =>{
-            console.log('서버응답', data)
+
+        mutationFn: (payload: { id: string; agreed: boolean }[]) => termsForm(payload,localStorage.getItem("user-mail")),
+        onSuccess: (data) => {
+
+
+            onClose();
+
+            login("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhYWJiIiwidXNlcklkeCI6NTIsInVzZXJJZCI6ImFiYWIiLCJyb2xlIjoidXNlciIsImV4cCI6MTc2MTU0MDUwNn0.nCRJQTy2TshqpuIWaIUJ58sBkTzHmbo-kzeISlBmsgvGArwH-qJxYazcIVAnmI3z");
+            navigate("/home");
         },
-        onError: (error)=>{
+        onError: (error) => {
             console.error('서버 에러', error)
         }
-    })
+    });
 
     const onSubmit = (formValues: TermsFormValues) => {
         // RHF에서 얻은 값 (terms.privacy, terms.public ...)
-        console.log("약관동의 폼 데이터 확인", formValues);
+
 
         // 서버에 전송할 형태로 변환
         const payload = {
             terms: data.map(item => ({
                 id: item.id,
                 agreed: formValues.terms?.[item.key] ?? false,
-            }))
+            })),
         };
         mutation.mutate(payload); // ← 서버로 전송
-        console.log("서버 전송 데이터", payload);
+
     };
 
+    if (!isOpen) return null;
     if (isLoading) return <p>약관 정보 불러오는중~~~</p>
-    if (isError) return  <p>약관 정보 불러오기 실패</p>
+    if (isError) return <p>약관 정보 불러오기 실패</p>
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <Card className="p-7">
-                    <div className="flex items-center mb-15">
-                        <div className="w-5/6">
-                            <CardHeader className="p-0">
-                                <CardTitle className="text-lg">{textList.cardTitle}</CardTitle>
-                                <CardDescription className="whitespace-pre-line">{textList.cardDescriptions}</CardDescription>
-                            </CardHeader>
-                        </div>
-                        <div className="w-1/6 flex justify-end">
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <CardAction>
-                                        <div className="group">
-                                            <Button onClick={(e)=>{
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                setIsOpen(false);
-                                            }} variant="outline" size="icon"
-                                                    className="rounded-full hover:bg-red-100 transition-colors">
-                                                <TiArrowBackOutline
-                                                    className="group-hover:text-red-500 transition-colors"
-                                                    size={24}/>
-                                            </Button>
-                                        </div>
-                                    </CardAction>
-                                </TooltipTrigger>
-                                <TooltipContent side="top">
-                                    {textList.tooltipTitle}
-                                </TooltipContent>
-                            </Tooltip>
-                        </div>
-                    </div>
-                    <CardContent>
-                        <FormField
-                            control={form.control}
-                            name="agreeAll"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="flex items-center gap-9 mb-3">
-                                            <Checkbox
-                                                id="agreeAll"
-                                                checked={field.value}
-                                                onCheckedChange={(v) => {
-                                                    field.onChange(v);
-                                                    data.forEach((item) => {
-                                                        form.setValue(`terms.${item.key}`, v);
-                                                    });
-                                                }}
-                                                className="w-5 h-5  data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 col-span-1"
-                                            />
-                                            <Label className="text-medium font-semibold text-gray-800" htmlFor="terms">
-                                                {textList.agreeAllTitle}
-                                            </Label>
-                                        </div>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <Separator className="my-2"/>
-                        {data.map((item) => (
-                            <FormField
-                                key={item.key}
-                                control={form.control}
-                                name={`terms.${item.key}`}
-                                render={({field}) => (
-                                    <TermsAgreementFiledItem
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="w-[600px] bg-white rounded-lg shadow-lg p-0">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <Card className="p-7">
+                            <div className="flex items-center mb-15">
+                                <div className="w-5/6">
+                                    <CardHeader className="p-0">
+                                        <CardTitle className="text-lg">{textList.cardTitle}</CardTitle>
+                                        <CardDescription
+                                            className="whitespace-pre-line">{textList.cardDescriptions}</CardDescription>
+                                    </CardHeader>
+                                </div>
+                                <div className="w-1/6 flex justify-end">
+                                    <Tooltip>
+                                        <TooltipTrigger>
+                                            <CardAction>
+                                                <div className="group">
+                                                    <Button onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        onClose();
+                                                    }} variant="outline" size="icon"
+                                                            className="rounded-full hover:bg-red-100 transition-colors">
+                                                        <TiArrowBackOutline
+                                                            className="group-hover:text-red-500 transition-colors"
+                                                            size={24}/>
+                                                    </Button>
+                                                </div>
+                                            </CardAction>
+                                        </TooltipTrigger>
+                                        <TooltipContent side="top">
+                                            {textList.tooltipTitle}
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </div>
+                            </div>
+                            <CardContent>
+                                <FormField
+                                    control={form.control}
+                                    name="agreeAll"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <div className="flex items-center gap-9 mb-3">
+                                                    <Checkbox
+                                                        id="agreeAll"
+                                                        checked={field.value}
+                                                        onCheckedChange={(v) => {
+                                                            field.onChange(v);
+                                                            data.forEach((item) => {
+                                                                form.setValue(`terms.${item.key}`, v);
+                                                            });
+                                                        }}
+                                                        className="w-5 h-5  data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 col-span-1"
+                                                    />
+                                                    <Label className="text-medium font-semibold text-gray-800"
+                                                           htmlFor="terms">
+                                                        {textList.agreeAllTitle}
+                                                    </Label>
+                                                </div>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <Separator className="my-2"/>
+                                {data.map((item) => (
+                                    <FormField
                                         key={item.key}
-                                        id={item.id}
-                                        title={item.title}
-                                        description={item.description}
-                                        required={item.required}
-                                        checked={field.value ?? false}
-                                        onChange={(field.onChange)}
+                                        control={form.control}
+                                        name={`terms.${item.key}`}
+                                        render={({field}) => (
+                                            <TermsAgreementFiledItem
+                                                key={item.key}
+                                                id={item.id}
+                                                title={item.title}
+                                                description={item.description}
+                                                required={item.required}
+                                                checked={field.value ?? false}
+                                                onChange={(field.onChange)}
+                                            />
+                                        )}
                                     />
-                                )}
-                            />
-                        ))}
-                    </CardContent>
-                    <CardFooter>
-                        <Button type="submit" className="w-full">
-                            {textList.cardFooterButtonTitle}
-                        </Button>
-                    </CardFooter>
-                </Card>
-            </form>
-        </Form>
+                                ))}
+                            </CardContent>
+                            <CardFooter>
+                                <Button type="submit" className="w-full">
+                                    {textList.cardFooterButtonTitle}
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </form>
+                </Form>
+            </div>
+        </div>
     )
 }
 export default TermsModal;
@@ -281,17 +279,21 @@ const TermsAgreementFiledItem: React.FC<TermsAgreementFiledItemProps> = ({
     )
 }
 
-const FieldLabelTitle = ({
-                             title,
-                             required,
-                         }: {
+interface FieldLabelTitleProps {
     title: string;
-    required?: boolean;
-}) => (
-    <FieldLabel>
-    <span className={required ? "text-red-600 font-bold" : "text-gray-500"}>
-      {required ? "(필수) " : "(선택) "}
-    </span>
-        {title}
-    </FieldLabel>
-);
+    required: boolean;
+}
+
+const FieldLabelTitle: React.FC<FieldLabelTitleProps> = ({
+                                                             title,
+                                                             required,
+                                                         }) => {
+    return (
+        <FieldLabel>
+             <span className={required ? "text-red-600 font-bold" : "text-gray-500"}>
+                {required ? "(필수) " : "(선택) "}
+                </span>
+                {title}
+        </FieldLabel>
+    )
+};

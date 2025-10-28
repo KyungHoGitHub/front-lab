@@ -7,22 +7,27 @@ import {googleLoginForm} from "@/features/login/api/login.ts";
 import googleLogoImg from '@assets/google.svg';
 import {LoginTypes} from "@/features/login/enums/loginTypes.ts";
 import {useNavigate} from "react-router";
+import {extractData} from "@/shared/utill/response.ts";
+import {useAuth} from "@/features/contexts/components/AuthProvider.tsx";
 interface UserInfo {
     name: string;
     email: string;
     picture: string;
 }
 
-const OathLoginButton: React.FC = () => {
+interface OauthLoginButtonProps {
+    setIsTermsModalOpen : (value: boolean) => void;
+}
+
+const OathLoginButton: React.FC<OauthLoginButtonProps> = ({setIsTermsModalOpen}) => {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const navigate = useNavigate();
-    const login = useGoogleLogin({
+    const {login} = useAuth();
+    const logins = useGoogleLogin({
         flow: 'implicit',
         scope: 'openid profile email',
         onSuccess: async (tokenResponse) => {
             try {
-
-                console.log('토큰 정보', tokenResponse);
 
                 const data = {
                     data: {
@@ -33,8 +38,18 @@ const OathLoginButton: React.FC = () => {
                 // 2. 백엔드(Spring)에 토큰 전달 → JWT 발급
                 const serverRes = await googleLoginForm(data);
 
-                console.log('ddddddd',serverRes);
-                navigate("/login", { replace: true, state: {} });
+                const res = extractData(serverRes);
+                // if (res.accessToken == "100688563434354731537") {
+                //     setIsTermsModalOpen(true);
+                // }
+
+                localStorage.setItem("user-mail",res.oauthEmail);
+
+                if(localStorage.getItem("user-mail")){
+                    setIsTermsModalOpen(true);
+                }
+                login(res.accessToken);
+                navigate("/home", { replace: true, state: {} });
             } catch (error) {
                 console.log(error);
             }
@@ -58,7 +73,7 @@ const OathLoginButton: React.FC = () => {
                      hover:scale-105
                      active:scale-95
                      rounded-lg
-                     shadow-md" onClick={() => login()}>
+                     shadow-md" onClick={() => logins()}>
                 <img src={googleLogoImg} alt="" className="w-7 h-7 -ml-3 mr-3" />
                 <span className="flex-1 text-center">Google 로그인</span>
             </button>

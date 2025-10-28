@@ -10,8 +10,8 @@ export const googleLoginForm = async (data)=>{
     return authClient.post(LOGIN_ENDPOINT.AUTH.LOGIN,data)
 }
 
-export const termsForm  = async (data: any)=>{
-    return authClient.post(LOGIN_ENDPOINT.AUTH.TERMS,data)
+export const termsForm  = async (data: any,userEmail: string)=>{
+    return authClient.post(`/user-terms/${userEmail}`,data)
 }
 
 export const getAllTermsList = async () =>{

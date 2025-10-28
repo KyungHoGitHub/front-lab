@@ -24,7 +24,7 @@ const LoginSignupPage: React.FC<LoginSignupProps> = ({formComponent}) => {
     const [loginCheck, setLoginCheck] = useState<boolean>();
     const [hasShownConfetti, setHasShownConfetti] = useState(false);
     const testValue = location.pathname.includes("login");
-    console.log("->>>>>>>>>>>>>",  state);
+
     useEffect(() => {
         setLoginCheck(testValue)
         if (state?.signupSuccess && !hasShownConfetti) {
