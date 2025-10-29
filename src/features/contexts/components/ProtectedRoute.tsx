@@ -1,5 +1,5 @@
 import {useAuth} from "./AuthProvider.tsx";
-import {Navigate, Outlet} from "react-router";
+import {Navigate, Outlet, useLoaderData} from "react-router";
 import {useEffect, useState} from "react";
 import {validationToken} from "../api/conxext.ts";
 import {TokenStatus} from "../type/Status.ts";
@@ -19,7 +19,9 @@ interface Decode {
 }
 
 
-const ProtectedRoute = ({allowedRoles}:ProtectedRouteProps) => {
+const ProtectedRoute = () => {
+    const { allowedRoles } = useLoaderData() as { allowedRoles: string[] };
+    console.log("로더 데이터 확인", allowedRoles);
     const {token, logout, isAuthenticated} = useAuth();
     // 유효 여부 값
     const [isVerified, setIsVerified] = useState<boolean>(false);

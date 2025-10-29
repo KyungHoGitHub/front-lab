@@ -28,72 +28,75 @@ import LogStatistics from "@/features/lab/components/LogStatistics.tsx";
 import UrlShort from "@/features/lab/components/UrlShort.tsx";
 import UiPlayground from "@/features/lab/components/UiPlayground.tsx";
 import NotFoundPage from "@/pages/NotFoundPage.tsx";
+import SignupPageWrapper from "@/pages/SignupPageWrapper.tsx";
+import LoginPageWrapper from "@/pages/LoginPageWrapper.tsx";
 
 export const router = createBrowserRouter([
     {
         path: '/login',
-        element: <LoginSignupPage formComponent={<LoginForm/>}/>
+        Component: LoginPageWrapper,
     },
     {
         path: '/signup',
-        element: <LoginSignupPage formComponent={<SignupForm title="Sign Up"/>}/>
+        Component: SignupPageWrapper,
     },
     {
-        element: <ProtectedRoute allowedRoles={["user", "admin"]}/>,
+        loader : ()=>({allowedRoles : ["user", "admin"]}),
+        Component : ProtectedRoute,
         children: [
             {
                 path: '/',
-                element: <App/>,
+                Component: App,
                 children: [
                     {
-                        index: true, // 인덱스 어디에 사용되는 값인지 확인
+                      // 인덱스 어디에 사용되는 값인지 확인
                         path: 'home',
-                        element: <Home/>,
+                        Component: Home,
                     },
                     {
                         path: 'workspace',
-                        element: <Workspace/>,
+                        Component: Workspace,
                         children: [
-                            {index: true, element: <Todo/>}, // 기본 경로: /workspace -> Todo
+                            {index: true, Component: Todo}, // 기본 경로: /workspace -> Todo
                             {
-                                path: 'todo', element: <Todo/>,
+                                path: 'todo', Component: Todo,
                                 children: [{
-                                    path: 'detail/:idx', element: <TodoDetail/>,
+                                    path: 'detail/:idx', Component: TodoDetail,
                                 }]
                             },
                             {
-                                path: 'chat', element: <Chat/>,
+                                path: 'chat', Component: Chat,
                                 children: [{
-                                    path: ':userId', element: <ChatBox/>,
+                                    path: ':userId', Component: ChatBox,
                                 }]
                             },
-                            {path: 'memo', element: <Memo/>},
-                            {path: 'gant', element: <Gant/>},
+                            {path: 'memo', Component: Memo},
+                            {path: 'gant', Component: Gant},
                         ],
                     },
                     {
                         path: 'schedule',
-                        element: <Schedule/>,
+                        Component: Schedule,
                     },
                     {
                         path: 'notice',
-                        element: <Notice/>,
+                        Component: Notice,
                     },
                     {
                         path: 'lab',
-                        element: <Lab/>,
+                        Component: Lab,
                         children: [
-                            {path: 'file', element: <FilePage/>},
-                            {path: 'mail', element: <MailPage/>},
-                            {path: 'log-statistics', element: <LogStatistics/>},
-                            {path: 'url-short', element: <UrlShort/>},
-                            {path: 'ui-playground', element: <UiPlayground/>},
+                            {path: 'file', Component :FilePage},
+                            {path: 'mail', Component :MailPage},
+                            {path: 'log-statistics', Component :LogStatistics},
+                            {path: 'url-short', Component :UrlShort},
+                            {path: 'ui-playground', Component :UiPlayground},
                         ]
                     },
                     {
                         index: true,
                         path: 'mypage',
-                        element: <Mypage/>,
+                        Component: Mypage,
                     },
                 ]
             }
@@ -101,31 +104,32 @@ export const router = createBrowserRouter([
     },
     {
         path: "admin",
-        element: <ProtectedRoute allowedRoles={["admin"]}/>,
+        loader : ()=>({allowedRoles :  ["admin"]}),
+        Component: ProtectedRoute,
         children: [
             {
                 path: "",
-                element: <AdminDashboard/>,
+                Component: AdminDashboard,
                 children: [
                     {
                         path: '',
-                        element: <UserManagement/>,
+                        Component: UserManagement,
                         children: [
                             {
                                 path: 'user-list',
-                                element: <UserPage/>
+                                Component: UserPage
                             },
                             {
                                 path: 'menu-list',
-                                element: <MenuList/>
+                                Component: MenuList
                             },
                             {
                                 path: 'dashboard',
-                                element: <DashBoard/>
+                                Component: DashBoard
                             },
                             {
                                 path: 'token-setting',
-                                element: <TokenSettingPage/>
+                                Component: TokenSettingPage
                             },
                         ]
                     },
@@ -135,6 +139,6 @@ export const router = createBrowserRouter([
     },
     {
         path: '*',
-        element: <NotFoundPage/>
+        Component: NotFoundPage
     }
 ])
