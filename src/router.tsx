@@ -30,6 +30,7 @@ import UiPlayground from "@/features/lab/components/UiPlayground.tsx";
 import NotFoundPage from "@/pages/NotFoundPage.tsx";
 import SignupPageWrapper from "@/pages/SignupPageWrapper.tsx";
 import LoginPageWrapper from "@/pages/LoginPageWrapper.tsx";
+import SpellingCheckPage from "@/features/spelling/SpellingCheckPage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -90,6 +91,7 @@ export const router = createBrowserRouter([
                             {path: 'mail', Component :MailPage},
                             {path: 'log-statistics', Component :LogStatistics},
                             {path: 'url-short', Component :UrlShort},
+                            {path: 'spelling-check', Component :SpellingCheckPage},
                             {path: 'ui-playground', Component :UiPlayground},
                         ]
                     },
