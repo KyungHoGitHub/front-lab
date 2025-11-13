@@ -4,23 +4,13 @@ import WeeklyScheduleNavigation from "@/features/weekly-schedule/WeeklyScheduleN
 import {Category, CategoryColor, WeekDay} from "@/features/weekly-schedule/enum/WeekDay.ts";
 import WeekDaysModal from "@/features/weekly-schedule/WeekDaysModal.tsx";
 import {Clock} from "lucide-react";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {createWeekSchedule, getWeekSchedule} from "@/features/weekly-schedule/api/weeklySchedule.ts";
 
 interface SelectedCell {
     dayIndex: number;
     hour: number;
 }
-
-// enum Category {
-//     company = "COMPANY",
-//     personal = "PERSONAL",
-//     event = "EVENT"
-// }
-//
-// const CategoryColor:Record<Category, string>={
-//     [Category.company] : "bg-green-500",
-//     [Category.event] : "bg-pink-500",
-//     [Category.personal] : "bg-blue-300"
-// }
 
 interface ScheduleEvent {
     id: string;
@@ -46,16 +36,21 @@ interface FormData {
     weekDay?: string;
 }
 
-const DAYS = ["MON", "TUE", "WED", "THJ", "FRI", "SAT", "SUN"];
+const DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 const HOURS = Array.from({length: 12}, (_, i) => i + 8);
 
 const WeekDaysContainer = () => {
+    const queryClient = useQueryClient();
     const [weekDate, setWeekDate] = useState<Dayjs>(dayjs().startOf("week"));
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [selectedCell, setSelectedCell] = useState<SelectedCell | null>(null);
     const [editingEvent, setEditingEvent] = useState<ScheduleEvent | null>(null);
     const [currentTime, setCurrentTime] = useState(dayjs());
-    console.log("시작주차 날짜 확인이요", weekDate.format("YYYY-MM-DD"))
+    const [events, setEvents] = useState<ScheduleEvent[]>([]);
+
+    const [testEvent, setTestEvent] = useState();
+
+
     const [formData, setFormData] = useState<FormData>({
         title: "",
         description: "",
@@ -66,87 +61,62 @@ const WeekDaysContainer = () => {
         weekDay: "",
     });
 
-    // Mock 일정 데이터
-    const [events, setEvents] = useState<ScheduleEvent[]>([
-        {
-            id: "1",
-            title: "자료조사",
-            description: "주간 팀 회의",
-            dayIndex: 0, // 월요일
-            startHour: 13,
-            startMinute: 0o0,
-            endHour: 17,
-            endMinute: 0o0,
-            color: "bg-blue-500",
+
+    const {data,isLoading} = useQuery({
+        queryKey: ['weekSchedule', weekDate],
+        queryFn: async () => {
+            // if (!weekDate) return []; // weekDate 없으면 빈 배열 반환
+            console.log("queryFn 호출됨");
+            const res = await getWeekSchedule(weekDate.format("YYYY-MM-DD"));
+            console.log("server data", res);
+            return res.data;
+        },
+        onSuccess: (data) => {
+            console.log("onSuccess 실행됨:", data);
+            const events = data.map(transformServerData);
+            setTestEvent(events);
+        },
+        enabled: !!weekDate,
+        cacheTime: 0,          // 캐시를 오래 보관하지 않음
+    });
+
+    const createMutation = useMutation({
+        mutationFn: createWeekSchedule,
+        onMutate: (data) => {
+            console.log("⏳ Mutation 시작:", data);
+        },
+        onSuccess: (data) => {
+            console.log("✅ 일정 저장 성공:", data);
+            // Query 무효화하여 데이터 다시 가져오기
+            queryClient.invalidateQueries({ queryKey: ['weekSchedule', weekDate] })
+            setIsModalOpen(false);
+            resetForm();
+        },
+        onError: (error) => {
+            console.error("❌ 일정 저장 실패:", error);
+            alert("일정 저장에 실패했습니다.");
+        },
+        onSettled: () => {
+            console.log("🏁 Mutation 완료 (성공/실패 무관)");
+        }
+    });
+
+    const transformServerData = (data:any) => {
+       const start = dayjs(data.startDateTime);
+        const end = dayjs(data.endDateTime);
+        return {
+            id : data.id.toString(),
+            title : data.title,
+            description : data.description,
+            dayIndex : data.dayIndex,
+            startHour: start.hour(),
+            startMinute: start.minute(),
+            endHour: end.hour(),
+            endMinute: end.minute(),
             category: Category.company,
-            weekDay : "2025-11-09"
-        },
-        {
-            id: "2",
-            title: "점심 약속",
-            description: "고객사 미팅",
-            dayIndex: 2, // 수요일
-            startHour: 12,
-            startMinute: 0o0,
-            endHour: 13,
-            endMinute: 0o0,
-            color: "bg-green-500",
-            category: Category.company,
-            weekDay : "2025-11-11"
-        },
-        {
-            id: "3",
-            title: "프로젝트 발표",
-            description: "Q4 프로젝트 최종 발표",
-            dayIndex: 4, // 금요일
-            startHour: 14,
-            startMinute: 0o0,
-            endHour: 16,
-            endMinute: 0o0,
-            color: "bg-purple-500",
-            category: Category.company,
-            weekDay : "2025-11-13"
-        },
-        {
-            id: "4",
-            title: "요가 수업",
-            description: "저녁 요가 클래스",
-            dayIndex: 1, // 화요일
-            startHour: 18,
-            startMinute: 0o0,
-            endHour: 19,
-            endMinute: 0o0,
-            color: "bg-pink-500",
-            category: Category.event,
-            weekDay : "2025-11-10"
-        },
-        {
-            id: "5",
-            title: "사이버 보안",
-            description: "주간 팀 회의",
-            dayIndex: 0, // 월요일
-            startHour: 8,
-            startMinute: 30,
-            endHour: 10,
-            endMinute: 0o0,
-            color: "bg-blue-500",
-            category: Category.company,
-            weekDay : "2025-11-09"
-        },
-        {
-            id: "6",
-            title: "외부 요청",
-            description: "주간 팀 회의",
-            dayIndex: 3, // 월요일
-            startHour: 10,
-            startMinute: 30,
-            endHour: 11,
-            endMinute: 30,
-            color: "bg-blue-500",
-            category: Category.personal,
-            weekDay : "2025-11-12"
-        },
-    ]);
+            weekDay: start.format("YYYY-MM-DD"),
+        };
+    };
 
     const getDayColor = (dayIndex: number) => {
         switch (dayIndex) {
@@ -176,7 +146,6 @@ const WeekDaysContainer = () => {
     };
 
     const handleEventClick = (event: ScheduleEvent, e: React.MouseEvent) => {
-        console.log("event 객체 -------->", event)
         e.stopPropagation(); // 셀 클릭 이벤트 전파 방지
         setEditingEvent(event);
         setFormData({
@@ -195,46 +164,56 @@ const WeekDaysContainer = () => {
     // 일정 저장 핸들러
     const handleSaveEvent = () => {
         if (!formData.title.trim() || !selectedCell) return;
-
-
         // 선택된 날짜 계산
         const selectedDate = weekDate.add(selectedCell.dayIndex, "day").format("YYYY-MM-DD");
 
         if (editingEvent) {
             // 기존 일정 수정
-            setEvents(events.map(e =>
-                e.id === editingEvent.id
-                    ? {
-                        ...e,
-                        title: formData.title,
-                        description: formData.description,
-                        startHour: formData.startHour,
-                        startMinute: formData.startMinute,  // 추가
-                        endHour: formData.endHour,
-                        endMinute: formData.endMinute,      // 추가
-                        dayIndex: selectedCell.dayIndex,
-                        weekDay: selectedDate,
-                    }
-                    : e
-            ));
+            const updatedEvent = {
+                ...editingEvent,
+                title: formData.title,
+                description: formData.description,
+                startHour: formData.startHour,
+                startMinute: formData.startMinute,
+                endHour: formData.endHour,
+                endMinute: formData.endMinute,
+                dayIndex: selectedCell.dayIndex,
+                weekDay: selectedDate,
+            };
+
+            // 낙관적 업데이트 (UI 먼저 업데이트)
+            setEvents(events.map(e => e.id === editingEvent.id ? updatedEvent : e));
+            createMutation.mutate(updatedEvent);
         } else {
             // 새 일정 추가
             // TODO 등록 API 추가 되면 id 값 할당되는 부분은 제거하기
             const newEvent: ScheduleEvent = {
-                id: Date.now().toString(),
                 title: formData.title,
                 description: formData.description,
                 dayIndex: selectedCell.dayIndex,
                 startHour: formData.startHour,
                 startMinute: formData.startMinute,  // 추가
+                startDateTime : combineDateTime(selectedDate, formData.startHour, formData.startMinute),
                 endHour: formData.endHour,
                 endMinute: formData.endMinute,      // 추가
+                endDateTime :combineDateTime(selectedDate, formData.endHour, formData.endMinute),
                 weekDay: selectedDate
             };
+
             setEvents([...events, newEvent]);
+            createMutation.mutate(newEvent);
         }
+
         setIsModalOpen(false);
         resetForm();
+    };
+
+    const combineDateTime = (day:string, hour:number, minute:number):string => {
+        const [year, month, dayOfMonth] = day.split("-").map(Number);
+
+        const pad = (n: number) => n.toString().padStart(2, "0");
+
+        return `${year}-${pad(month)}-${pad(dayOfMonth)}T${pad(hour)}:${pad(minute)}:00`;
     };
 
     // 일정 삭제 핸들러
@@ -254,9 +233,9 @@ const WeekDaysContainer = () => {
 
     // 해당 셀에 표시할 일정들 렌더링
     const renderEvents = (dayIndex: number, hour: number) => {
-        const cellDate = weekDate.add(dayIndex,"day")
+        const cellDate = weekDate.add(dayIndex, "day")
         return events
-            .filter(e => e.dayIndex === dayIndex && e.startHour === hour && e.weekDay ===  cellDate.format("YYYY-MM-DD"))
+            .filter(e => e.dayIndex === dayIndex && e.startHour === hour && e.weekDay === cellDate.format("YYYY-MM-DD"))
             .map(event => {
                 const startTotalMinutes = event.startHour * 60 + event.startMinute;
                 const endTotalMinutes = event.endHour * 60 + event.endMinute;
@@ -314,6 +293,7 @@ const WeekDaysContainer = () => {
         return top;
     };
 
+
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(dayjs());
@@ -321,6 +301,15 @@ const WeekDaysContainer = () => {
 
         return () => clearInterval(interval);
     }, []);
+
+    useEffect(() => {
+        if (data) {
+            console.log("데이터 받음:", data);
+            const transformedEvents = data.map(transformServerData);
+            setEvents(transformedEvents); // Mock 데이터 대신 서버 데이터 사용
+        }
+    }, [data]);
+    console.log("이게>???",events)
     return (
         <div className="flex flex-col h-screen bg-white">
             <WeekDaysModal hours={HOURS}
@@ -373,11 +362,10 @@ const WeekDaysContainer = () => {
                         {/* 각 요일의 셀 */}
                         {Array.from({length: 7}).map((_, dayIndex) => {
                             const isCurrentCell = isCurrentTimeInCell(dayIndex, hour);
-                            const cellDate = weekDate.add(dayIndex,"day")
-                            console.log("셀 날짜 데이터 객체 ", cellDate.format("YYYY-MM-DD"))
+                            const cellDate = weekDate.add(dayIndex, "day")
 
                             const hasEvent = events.some(
-                                e => e.dayIndex === dayIndex && e.startHour === hour && e.weekDay ===cellDate.format(("YYYY-MM-DD"))
+                                e => e.dayIndex === dayIndex && e.startHour === hour && e.weekDay === cellDate.format(("YYYY-MM-DD"))
                             );
 
                             return (

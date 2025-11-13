@@ -154,7 +154,7 @@ const WeekDaysModal = ({
                     <Button variant="outline" onClick={() => setIsModalOpen(false)}>
                         취소
                     </Button>
-                    <Button onClick={handleSaveEvent} disabled={!formData.title.trim()}>
+                    <Button type="submit" onClick={handleSaveEvent} disabled={!formData.title.trim()}>
                         {editingEvent ? "수정" : "저장"}
                     </Button>
                 </DialogFooter>

@@ -1,6 +1,7 @@
 import React from "react";
 import {Button} from "@/components/ui/button.tsx";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
+import dayjs from "dayjs";
 
 interface WeeklyScheduleHeaderProps {
     setWeekDate : React.Dispatch<React.SetStateAction<any>>;
@@ -19,6 +20,11 @@ const WeeklyScheduleNavigation =({setWeekDate,weekDate}:WeeklyScheduleHeaderProp
         const nextWeekStart = weekDate.add(7,"day");
         setWeekDate(nextWeekStart);
     };
+
+    const handleCurrentWeekButtonClick = () => {
+        const today = dayjs().startOf("week")
+        setWeekDate(today);
+    }
     return (
         <div className="flex items-center justify-between p-3 md:px-6 md:py-4 bg-gray-30 rounded-md shadow-sm">
             <Button
@@ -29,6 +35,11 @@ const WeeklyScheduleNavigation =({setWeekDate,weekDate}:WeeklyScheduleHeaderProp
                 다음주<LuChevronLeft/>
             </Button>
             <span className="font-semibold">{formatted}</span>
+            <Button
+            onClick={()=>handleCurrentWeekButtonClick()}
+            >
+                오늘
+            </Button>
             <Button
                 variant="outline"
                 className="bg-white text-black border-gray-300 hover:bg-gray-100"
