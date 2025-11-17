@@ -7,3 +7,7 @@ export const createWeekSchedule = async (data: any) =>{
 export const getWeekSchedule = async (weekDay) =>{
     return resourceClient.get(`week-plan/${weekDay}`);
 }
+
+export const deleteWeekSchedule = async (weekPlanId: string) =>{
+    return resourceClient.delete(`week-plan/${weekPlanId}`);
+}

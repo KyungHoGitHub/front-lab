@@ -5,10 +5,22 @@ import {Input} from "@/components/ui/input.tsx";
 import {Textarea} from "@/components/ui/textarea.tsx";
 import {Trash2} from "lucide-react";
 
-interface SelectedCell {
-    dayIndex: number;
-    hour: number;
-}
+import {ScheduleEvent, SelectedCell,FormData} from "@/features/weekly-schedule/types";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
+import {Category} from "@/features/weekly-schedule/enum/WeekDay.ts";
+
+// interface SelectedCell {
+//     dayIndex: number;
+//     hour: number;
+// }
 
 interface Event {
     id: string;
@@ -20,12 +32,12 @@ interface Event {
     color: string;
 }
 
-interface FormData {
-    title: string;
-    description: string;
-    startHour: number;
-    endHour: number;
-}
+// interface FormData {
+//     title: string;
+//     description: string;
+//     startHour: number;
+//     endHour: number;
+// }
 
 interface WeekDayModalProps {
     hours: number[];
@@ -52,6 +64,7 @@ const WeekDaysModal = ({
                            handleSaveEvent,
                            handleDeleteEvent
                        }: WeekDayModalProps) => {
+    const minuteOptions = Array.from({length: 6},(_,i)=> i*10);
     return (
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogContent>
@@ -83,7 +96,7 @@ const WeekDaysModal = ({
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <Label className="mb-2 p-1" >시작 시간</Label>
+                            <Label className="mb-2 p-1">시작 시간</Label>
                             <div className="flex gap-2">
                                 <select
                                     value={formData.startHour}
@@ -99,7 +112,7 @@ const WeekDaysModal = ({
                                     onChange={(e) => setFormData({...formData, startMinute: Number(e.target.value)})}
                                     className="flex-1 border rounded px-3 py-2"
                                 >
-                                    {[0, 10, 20, 30, 40, 50].map(m => (
+                                    {minuteOptions.map(m => (
                                         <option key={m} value={m}>{m}분</option>
                                     ))}
                                 </select>
@@ -124,7 +137,7 @@ const WeekDaysModal = ({
                                     onChange={(e) => setFormData({...formData, endMinute: Number(e.target.value)})}
                                     className="flex-1 border rounded px-3 py-2"
                                 >
-                                    {[0, 10, 20, 30, 40, 50].map(m => (
+                                    {minuteOptions.map(m => (
                                         <option key={m} value={m}>{m}분</option>
                                     ))}
                                 </select>
@@ -134,33 +147,50 @@ const WeekDaysModal = ({
 
                     {selectedCell && (
 
-                            <div className="text-sm text-gray-500">
-                                선택된 날짜: {weekDate.add(selectedCell.dayIndex, "day").format("YYYY년 MM월 DD일")}
-                            </div>
+                        <div className="text-sm text-gray-500">
+                            선택된 날짜: {weekDate.add(selectedCell.dayIndex, "day").format("YYYY년 MM월 DD일")}
+                        </div>
                     )}
                 </div>
-
-                <DialogFooter className="gap-2">
-                    {editingEvent && (
-                        <Button
-                            variant="destructive"
-                            onClick={handleDeleteEvent}
-                            className="mr-auto"
-                        >
-                            <Trash2 className="w-4 h-4 mr-2"/>
-                            삭제
+                <div className="space-y-7">
+                    <Select
+                        value={formData.category}
+                        onValueChange={(val: string) => setFormData({ ...formData, category: val as Category })}
+                    >
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="분류"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>일정구분</SelectLabel>
+                                <SelectItem value={Category.company}>회사</SelectItem>
+                                <SelectItem value={Category.personal}>개인일정</SelectItem>
+                                <SelectItem value={Category.event}>공용일정</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+                    <DialogFooter className="gap-2">
+                        {editingEvent && (
+                            <Button
+                                variant="destructive"
+                                onClick={handleDeleteEvent}
+                                className="mr-auto"
+                            >
+                                <Trash2 className="w-4 h-4 mr-2"/>
+                                삭제
+                            </Button>
+                        )}
+                        <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+                            취소
                         </Button>
-                    )}
-                    <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-                        취소
-                    </Button>
-                    <Button type="submit" onClick={handleSaveEvent} disabled={!formData.title.trim()}>
-                        {editingEvent ? "수정" : "저장"}
-                    </Button>
-                </DialogFooter>
+                        <Button type="submit" onClick={handleSaveEvent} disabled={!formData.title.trim()}>
+                            {editingEvent ? "수정" : "저장"}
+                        </Button>
+                    </DialogFooter>
             </DialogContent>
         </Dialog>
-    );
+);
 };
 
 export default WeekDaysModal;

@@ -30,6 +30,6 @@ export interface FormData {
     endHour: number;
     endMinute: number;
     weekDay?: string;
-}
+    category: Category;
 }
 
