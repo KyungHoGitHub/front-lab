@@ -5,7 +5,7 @@ import {Input} from "@/components/ui/input.tsx";
 import {Textarea} from "@/components/ui/textarea.tsx";
 import {Trash2} from "lucide-react";
 
-import {ScheduleEvent, SelectedCell,FormData} from "@/features/weekly-schedule/types";
+import { SelectedCell,FormData} from "@/features/weekly-schedule/types/week-schedule.ts";
 import {
     Select,
     SelectContent,
@@ -17,11 +17,6 @@ import {
 } from "@/components/ui/select";
 import {Category} from "@/features/weekly-schedule/enum/WeekDay.ts";
 
-// interface SelectedCell {
-//     dayIndex: number;
-//     hour: number;
-// }
-
 interface Event {
     id: string;
     title: string;
@@ -31,13 +26,6 @@ interface Event {
     endHour: number;
     color: string;
 }
-
-// interface FormData {
-//     title: string;
-//     description: string;
-//     startHour: number;
-//     endHour: number;
-// }
 
 interface WeekDayModalProps {
     hours: number[];

@@ -1,5 +1,5 @@
 import dayjs, {Dayjs} from "dayjs";
-import {ScheduleEvent} from "@/features/weekly-schedule/types";
+import {ScheduleEvent} from "@/features/weekly-schedule/types/week-schedule.ts";
 import {CategoryColor} from "@/features/weekly-schedule/enum/WeekDay.ts";
 import {Clock} from "lucide-react";
 

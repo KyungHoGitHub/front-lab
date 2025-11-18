@@ -1,13 +1,11 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {Dayjs} from "dayjs";
-import dayjs from "dayjs";
-import {
-    createWeekSchedule,
-    deleteWeekSchedule,
-    getWeekSchedule
-} from "@/features/weekly-schedule/api/weeklySchedule.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import dayjs, {Dayjs} from "dayjs";
+import {createWeekSchedule, deleteWeekSchedule} from "@/features/weekly-schedule/api/weeklySchedule.ts";
 import {Category} from "@/features/weekly-schedule/enum/WeekDay.ts";
-import {ScheduleEvent} from "@/features/weekly-schedule/types";
+import {FormData, ScheduleEvent, SelectedCell} from "@/features/weekly-schedule/types/week-schedule.ts";
+import {useState} from "react";
+import {INITIAL_FORM_DATA} from "@/features/weekly-schedule/constants/week-schedule.ts";
+
 
 /**
  * 서버 데이터를 UI용 ScheduleEvent로 변환
@@ -40,21 +38,10 @@ const transformServerData = (data: any): ScheduleEvent => {
 export const useWeekSchedule = (weekDate: Dayjs) => {
     const queryClient = useQueryClient();
     const queryKey = ['weekSchedule', weekDate];
-    //
-    // const {datas} = useQuery({
-    //     queryKey: queryKey,
-    //     queryFn: async () => {
-    //         const res = await getWeekSchedule(weekDate.format("YYYY-MM-DD"));
-    //         return res.data.map(transformServerData);
-    //     },
-    //     // onSuccess: (data) => {
-    //     //
-    //     //     const events = data.map(transformServerData);
-    //     //     setTestEvent(events);
-    //     // },
-    //     enabled: !!weekDate,
-    //     cacheTime: 0,          // 캐시를 오래 보관하지 않음
-    // })
+    const [selectedCell, setSelectedCell] = useState<SelectedCell | null>(null);
+    const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
+    const [editingEvent, setEditingEvent] = useState<ScheduleEvent | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const createOrUpdateMutation = useMutation({
         mutationFn: async (data: any) => {
@@ -86,14 +73,57 @@ export const useWeekSchedule = (weekDate: Dayjs) => {
     });
 
     const deleteMutation = useMutation({
-        mutationFn: async (id:string)=>{
+        mutationFn: async (id: string) => {
             await deleteWeekSchedule(id);
         },
         onSuccess: () => {
             // 서버 요청 성공 후 데이터 최신화
-            queryClient.invalidateQueries({ queryKey });
+            queryClient.invalidateQueries({queryKey});
         },
     });
+
+    // 주간 일정 셀(빈칸) 클릭 처리 이벤트
+    const handleCellClick = (dayIndex: number, hour: number) => {
+        setSelectedCell({dayIndex, hour});
+        setFormData({
+            title: "",
+            description: "",
+            startHour: hour,
+            startMinute: 0,   // 추가
+            endHour: hour + 1,
+            endMinute: 0,
+            weekDay: "",
+            category: Category.company,
+        });
+        setEditingEvent(null);
+        setIsModalOpen(true);
+    }
+
+    // 주간 일정 셀(일정 있는 칸) 클릭 처리 이벤트
+    const handleEventClick = (event: ScheduleEvent, e: React.MouseEvent) => {
+        e.stopPropagation(); // 셀 클릭 이벤트 전파 방지
+        setEditingEvent(event);
+        setFormData({
+            title: event.title,
+            description: event.description ?? "",
+            startHour: event.startHour,
+            startMinute: event.startMinute ?? 0o0,
+            endHour: event.endHour,
+            endMinute: event.endMinute ?? 0o0,
+            weekDay: event.weekDay ?? "",
+            category: event.category ?? Category.company
+        });
+        setSelectedCell({dayIndex: event.dayIndex, hour: event.startHour});
+        setIsModalOpen(true);
+    };
+
+    const resetForm = () => {
+        setFormData({
+            category: Category.company, endMinute: 0, startMinute: 0, weekDay: "", title: "", description: "", startHour: 9, endHour: 10
+        });
+        setSelectedCell(null);
+        setEditingEvent(null);
+    };
 
     return {
         // 데이터
@@ -103,11 +133,21 @@ export const useWeekSchedule = (weekDate: Dayjs) => {
         //
         // // 메서드
         // refetch,
+        handleCellClick,
+        handleEventClick,
+        setFormData,
+        setIsModalOpen,
+        resetForm,
+
         createOrUpdate: createOrUpdateMutation.mutate,
         deleteEvent: deleteMutation.mutate,
 
         // 상태
         isCreating: createOrUpdateMutation.isPending,
         // isDeleting: deleteMutation.isPending,
+        selectedCell,
+        formData,
+        editingEvent,
+        isModalOpen
     };
 };

@@ -8,37 +8,34 @@ import {createWeekSchedule, getWeekSchedule} from "@/features/weekly-schedule/ap
 import {
     combineDateTime,
     getCurrentTimePosition,
-    getDayColor, isCurrentTimeInCell
+    getDayColor,
+    isCurrentTimeInCell
 } from "@/features/weekly-schedule/utills/weekScheduleUtils.ts";
 import ScheduleEventRenderItem from "@/features/weekly-schedule/components/ScheduleEventRenderItem.tsx";
-import {ScheduleEvent, SelectedCell,FormData} from "@/features/weekly-schedule/types";
+import {FormData, ScheduleEvent, SelectedCell} from "@/features/weekly-schedule/types/week-schedule.ts";
 import {useWeekSchedule} from "@/features/weekly-schedule/hooks/useWeekSchedule.ts";
 import {AiOutlineCalendar} from "react-icons/ai";
+import {DAYS, FIRST_HOUR_LABEL_INDEX, HOURS} from "@/features/weekly-schedule/constants/week-schedule.ts";
 
-const DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-const HOURS = Array.from({length: 12}, (_, i) => i + 8);
-const FIRST_HOUR_LABEL_INDEX = 0;
 const WeekDaysContainer = () => {
     const queryClient = useQueryClient();
     const [weekDate, setWeekDate] = useState<Dayjs>(dayjs().startOf("week"));
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [selectedCell, setSelectedCell] = useState<SelectedCell | null>(null);
-    const [editingEvent, setEditingEvent] = useState<ScheduleEvent | null>(null);
     const [currentTime, setCurrentTime] = useState(dayjs());
     const [events, setEvents] = useState<ScheduleEvent[]>([]);
     const [testEvent, setTestEvent] = useState();
-    const {createOrUpdate,deleteEvent} = useWeekSchedule(weekDate);
-
-    const [formData, setFormData] = useState<FormData>({
-        title: "",
-        description: "",
-        startHour: 9,
-        startMinute: 0,   // 추가
-        endHour: 10,
-        endMinute: 0,
-        weekDay: "",
-        category: Category.company,
-    });
+    const {
+        handleCellClick,
+        handleEventClick,
+        setFormData,
+        setIsModalOpen,
+        resetForm,
+        createOrUpdate,
+        deleteEvent,
+        selectedCell,
+        formData,
+        editingEvent,
+        isModalOpen
+    } = useWeekSchedule(weekDate);
 
     const {data, isLoading} = useQuery({
         queryKey: ['weekSchedule', weekDate],
@@ -58,27 +55,6 @@ const WeekDaysContainer = () => {
         cacheTime: 0,          // 캐시를 오래 보관하지 않음
     });
 
-    const createMutation = useMutation({
-        mutationFn: createWeekSchedule,
-        onMutate: (data) => {
-
-        },
-        onSuccess: (data) => {
-
-            // Query 무효화하여 데이터 다시 가져오기
-            queryClient.invalidateQueries({queryKey: ['weekSchedule', weekDate]})
-            setIsModalOpen(false);
-            resetForm();
-        },
-        onError: (error) => {
-            console.error("❌ 일정 저장 실패:", error);
-            alert("일정 저장에 실패했습니다.");
-        },
-        onSettled: () => {
-
-        }
-    });
-
     const transformServerData = (data: any) => {
         const start = dayjs(data.startDateTime);
         const end = dayjs(data.endDateTime);
@@ -94,40 +70,6 @@ const WeekDaysContainer = () => {
             category: Category.company,
             weekDay: start.format("YYYY-MM-DD"),
         };
-    };
-
-    // 셀 클릭 핸들러
-    const handleCellClick = (dayIndex: number, hour: number) => {
-        setSelectedCell({dayIndex, hour});
-        setFormData({
-            title: "",
-            description: "",
-            startHour: hour,
-            startMinute: 0,   // 추가
-            endHour: hour + 1,
-            endMinute: 0,
-            weekDay: "",
-            category: "",
-        });
-        setEditingEvent(null);
-        setIsModalOpen(true);
-    };
-
-    const handleEventClick = (event: ScheduleEvent, e: React.MouseEvent) => {
-        e.stopPropagation(); // 셀 클릭 이벤트 전파 방지
-        setEditingEvent(event);
-        setFormData({
-            title: event.title,
-            description: event.description ?? "",
-            startHour: event.startHour,
-            startMinute: event.startMinute ?? 0o0,
-            endHour: event.endHour,
-            endMinute: event.endMinute ?? 0o0,
-            weekDay: event.weekDay ?? "",
-            category: event.category ?? null
-        });
-        setSelectedCell({dayIndex: event.dayIndex, hour: event.startHour});
-        setIsModalOpen(true);
     };
 
     // 일정 저장 핸들러
@@ -191,12 +133,6 @@ const WeekDaysContainer = () => {
             setIsModalOpen(false);
             resetForm();
         }
-    };
-
-    const resetForm = () => {
-        setFormData({endMinute: 0, startMinute: 0, weekDay: "", title: "", description: "", startHour: 9, endHour: 10});
-        setSelectedCell(null);
-        setEditingEvent(null);
     };
 
     // 해당 셀에 표시할 일정들 렌더링
@@ -270,16 +206,18 @@ const WeekDaysContainer = () => {
 
             {/* 시간대별 그리드 */}
             <div className="flex-1 overflow-auto">
-                {HOURS.map((hour,index) => (
+                {HOURS.map((hour, index) => (
                     <div key={hour} className="grid grid-cols-8 h-[60px]">
                         {/* 시간 레이블 */}
-                        <div className={`border-r border- flex items-start justify-center ${index === FIRST_HOUR_LABEL_INDEX? "pt-1":"-mt-2"}`}>
+                        <div
+                            className={`border-r border- flex items-start justify-center ${index === FIRST_HOUR_LABEL_INDEX ? "pt-1" : "-mt-2"}`}>
                             <span className="text-xs text-gray-500">{hour}:00</span>
                         </div>
 
                         {/* 각 요일의 셀 */}
                         {Array.from({length: 7}).map((_, dayIndex) => {
                             const isCurrentCell = isCurrentTimeInCell(weekDate, dayIndex, hour, currentTime);
+                            // weekDate -> 시작일  / dayIndex ( 0 :일요일, 1 : 월요일 ... ) 값 더해서 일자 반환
                             const cellDate = weekDate.add(dayIndex, "day")
 
                             const hasEvent = events.some(
@@ -299,11 +237,14 @@ const WeekDaysContainer = () => {
                                     {!hasEvent && (
                                         <div
                                             className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                                            <div className="absolute -bottom-2 -left-2 text-xl animate-ping delay-100">✨</div>
+                                            <div
+                                                className="absolute -bottom-2 -left-2 text-xl animate-ping delay-100">✨
+                                            </div>
                                             <span className="text-gray-400 text-xl"><AiOutlineCalendar/></span>
                                             <div className="absolute -top-2 -right-2 text-xl animate-ping">✨</div>
                                         </div>
                                     )}
+                                    {/* 현재 ( 오늘 날짜, 셀 60 을 해당하는 분 높이 만 조건부 렌더링 )*/}
                                     {getCurrentTimePosition(weekDate, dayIndex, currentTime) !== null && hour === Math.floor(currentTime.hour()) && (
                                         <div
                                             className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-red-300 via-red-500 to-red-600 z-20 transition-all duration-500"
