@@ -50,31 +50,31 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ dropdownItem}) => {
         setIsOpen(false);
     }
 
-   useEffect(() => {
-       const fetchUser = async ()=>{
-           try {
-               const response = await getUserInfo();
-               setUsersData(response.data.data);
-           }catch (error){
-               console.log(error)
-           }
-       }
-
-       fetchUser();
-        const handleOutsideClick = (event: MouseEvent) => {
-            if (dropdownRef.current && event.target instanceof Node && !dropdownRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        };
-        if (isOpen) {
-            document.addEventListener('mousedown', handleOutsideClick);
-        }
-        return () => {
-            document.removeEventListener('mousedown', handleOutsideClick);
-        };
-
-
-    }, []);
+   // useEffect(() => {
+   //     const fetchUser = async ()=>{
+   //         try {
+   //             const response = await getUserInfo();
+   //             setUsersData(response.data.data);
+   //         }catch (error){
+   //             console.log(error)
+   //         }
+   //     }
+   //
+   //     fetchUser();
+   //      const handleOutsideClick = (event: MouseEvent) => {
+   //          if (dropdownRef.current && event.target instanceof Node && !dropdownRef.current.contains(event.target)) {
+   //              setIsOpen(false);
+   //          }
+   //      };
+   //      if (isOpen) {
+   //          document.addEventListener('mousedown', handleOutsideClick);
+   //      }
+   //      return () => {
+   //          document.removeEventListener('mousedown', handleOutsideClick);
+   //      };
+   //
+   //
+   //  }, []);
 
 
     return (

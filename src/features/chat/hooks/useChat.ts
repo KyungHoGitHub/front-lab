@@ -7,6 +7,7 @@ declare global {
     }
 }
 import SockJS from 'sockjs-client';
+import {io, Socket} from "socket.io-client";
 
 const dummyMessages: ChatMessage[] = [
     {id: 1,  email: "alice",senderId :2, text: "안녕하세요!", timestamp: new Date().toISOString()},
@@ -49,130 +50,60 @@ export const useChat = () => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [selectUserList, setSelectUserList] = useState<ChatUserList[] | null>(null);
     const [sendMessage, setSendMessage] = useState<ChatMessage>();
-    const [isConnected, setIsConnected] = useState(false);
-    const socketRef = useRef<WebSocket | null>(null);
-    const clientRef = useRef<Client | null>(null);
-    const connectionAttemptRef = useRef(0);
-    const maxReconnectAttemptsRef = useRef(5);
-    const [connectionError, setConnectionError] = useState<string>("");
 
-    const checkServerHealth = async (): Promise<boolean> => {
-        try {
-            const response = await fetch("http://localhost:8080/api/chat/health");
-            console.log("✅ 서버 응답:", response.status);
-            return response.ok;
-        } catch (error) {
-            console.error("❌ 서버 연결 불가:", error);
-            return false;
-        }
-    };
-    
-    // STOMP 연결 설정
-    const connectToStomp = () => {
-        console.log(`🔄 STOMP 연결 시도 (${connectionAttemptRef.current + 1}/${maxReconnectAttemptsRef.current})`);
+    const socketRef = useRef<Socket | null>(null);
 
-        const client = new Client({
-            brokerURL: undefined,
-            webSocketFactory: () => {
-                console.log("🔌 SockJS 연결 중: ws://localhost:8080/ws");
-                return new SockJS("http://localhost:8080/ws", null, {
-                    timeout: 10000,
-                    transports: ["websocket", "xhr-streaming", "xhr-polling"],
-                });
-            },
-            connectHeaders: {
-                login: "guest",
-                passcode: "guest",
-            },
-            debug: (str) => {
-                if (str.includes("CONNECT") || str.includes("connected")) {
-                    console.log("[STOMP]", str);
-                }
-            },
-            reconnectDelay: 5000,
-            heartbeatIncoming: 4000,
-            heartbeatOutgoing: 4000,
-            onConnect: (frame) => {
-                console.log("✅✅✅ STOMP 연결 성공!!!");
-                setIsConnected(true);
-                setConnectionError("");
-                connectionAttemptRef.current = 0;
-
-                // /topic/public 구독
-                client.subscribe("/topic/public", (message) => {
-                    try {
-                        const msg = JSON.parse(message.body);
-                        console.log("📨 메시지 수신:", msg);
-                        setMessages((prev) => [...prev, msg]);
-                    } catch (error) {
-                        console.error("메시지 파싱 오류:", error);
-                    }
-                });
-            },
-            onDisconnect: () => {
-                console.warn("⚠️ STOMP 연결 해제");
-                setIsConnected(false);
-            },
-            onStompError: (frame) => {
-                console.error("❌ STOMP 에러:", frame.headers["message"], frame.body);
-                setIsConnected(false);
-                setConnectionError(`STOMP 에러: ${frame.headers["message"]}`);
-            },
-            onWebSocketError: (event) => {
-                console.error("❌ WebSocket 에러:", event);
-                setIsConnected(false);
-                setConnectionError("WebSocket 연결 실패");
-            },
-            onWebSocketClose: () => {
-                console.warn("⚠️ WebSocket 연결 종료");
-                setIsConnected(false);
-
-                // 재연결 시도
-                if (connectionAttemptRef.current < maxReconnectAttemptsRef.current) {
-                    connectionAttemptRef.current++;
-                    console.log(`🔄 ${connectionAttemptRef.current}번째 재연결 대기 중...`);
-                    setTimeout(() => connectToStomp(), 3000);
-                } else {
-                    setConnectionError("최대 연결 시도 횟수 초과");
-                    console.error("❌ 최대 재연결 횟수 도달");
-                }
-            },
-        });
-
-        try {
-            client.activate();
-            clientRef.current = client;
-            window.stompClient = client;
-        } catch (error) {
-            console.error("❌ STOMP 활성화 실패:", error);
-            setConnectionError("STOMP 활성화 실패");
-        }
-    };
+    const [connected, setConnected] = useState(false);
+    const clientRef = useRef(null);  // client 저장용 ref 추가
 
     useEffect(() => {
-        const initializeChat = async () => {
-            console.log("🚀 채팅 초기화 시작...");
-            setSelectUserList(dummyChatUsers);
+        const client = new Client({
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws-stomp'),  // http:// + SockJS!!
+            debug: (str) => console.log('STOMP DEBUG:', str),
+            heartbeatIncoming: 0,
+            heartbeatOutgoing: 0,
 
-            // 서버 헬스 체크 (1초 대기 후 시작)
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            reconnectDelay: 5000,
+        });
+        client.onConnect = (frame) => {
+            console.log("STOMP Connected:", frame);  // 이게 찍히면 성공!!
+            setConnected(true);
+            window.stompClient = client;
 
-            const serverIsHealthy = await checkServerHealth();
-            if (serverIsHealthy) {
-                connectToStomp();
-            } else {
-                setConnectionError("서버가 응답하지 않습니다. 8080 포트를 확인하세요.");
-                console.error("❌ 서버 헬스 체크 실패");
-            }
+
+            // 구독
+            // ✅ /topic/chat 구독 - 서버에서 보낸 메시지 수신
+            client.subscribe("/topic/chat", (message) => {
+                console.log("📨 [메시지 수신]:", message.body);
+
+                try {
+                    const receivedMessage = JSON.parse(message.body);
+                    console.log("✅ [파싱된 메시지]:", receivedMessage);
+
+                    // 📌 받은 메시지를 state에 추가
+                    setMessages(prev => [...prev, receivedMessage]);
+                } catch (error) {
+                    console.error("❌ 메시지 파싱 실패:", error);
+                }
+            });
+
+            // 테스트 메시지 전송
+            client.publish({
+                destination: "/app/message",
+                body: JSON.stringify({ text: "Hello from React!" })
+            });
         };
 
-        initializeChat();
+        client.onStompError = (frame) => {
+            console.error("STOMP error:", frame);
+            setConnected(false);
+        };
+
+        client.activate();  // 연결 시작
+        clientRef.current = client;
 
         return () => {
-            if (clientRef.current?.active) {
-                console.log("🛑 STOMP 연결 종료");
-                clientRef.current.deactivate();
-            }
+            client.deactivate();  // disconnect
         };
     }, []);
 
@@ -180,15 +111,15 @@ export const useChat = () => {
        setSelectUserList(dummyChatUsers);
     }, []);
 
-    useEffect(() => {
-        if (!selectedUser) return;
-        // 테스트용: dummyMessages 필터링
-        const userMessages = dummyMessages.filter(msg => msg.email === selectedUser.email);
+    // useEffect(() => {
+    //     if (!selectedUser) return;
+    //     // 테스트용: dummyMessages 필터링
+    //     const userMessages = dummyMessages.filter(msg => msg.email === selectedUser.email);
+    //
+    //     setMessages(userMessages);
+    // }, [selectedUser]);
 
-        setMessages(userMessages);
-    }, [selectedUser]);
-
-
+    console.log("선택한 유저 정보",selectedUser);
     const chatUserListHandleClick = (chatUser: ChatUserList )=>{
 
         setSelectedUser(chatUser);
@@ -200,26 +131,56 @@ export const useChat = () => {
     };
 
     // 채팅 메세지 전송 이벤트 ( 여기 소켓 연동 )
-    const chattingRoomOnClickSendMessage = ()=>{
-        if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
-            console.error("웹소켓 연결 안 됨!", socketRef.current?.readyState);
+    const chattingRoomOnClickSendMessage = (userIdx) => {
+
+        console.log("토큰 정보 파싱한 데이터",userIdx);
+        console.log("🔵 [버튼 클릭]");
+        console.log("   - 연결 상태:", connected);
+        console.log("   - clientRef.current?.connected:", clientRef.current?.connected);
+        console.log("   - window.stompClient?.connected:", window.stompClient?.connected);
+        console.log("   - 메시지:", sendMessage);
+        console.log("   - 선택된 사용자:", selectedUser);
+
+        // 1. 빈 메시지 체크
+        if (!sendMessage || sendMessage.trim() === "") {
+            console.warn("⚠️ 메시지가 비어있습니다");
             return;
         }
-        const payLoad = {
-            sendMessage : sendMessage,
-            senderId: selectedUser?.id,
-            timestamp: new Date().toISOString(),
-            recipient: 1,
+
+        // 2. 사용자 선택 체크
+        if (!selectedUser) {
+            console.warn("⚠️ 사용자를 선택해주세요");
+            return;
         }
 
-        if (window.stompClient?.connected) {
-            window.stompClient.publish({
-                destination: "/app/chat.sendMessage", // ← 컨트롤러에서 받을 경로
+        // 3. 연결 상태 체크
+        if (!clientRef.current?.connected) {
+            console.error("❌ STOMP 클라이언트가 연결되지 않았습니다");
+            console.error("   clientRef.current:", clientRef.current);
+            console.error("   connected:", clientRef.current?.connected);
+            return;
+        }
+
+        const payLoad = {
+            sendMessage: sendMessage,
+            senderId: userIdx,
+            timestamp: new Date().toISOString(),
+            recipient: selectedUser.id,
+        };
+
+        console.log("📤 [STOMP 전송]:", payLoad);
+
+        try {
+            clientRef.current.publish({
+                destination: "/app/chat.sendMessage",
                 body: JSON.stringify(payLoad),
             });
+            console.log("✅ 메시지 전송 성공");
+            setSendMessage(""); // 입력창 비우기
+        } catch (error) {
+            console.error("❌ 메시지 전송 실패:", error);
         }
     };
-
 
     return {
         selectedUser,

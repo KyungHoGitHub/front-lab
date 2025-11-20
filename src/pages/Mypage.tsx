@@ -55,29 +55,29 @@ const Mypage: React.FC = () => {
     }
 
 
-    useEffect(() => {
-        const fetchMypage = async () => {
-            try {
-
-                const decoded = jwtDecode<JwtPayload>(token);
-
-                const response = await getUserInfo();
-                const data =  extractData(response);
-                const test = {
-                    email: "",
-                    idx: 0,
-                    imageUrl: data.imageUrl,
-                    username : decoded.sub,
-                    userId : decoded.userId
-                }
-                setUserData(test);
-                setCompanyInfo(formatUserInfo(test));
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchMypage();
-    }, []);
+    // useEffect(() => {
+    //     const fetchMypage = async () => {
+    //         try {
+    //
+    //             const decoded = jwtDecode<JwtPayload>(token);
+    //
+    //             const response = await getUserInfo();
+    //             const data =  extractData(response);
+    //             const test = {
+    //                 email: "",
+    //                 idx: 0,
+    //                 imageUrl: data.imageUrl,
+    //                 username : decoded.sub,
+    //                 userId : decoded.userId
+    //             }
+    //             setUserData(test);
+    //             setCompanyInfo(formatUserInfo(test));
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     fetchMypage();
+    // }, []);
 
 
     return (
