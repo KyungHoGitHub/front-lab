@@ -84,7 +84,7 @@ const Schedule: React.FC = () => {
         return <Badge variant="outline" className={item.className}>{item.label}</Badge>;
     }
 
-    console.log('dddddata',data);
+
 
     const deleteSchedule = async (idx:number)=>{
 
@@ -100,7 +100,7 @@ const Schedule: React.FC = () => {
             accessorKey: "title",
             id: "title",
             header: "제목",
-            cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
+            cell: ({ row }) => <div className="">{row.getValue("title")}</div>,
             enableHiding: true,
         },
         {

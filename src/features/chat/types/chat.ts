@@ -7,8 +7,8 @@ export  interface ChatMessage {
     timestamp: string;
 }
 
-export interface ChatUserList {
-    id: string;
+export interface ChatUser {
+    idx: string;
     email: string;
     username:string;
     avatar : string;

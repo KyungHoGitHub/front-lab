@@ -21,7 +21,7 @@ interface Decode {
 
 const ProtectedRoute = () => {
     const { allowedRoles } = useLoaderData() as { allowedRoles: string[] };
-    console.log("로더 데이터 확인", allowedRoles);
+
     const {token, logout, isAuthenticated} = useAuth();
     // 유효 여부 값
     const [isVerified, setIsVerified] = useState<boolean>(false);

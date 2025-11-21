@@ -6,7 +6,19 @@ import TextareaAutosize from "react-textarea-autosize"
 import {LuSendHorizontal} from "react-icons/lu";
 import {useAuth} from "@/features/contexts/components/AuthProvider.tsx";
 import {jwtDecode} from "jwt-decode";
-const ChattingRoom = ({sendMessage, chattingRoomOnChangeSendMessage, chattingRoomOnClickSendMessage}) => {
+import {ChatMessage} from "@/features/chat/types/chat.ts";
+
+interface ChattingRoomProps {
+    sendMessage: ChatMessage | null;
+    chattingRoomOnChangeSendMessage: (data: ChatMessage) => void;
+    chattingRoomOnClickSendMessage: (userId: string) => void;
+}
+
+const ChattingRoom = ({
+                          sendMessage,
+                          chattingRoomOnChangeSendMessage,
+                          chattingRoomOnClickSendMessage
+                      }: ChattingRoomProps) => {
     const {token} = useAuth();
     const decoded = jwtDecode(token);
 
@@ -22,7 +34,8 @@ const ChattingRoom = ({sendMessage, chattingRoomOnChangeSendMessage, chattingRoo
                         placeholder="Autoresize textarea..."
                     />
                     <InputGroupAddon align="block-end">
-                        <InputGroupButton className="ml-auto" size="sm" onClick={() => chattingRoomOnClickSendMessage(decoded.userIdx)}
+                        <InputGroupButton className="ml-auto" size="sm"
+                                          onClick={() => chattingRoomOnClickSendMessage(decoded.userIdx)}
                                           variant="default">
                             <LuSendHorizontal/>
                         </InputGroupButton>

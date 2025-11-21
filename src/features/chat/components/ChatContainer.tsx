@@ -7,6 +7,7 @@ import ChatMessageComponent from "@/features/chat/components/ChatMessageComponen
 
 const ChatContainer = () => {
     const {
+        selectedUser,
         selectUserList,
         messages,
         sendMessage,
@@ -21,7 +22,7 @@ const ChatContainer = () => {
             className="min-h-[1000px] max-w-md rounded-lg border md:min-w-[680px]"
         >
             <ResizablePanel defaultSize={340}>
-                <ChatUserList selectUserList={selectUserList} chatUserListHandleClick={chatUserListHandleClick}/>
+                <ChatUserList selectedUser={selectedUser} selectUserList={selectUserList} chatUserListHandleClick={chatUserListHandleClick}/>
             </ResizablePanel>
             <ResizableHandle withHandle/>
             <ResizablePanel defaultSize={340} className="flex flex-col">

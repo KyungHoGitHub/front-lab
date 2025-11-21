@@ -1,6 +1,4 @@
 import * as React from "react"
-
-
 import {
     Avatar,
     AvatarFallback,
@@ -8,7 +6,6 @@ import {
 } from "@/components/ui/avatar"
 import {
     Item,
-    ItemActions,
     ItemContent,
     ItemDescription,
     ItemGroup,
@@ -16,31 +13,42 @@ import {
     ItemSeparator,
     ItemTitle,
 } from "@/components/ui/item"
+import {ChatUser} from "@/features/chat/types/chat.ts";
 
-const ChatUserList = ({selectUserList,chatUserListHandleClick})=> {
+interface ChatUserListProps {
+    selectedUser: ChatUser | null;
+    selectUserList: ChatUser[] | null;
+    chatUserListHandleClick: (chatUser: ChatUser) => void;
+}
 
-    if (selectUserList===null) return ;
+const ChatUserList = ({selectedUser, selectUserList, chatUserListHandleClick}: ChatUserListProps) => {
+    if (selectUserList === null) return;
+
     return (
         <div className="flex w-full max-w-md flex-col gap-6">
             <ItemGroup>
-                {selectUserList.map((person, index) => (
-                    <React.Fragment key={person.username}>
-                        <Item onClick={()=>chatUserListHandleClick(person)}>
+                {selectUserList?.map((user, index) => (
+                    <React.Fragment key={user.userIdx}>
+                        <Item onClick={() => chatUserListHandleClick(user)}
+                              className={`cursor-pointer transition border rounded-md ${
+                                  selectedUser?.userIdx === user.userIdx ? 'border border-blue-500 bg-blue-50' : 'border-transparent bg-white'
+                              }`}
+                        >
                             <ItemMedia>
                                 <Avatar>
-                                    <AvatarImage src={person.avatar} className="grayscale" />
-                                    <AvatarFallback>{person.username.charAt(0)}</AvatarFallback>
+                                    <AvatarImage src={user?.avatar} className="grayscale"/>
+                                    <AvatarFallback>{user?.username?.charAt(0)}</AvatarFallback>
                                 </Avatar>
                             </ItemMedia>
                             <ItemContent className="gap-1">
-                                <ItemTitle>{person.username}</ItemTitle>
-                                <ItemDescription>{`${person.lastMessage}`}</ItemDescription>
+                                <ItemTitle>{user?.username}</ItemTitle>
+                                <ItemDescription>{`${user?.lastMessage}`}</ItemDescription>
                             </ItemContent>
                             <ItemContent className="flex-none text-center">
-                                <ItemDescription>{person.lastMessageTime}</ItemDescription>
+                                <ItemDescription>{user?.lastMessageTime}</ItemDescription>
                             </ItemContent>
                         </Item>
-                        {index !== selectUserList.length - 1 && <ItemSeparator />}
+                        {index !== selectUserList?.length - 1 && <ItemSeparator/>}
                     </React.Fragment>
                 ))}
             </ItemGroup>

@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {ChatMessage, ChatUserList} from "@/features/chat/types/chat.ts";
+import {ChatMessage, ChatUser} from "@/features/chat/types/chat.ts";
 import {Client} from "@stomp/stompjs";
 declare global {
     interface Window {
@@ -8,6 +8,11 @@ declare global {
 }
 import SockJS from 'sockjs-client';
 import {io, Socket} from "socket.io-client";
+import {useQuery} from "@tanstack/react-query";
+import {getMessageUserList} from "@/features/workspace/api/Chat.ts";
+import {getMessageList} from "@/features/chat/api/chatApi.ts";
+import {useAuth} from "@/features/contexts/components/AuthProvider.tsx";
+import {jwtDecode} from "jwt-decode";
 
 const dummyMessages: ChatMessage[] = [
     {id: 1,  email: "alice",senderId :2, text: "안녕하세요!", timestamp: new Date().toISOString()},
@@ -17,7 +22,7 @@ const dummyMessages: ChatMessage[] = [
     {id: 1,  email: "alice",senderId :1, text: "안녕하세요!", timestamp: new Date().toISOString()},
 ];
 
-const dummyChatUsers: ChatUserList[] =[
+const dummyChatUsers: ChatUser[] =[
     {
         id: "1",
         username: "shadcn",
@@ -46,16 +51,17 @@ const dummyChatUsers: ChatUserList[] =[
 ];
 
 export const useChat = () => {
-    const [selectedUser, setSelectedUser] = useState<ChatUserList | null>(null);
+    const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
-    const [selectUserList, setSelectUserList] = useState<ChatUserList[] | null>(null);
+    const [selectUserList, setSelectUserList] = useState<ChatUser[] | null>(null);
     const [sendMessage, setSendMessage] = useState<ChatMessage>();
-
+    console.log("값확인 ------->",selectedUser)
     const socketRef = useRef<Socket | null>(null);
 
     const [connected, setConnected] = useState(false);
     const clientRef = useRef(null);  // client 저장용 ref 추가
-
+    const {token} = useAuth();
+    const decoded = jwtDecode(token);
     useEffect(() => {
         const client = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8080/ws-stomp'),  // http:// + SockJS!!
@@ -66,7 +72,7 @@ export const useChat = () => {
             reconnectDelay: 5000,
         });
         client.onConnect = (frame) => {
-            console.log("STOMP Connected:", frame);  // 이게 찍히면 성공!!
+
             setConnected(true);
             window.stompClient = client;
 
@@ -107,10 +113,38 @@ export const useChat = () => {
         };
     }, []);
 
-    useEffect(() => {
-       setSelectUserList(dummyChatUsers);
-    }, []);
 
+    const {data: fetchedUsers} = useQuery({
+        queryKey: ['chatUserList'],
+        queryFn: async ()=>{
+            const {data} = await  getMessageUserList();
+            return data;
+        },
+        staleTime: 1000 * 60 * 5,
+        refetchOnWindowFocus: false,
+    });
+
+    const {data: chatMessages} = useQuery({
+        queryKey: ['chatMessages'],
+        queryFn: async ()=>{
+            const {data} = await  getMessageList(selectedUser.userIdx,decoded.userIdx);
+            return data;
+        },
+
+    })
+
+    useEffect(() => {
+        if(fetchedUsers){
+       setSelectUserList(fetchedUsers);
+        }
+
+    }, [fetchedUsers]);
+
+    useEffect(() => {
+        if(chatMessages){
+            setMessages(chatMessages)
+        }
+    }, [chatMessages]);
     // useEffect(() => {
     //     if (!selectedUser) return;
     //     // 테스트용: dummyMessages 필터링
@@ -119,14 +153,14 @@ export const useChat = () => {
     //     setMessages(userMessages);
     // }, [selectedUser]);
 
-    console.log("선택한 유저 정보",selectedUser);
-    const chatUserListHandleClick = (chatUser: ChatUserList )=>{
+
+    const chatUserListHandleClick = (chatUser: ChatUser )=>{
 
         setSelectedUser(chatUser);
     };
 
     // 채팅창 입력 상태값 처리 함수
-    const chattingRoomOnChangeSendMessage = (data:any) =>{
+    const chattingRoomOnChangeSendMessage = (data:ChatMessage) =>{
         setSendMessage(data);
     };
 
