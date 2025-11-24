@@ -8,9 +8,9 @@ declare global {
 }
 import SockJS from 'sockjs-client';
 import {io, Socket} from "socket.io-client";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import {getMessageUserList} from "@/features/workspace/api/Chat.ts";
-import {getMessageList} from "@/features/chat/api/chatApi.ts";
+import {createChatUser, getMessageList} from "@/features/chat/api/chatApi.ts";
 import {useAuth} from "@/features/contexts/components/AuthProvider.tsx";
 import {jwtDecode} from "jwt-decode";
 
@@ -133,6 +133,18 @@ export const useChat = () => {
 
     })
 
+    const mutation  = useMutation({
+        mutationFn: createChatUser,
+        onSuccess: (data)=>{
+
+        },
+    })
+
+    const handleChatCreateButton =(values)=>{
+        mutation.mutate(values);
+    };
+
+
     useEffect(() => {
         if(fetchedUsers){
        setSelectUserList(fetchedUsers);
@@ -224,5 +236,6 @@ export const useChat = () => {
         chatUserListHandleClick,
         chattingRoomOnChangeSendMessage,
         chattingRoomOnClickSendMessage,
+        handleChatCreateButton,
     };
 };

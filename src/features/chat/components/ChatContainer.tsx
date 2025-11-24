@@ -13,7 +13,8 @@ const ChatContainer = () => {
         sendMessage,
         chatUserListHandleClick,
         chattingRoomOnChangeSendMessage,
-        chattingRoomOnClickSendMessage
+        chattingRoomOnClickSendMessage,
+        handleChatCreateButton
     } = useChat();
 
     return (
@@ -22,7 +23,7 @@ const ChatContainer = () => {
             className="min-h-[1000px] max-w-md rounded-lg border md:min-w-[680px]"
         >
             <ResizablePanel defaultSize={340}>
-                <ChatUserList selectedUser={selectedUser} selectUserList={selectUserList} chatUserListHandleClick={chatUserListHandleClick}/>
+                <ChatUserList selectedUser={selectedUser} selectUserList={selectUserList} chatUserListHandleClick={chatUserListHandleClick} handleChatCreateButton={handleChatCreateButton}/>
             </ResizablePanel>
             <ResizableHandle withHandle/>
             <ResizablePanel defaultSize={340} className="flex flex-col">

@@ -14,18 +14,28 @@ import {
     ItemTitle,
 } from "@/components/ui/item"
 import {ChatUser} from "@/features/chat/types/chat.ts";
+import ChatUserSearchBar from "@/features/chat/components/ChatUserSearchBar.tsx";
+import {
+    Pagination,
+    PaginationContent, PaginationEllipsis,
+    PaginationItem,
+    PaginationLink, PaginationNext,
+    PaginationPrevious
+} from "@/components/ui/pagination";
 
 interface ChatUserListProps {
     selectedUser: ChatUser | null;
     selectUserList: ChatUser[] | null;
     chatUserListHandleClick: (chatUser: ChatUser) => void;
+    handleChatCreateButton:()=> void;
 }
 
-const ChatUserList = ({selectedUser, selectUserList, chatUserListHandleClick}: ChatUserListProps) => {
+const ChatUserList = ({selectedUser, selectUserList, chatUserListHandleClick,handleChatCreateButton}: ChatUserListProps) => {
     if (selectUserList === null) return;
 
     return (
         <div className="flex w-full max-w-md flex-col gap-6">
+            <ChatUserSearchBar selectUserList={selectUserList} handleChatCreateButton={handleChatCreateButton}/>
             <ItemGroup>
                 {selectUserList?.map((user, index) => (
                     <React.Fragment key={user.userIdx}>
@@ -52,6 +62,30 @@ const ChatUserList = ({selectedUser, selectUserList, chatUserListHandleClick}: C
                     </React.Fragment>
                 ))}
             </ItemGroup>
+            <Pagination className="w-full flex justify-center mt-4">
+                <PaginationContent className="w-full flex justify-between">
+                    <PaginationItem>
+                        <PaginationPrevious href="#" />
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink href="#">1</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink href="#" isActive>
+                            2
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink href="#">3</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationEllipsis />
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationNext href="#" />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
         </div>
     )
 }
