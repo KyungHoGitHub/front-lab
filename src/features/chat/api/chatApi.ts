@@ -9,3 +9,7 @@ export const getMessageList = async (senderId: number,
 export const createChatUser = async (chatUser:ChatUser)=>{
     return resourceClient.post('chatUser',chatUser);
 }
+
+export const fetchChatMessages = async (roomId:number)=>{
+    return resourceClient.get(`chatmessages/${roomId}`);
+}

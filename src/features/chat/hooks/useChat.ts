@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {ChatMessage, ChatUser} from "@/features/chat/types/chat.ts";
 import {Client} from "@stomp/stompjs";
+
 declare global {
     interface Window {
         stompClient?: Client;  // ← 이거 추가하면 에러 사라짐
@@ -10,26 +11,30 @@ import SockJS from 'sockjs-client';
 import {io, Socket} from "socket.io-client";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {getMessageUserList} from "@/features/workspace/api/Chat.ts";
-import {createChatUser, getMessageList} from "@/features/chat/api/chatApi.ts";
+import {createChatUser, fetchChatMessages, getMessageList} from "@/features/chat/api/chatApi.ts";
 import {useAuth} from "@/features/contexts/components/AuthProvider.tsx";
 import {jwtDecode} from "jwt-decode";
 
+import { chatSocket } from "@/features/chat/hooks/chatSocket";
+
+
+
 const dummyMessages: ChatMessage[] = [
-    {id: 1,  email: "alice",senderId :2, text: "안녕하세요!", timestamp: new Date().toISOString()},
-    {id: 1,  email: "alice",senderId :2, text: "안녕하세요!", timestamp: new Date().toISOString()},
-    {id: 1,  email: "alice",senderId :2, text: "안녕하세요!", timestamp: new Date().toISOString()},
-    {id: 1,  email: "alice",senderId :1, text: "안녕하세요!", timestamp: new Date().toISOString()},
-    {id: 1,  email: "alice",senderId :1, text: "안녕하세요!", timestamp: new Date().toISOString()},
+    {id: 1, email: "alice", senderId: 2, text: "안녕하세요!", timestamp: new Date().toISOString()},
+    {id: 1, email: "alice", senderId: 2, text: "안녕하세요!", timestamp: new Date().toISOString()},
+    {id: 1, email: "alice", senderId: 2, text: "안녕하세요!", timestamp: new Date().toISOString()},
+    {id: 1, email: "alice", senderId: 1, text: "안녕하세요!", timestamp: new Date().toISOString()},
+    {id: 1, email: "alice", senderId: 1, text: "안녕하세요!", timestamp: new Date().toISOString()},
 ];
 
-const dummyChatUsers: ChatUser[] =[
+const dummyChatUsers: ChatUser[] = [
     {
         id: "1",
         username: "shadcn",
         avatar: "https://github.com/shadcn.png",
         email: "alice",
         lastMessage: "안녕하세요",
-        lastMessageTime : "11월19일"
+        lastMessageTime: "11월19일"
     },
     {
         id: "2",
@@ -37,7 +42,7 @@ const dummyChatUsers: ChatUser[] =[
         avatar: "https://github.com/maxleiter.png",
         email: "maxleiter@vercel.com",
         lastMessage: "확인부탁드립니다.",
-        lastMessageTime : "11월10일"
+        lastMessageTime: "11월10일"
 
     },
     {
@@ -46,7 +51,7 @@ const dummyChatUsers: ChatUser[] =[
         avatar: "https://github.com/evilrabbit.png",
         email: "evilrabbit@vercel.com",
         lastMessage: "서비스가 정상적으로 동작하나요?",
-        lastMessageTime : "11월8일"
+        lastMessageTime: "11월8일"
     },
 ];
 
@@ -55,13 +60,17 @@ export const useChat = () => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [selectUserList, setSelectUserList] = useState<ChatUser[] | null>(null);
     const [sendMessage, setSendMessage] = useState<ChatMessage>();
-    console.log("값확인 ------->",selectedUser)
     const socketRef = useRef<Socket | null>(null);
 
     const [connected, setConnected] = useState(false);
     const clientRef = useRef(null);  // client 저장용 ref 추가
     const {token} = useAuth();
     const decoded = jwtDecode(token);
+
+    const [roomId, setRoomId] = useState<string>("");
+
+    const [testMessages, setTestMessages] = useState<ChatMessage>();
+
     useEffect(() => {
         const client = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8080/ws-stomp'),  // http:// + SockJS!!
@@ -96,7 +105,7 @@ export const useChat = () => {
             // 테스트 메시지 전송
             client.publish({
                 destination: "/app/message",
-                body: JSON.stringify({ text: "Hello from React!" })
+                body: JSON.stringify({text: "Hello from React!"})
             });
         };
 
@@ -116,8 +125,8 @@ export const useChat = () => {
 
     const {data: fetchedUsers} = useQuery({
         queryKey: ['chatUserList'],
-        queryFn: async ()=>{
-            const {data} = await  getMessageUserList();
+        queryFn: async () => {
+            const {data} = await getMessageUserList();
             return data;
         },
         staleTime: 1000 * 60 * 5,
@@ -126,37 +135,55 @@ export const useChat = () => {
 
     const {data: chatMessages} = useQuery({
         queryKey: ['chatMessages'],
-        queryFn: async ()=>{
-            const {data} = await  getMessageList(selectedUser.userIdx,decoded.userIdx);
+        queryFn: async () => {
+            const {data} = await getMessageList(selectedUser.userIdx, decoded.userIdx);
             return data;
         },
 
     })
 
-    const mutation  = useMutation({
+    const mutation = useMutation({
         mutationFn: createChatUser,
-        onSuccess: (data)=>{
+        onSuccess: async (data) => {
+            console.log("서버에서 받아온 chatroom 데이터",data);
+            const roomId = data.data.id;
+            setRoomId(roomId);
+
+            const messages = await fetchChatMessages(roomId);
+            setTestMessages(messages);
+            console.log("서버에서 받아온 message 데이터",messages);
+            chatSocket.subscribeRoom(roomId, (msg) => {
+                const parsed = JSON.parse(msg.body);
+                setMessages(prev => [...prev, parsed]);
+            });
 
         },
     })
 
-    const handleChatCreateButton =(values)=>{
-        mutation.mutate(values);
+    const handleChatCreateButton = (values) => {
+        const payload = {
+            senderId: values.userId,
+            senderIdx: values.userIdx,
+            senderName: values.username,
+            recipientIdx: decoded.userIdx,
+        }
+        mutation.mutate(payload);
     };
 
 
     useEffect(() => {
-        if(fetchedUsers){
-       setSelectUserList(fetchedUsers);
+        if (fetchedUsers) {
+            setSelectUserList(fetchedUsers);
         }
 
     }, [fetchedUsers]);
 
     useEffect(() => {
-        if(chatMessages){
+        if (chatMessages) {
             setMessages(chatMessages)
         }
     }, [chatMessages]);
+
     // useEffect(() => {
     //     if (!selectedUser) return;
     //     // 테스트용: dummyMessages 필터링
@@ -166,20 +193,20 @@ export const useChat = () => {
     // }, [selectedUser]);
 
 
-    const chatUserListHandleClick = (chatUser: ChatUser )=>{
+    const chatUserListHandleClick = (chatUser: ChatUser) => {
 
         setSelectedUser(chatUser);
     };
 
     // 채팅창 입력 상태값 처리 함수
-    const chattingRoomOnChangeSendMessage = (data:ChatMessage) =>{
+    const chattingRoomOnChangeSendMessage = (data: ChatMessage) => {
         setSendMessage(data);
     };
 
     // 채팅 메세지 전송 이벤트 ( 여기 소켓 연동 )
     const chattingRoomOnClickSendMessage = (userIdx) => {
 
-        console.log("토큰 정보 파싱한 데이터",userIdx);
+        console.log("토큰 정보 파싱한 데이터", userIdx);
         console.log("🔵 [버튼 클릭]");
         console.log("   - 연결 상태:", connected);
         console.log("   - clientRef.current?.connected:", clientRef.current?.connected);
@@ -212,6 +239,7 @@ export const useChat = () => {
             senderId: userIdx,
             timestamp: new Date().toISOString(),
             recipient: selectedUser.id,
+            roomId : roomId,
         };
 
         console.log("📤 [STOMP 전송]:", payLoad);

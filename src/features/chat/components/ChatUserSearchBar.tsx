@@ -37,7 +37,7 @@ const ChatUserSearchBar  = ({selectUserList, handleChatCreateButton}: ChatUserSe
 
         const id = setTimeout(() => {
             const filtered = selectUserList.filter((user) => {
-                const uid = (user.userId ?? "").toLowerCase();
+                const uid = (user.username ?? "").toLowerCase();
                 return uid.includes(q);
             });
             setResults(filtered);
@@ -49,7 +49,7 @@ const ChatUserSearchBar  = ({selectUserList, handleChatCreateButton}: ChatUserSe
 
     const handleSelect = (user: User) => {
         setSelectedUser(user);
-        setQuery(user.userId); // input에 선택한 유저 이름 반영
+        setQuery(user.username); // input에 선택한 유저 이름 반영
         setResults([]);
 
     };
@@ -79,11 +79,11 @@ const ChatUserSearchBar  = ({selectUserList, handleChatCreateButton}: ChatUserSe
                                         key={user.userId}
                                         className={cn(
                                             "p-2 cursor-pointer hover:bg-gray-100",
-                                            selectedUser?.userId === user.userId && "bg-gray-200"
+                                            selectedUser?.username === user.username && "bg-gray-200"
                                         )}
                                         onClick={() => handleSelect(user)}
                                     >
-                                        {user.userId}
+                                        {user.username}
                                     </li>
                                 ))}
                             </ul>
