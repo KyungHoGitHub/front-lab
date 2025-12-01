@@ -1,4 +1,3 @@
-
 type configType={
     authServer : string;
     resourceServer : string;
@@ -12,6 +11,4 @@ const config:configType = {
 }
 
 export const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-
 export default config;

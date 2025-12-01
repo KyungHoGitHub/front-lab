@@ -17,7 +17,7 @@ const ChatMessageComponent = ({ messages }: { messages: ChatMessage[] }) => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    const formattedMessages:FormattedMessage[] = messages.map((msg => ({
+    const formattedMessages:FormattedMessage[] = (messages ?? []).map((msg => ({
         ...msg,
         isMe: Number(msg.senderId) === decoded.userIdx,
     })));

@@ -51,7 +51,6 @@ const ChatUserSearchBar  = ({selectUserList, handleChatCreateButton}: ChatUserSe
         setSelectedUser(user);
         setQuery(user.username); // input에 선택한 유저 이름 반영
         setResults([]);
-
     };
 
     return (

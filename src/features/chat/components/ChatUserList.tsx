@@ -22,6 +22,7 @@ import {
     PaginationLink, PaginationNext,
     PaginationPrevious
 } from "@/components/ui/pagination";
+import {useChatStore} from "@/features/chat/store/chatStore.ts";
 
 interface ChatUserListProps {
     selectedUser: ChatUser | null;
@@ -31,15 +32,22 @@ interface ChatUserListProps {
 }
 
 const ChatUserList = ({selectedUser, selectUserList, chatUserListHandleClick,handleChatCreateButton}: ChatUserListProps) => {
+    const testSelectedUser  = useChatStore((state)=> state.testSelectedUser);
+    const setTestSelectedUser = useChatStore((state)=> state.setTestSelectedUser);
     if (selectUserList === null) return;
 
+    const handleChatUserSelect = (user) =>{
+        setTestSelectedUser(user);
+    };
+
+    console.log("값 확인 0000", testSelectedUser);
     return (
         <div className="flex w-full max-w-md flex-col gap-6">
             <ChatUserSearchBar selectUserList={selectUserList} handleChatCreateButton={handleChatCreateButton}/>
             <ItemGroup>
                 {selectUserList?.map((user, index) => (
                     <React.Fragment key={user.userIdx}>
-                        <Item onClick={() => chatUserListHandleClick(user)}
+                        <Item onClick={() => handleChatUserSelect(user)}
                               className={`cursor-pointer transition border rounded-md ${
                                   selectedUser?.userIdx === user.userIdx ? 'border border-blue-500 bg-blue-50' : 'border-transparent bg-white'
                               }`}

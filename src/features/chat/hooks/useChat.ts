@@ -16,6 +16,7 @@ import {useAuth} from "@/features/contexts/components/AuthProvider.tsx";
 import {jwtDecode} from "jwt-decode";
 
 import { chatSocket } from "@/features/chat/hooks/chatSocket";
+import {useChatStore} from "@/features/chat/store/chatStore.ts";
 
 
 
@@ -68,6 +69,7 @@ export const useChat = () => {
     const decoded = jwtDecode(token);
 
     const [roomId, setRoomId] = useState<string>("");
+    const testSelectedUser  = useChatStore((state)=> state.testSelectedUser);
 
     const [testMessages, setTestMessages] = useState<ChatMessage>();
 
@@ -136,7 +138,7 @@ export const useChat = () => {
     const {data: chatMessages} = useQuery({
         queryKey: ['chatMessages'],
         queryFn: async () => {
-            const {data} = await getMessageList(selectedUser.userIdx, decoded.userIdx);
+            const {data} = await getMessageList(testSelectedUser.userIdx, decoded.userIdx);
             return data;
         },
 
@@ -150,10 +152,11 @@ export const useChat = () => {
             setRoomId(roomId);
 
             const messages = await fetchChatMessages(roomId);
-            setTestMessages(messages);
+            setTestMessages(messages.data);
             console.log("서버에서 받아온 message 데이터",messages);
             chatSocket.subscribeRoom(roomId, (msg) => {
                 const parsed = JSON.parse(msg.body);
+                console.log("!!!!!!!!!!!!!!",parsed);
                 setMessages(prev => [...prev, parsed]);
             });
 
@@ -221,7 +224,7 @@ export const useChat = () => {
         }
 
         // 2. 사용자 선택 체크
-        if (!selectedUser) {
+        if (!testSelectedUser) {
             console.warn("⚠️ 사용자를 선택해주세요");
             return;
         }
@@ -238,7 +241,7 @@ export const useChat = () => {
             sendMessage: sendMessage,
             senderId: userIdx,
             timestamp: new Date().toISOString(),
-            recipient: selectedUser.id,
+            recipient: testSelectedUser.id,
             roomId : roomId,
         };
 
@@ -261,6 +264,7 @@ export const useChat = () => {
         selectUserList,
         messages,
         sendMessage,
+        testMessages,
         chatUserListHandleClick,
         chattingRoomOnChangeSendMessage,
         chattingRoomOnClickSendMessage,
