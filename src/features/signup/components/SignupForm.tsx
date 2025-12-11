@@ -19,6 +19,8 @@ import {Badge} from "@/components/ui/badge.tsx";
 import {EyeIcon, EyeOffIcon} from "lucide-react";
 import {UserRole} from "@/features/signup/types/UserRole.ts";
 import {clsx} from "clsx";
+import {SignupError} from "@/features/signup/errors/SignupError.ts";
+import {HttpStatus} from "@/constants/httpStatus.ts";
 
 
 interface SignupFormProps {
@@ -45,7 +47,6 @@ const FormSchema = z.object({
 
 const SignupForm: React.FC<SignupFormProps> = ({title}) => {
     const {setUser} = useUserStore();
-    const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [userIdCheck, setUserIdCheck] = useState<boolean>(false);
@@ -67,10 +68,9 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
     });
 
     const userIdCheckClick = async () => {
-        await form.clearErrors("password"); // password 에러 초기화
+        form.clearErrors("password"); // password 에러 초기화
         const isValid = await form.trigger("userId", {shouldFocus: true});
-        console.log("Trigger result for userId:", isValid);
-        console.log("Form errors:", form.formState.errors);
+
         if (!isValid) {
             toast.warning("아이디 형식을 다시 확인해주세요.");
             return;
@@ -82,20 +82,26 @@ const SignupForm: React.FC<SignupFormProps> = ({title}) => {
                 return;
             }
             const res = await validUserId(values.userId);
-            console.log("validUserId response:", res);
+            console.log("데이터 확인",res)
             if (res.status == 200) {
                 setUserIdCheck(true);
                 setSuccessMessage("이용 가능한 아이디입니다.");
                 setTimeout(() => {
                     setSuccessMessage(null);
                 }, 2000);
-            } else {
-                throw new Error(res.message || "아이디 중복 확인 실패");
             }
         } catch (error) {
+            if(error.response){
+                const status = error.response.status;
+                if (status === HttpStatus.NOT_FOUND){
+                    toast.error("이미 사용중인 아이디 입니다.");
+                }
+            }else{
+
             setUserIdCheck(false);
             toast.error(error.message || "아이디 중복 확인에 실패했습니다.");
             console.error("userIdCheck error:", error);
+            }
         }
     };
 

@@ -10,14 +10,44 @@
 ## 디렉토리 구조
 프로젝트는  `FIRST-FEATURES, DOMAIN-DRIVEN` 을 기반으로 기능 단위로 구성됩니다. 예시는 `login` 모듈입니다:
 
+```
+src/
+├─ assets/        # 이미지, 아이콘 폰트 등 정적 파일 보관
+├─ components/    # shadcn/ui + 공통 컴포넌트
+│   ├─ ui/
+│   └─ masicui/
+├─ constants/     # 색상, 라우트 등 상수
+├─ features/      # 기능 단위 모듈화 (진행 중)
+│   ├─ admin/
+│   ├─ chat/
+│   └─ login/
+├─ fonts/         # 텍스트 폰트 파일 보관
+├─ lib/           # firebase 설정 파일 보관
+├─ locals/        # 다국어 지원을 위한 json 파일 보관
+│   ├─ en/
+│   └─ ko/
+├─ pages/         # 화면 ui 컴포넌트
+├─ shared/        # 전역  axios 인터셉터, 공통 ui 컴포넌트, 엔드포인트
+│   ├─ api/
+│   ├─ component/
+│   ├─ endpoints/
+│   ├─ hooks/
+│   └─ utill/
+├─ storage/           # zustand store 파일 정의
+└─ App.tsx
+```
 
 ### 각 폴더 역할
-- **`api/`**: 백엔드와의 통신 로직을 처리.
-    - `axios.ts`: 공통 Axios 인스턴스 설정 (토큰 관리, 에러 처리).
-    - `config.ts`: API URL과 엔드포인트를 상수로 정의.
-    - `loginApi.ts`: `login()`, `refreshToken()` 등의 API 함수.
-- **`component/`**: UI 요소를 정의 (예: `LoginForm.tsx`).
-- **`type/`**: TypeScript 인터페이스와 타입 정의.
+| 폴더            | 역할                                 |
+|---------------|------------------------------------|
+| `assets/`     | 이미지, 아이콘 등 정적 파일 보관                |
+| `components/` | shadcn/ui 기반 재사용 컴포넌트 + 프로젝트 공통 UI |
+| `features/`   | 기능 단위 모듈화 (현재는 점진 도입 중, 향후 확장 목표)  |
+| `constants/`  | 색상, 라우팅 경로 등 변하지 않는 값 중앙 관리        |
+| `lib/`        | 외부 라이브러리 설정 및 범용 유틸 함수             |
+| `loclas/`     | 다국어 지원을 위한 ko,en 등의 json 파일 정의     |
+| `styles/`     | Tailwind 설정, 전역 CSS, 테마 관련 스타일     |
+
 
 ### 새로운 기능을 추가한 다면
 - `src/features` 에 새로 추가하는 기능 명칭에 폴더를 하나 만들고 기본 구성인 <br>
@@ -31,7 +61,6 @@
   padding: 10px
 }
 ```
-
 ### 다국어 적용
 - i18n 라이브러리를 사용해서 다국어 기능을 제공 
 -

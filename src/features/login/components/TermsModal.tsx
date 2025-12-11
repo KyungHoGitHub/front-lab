@@ -46,8 +46,6 @@ const TermsModal: React.FC<TermsModalProps> = ({isOpen, onClose}) => {
     const form = useForm({});
     // const [isOpen, setIsOpen] = useState<boolean>(false);
     const {login} = useAuth();
-
-
     const navigate = useNavigate();
 
     // 모달에 사용하는 문자열 목록
@@ -80,13 +78,9 @@ const TermsModal: React.FC<TermsModalProps> = ({isOpen, onClose}) => {
     }
 
     const mutation = useMutation({
-
         mutationFn: (payload: { id: string; agreed: boolean }[]) => termsForm(payload,localStorage.getItem("user-mail")),
         onSuccess: (data) => {
-
-
             onClose();
-
             login("eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhYWJiIiwidXNlcklkeCI6NTIsInVzZXJJZCI6ImFiYWIiLCJyb2xlIjoidXNlciIsImV4cCI6MTc2MTU0MDUwNn0.nCRJQTy2TshqpuIWaIUJ58sBkTzHmbo-kzeISlBmsgvGArwH-qJxYazcIVAnmI3z");
             navigate("/home");
         },
@@ -97,8 +91,6 @@ const TermsModal: React.FC<TermsModalProps> = ({isOpen, onClose}) => {
 
     const onSubmit = (formValues: TermsFormValues) => {
         // RHF에서 얻은 값 (terms.privacy, terms.public ...)
-
-
         // 서버에 전송할 형태로 변환
         const payload = {
             terms: data.map(item => ({
@@ -107,7 +99,6 @@ const TermsModal: React.FC<TermsModalProps> = ({isOpen, onClose}) => {
             })),
         };
         mutation.mutate(payload); // ← 서버로 전송
-
     };
 
     if (!isOpen) return null;

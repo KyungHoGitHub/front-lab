@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import OathLoginButton from "./OathLoginButton.tsx";
 import {LoginFormData} from "../types/login.ts";
@@ -21,6 +21,7 @@ import {useLogin} from "@/features/login/hooks/useLogin.ts";
 import {clsx} from "clsx";
 import {CLIENT_ID} from "@/config.ts";
 import TermsModal from "@/features/login/components/TermsModal.tsx";
+import {ROUTE_PATHS} from "@/constants/router.ts";
 
 // 로그인 폼 유효성 검사 객체 정의
 const FormSchema = z.object({
@@ -39,11 +40,13 @@ const FormSchema = z.object({
 
 const LoginForm: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [loginType, setLoginType] = useState<LoginTypes>(LoginTypes.ID_PASSWORD);
     const { loginUser } = useLogin();
     const [isTermsModalOpen, setIsTermsModalOpen] = useState<boolean>(false);
+    const from = (location.state as any)?.from?.pathname ?? ROUTE_PATHS.HOME;
 
     // todo 로그인 버튼 className 선언 -> 나중에 cva 로 적용하기!
     const loginButtonClass = clsx(
@@ -71,9 +74,8 @@ const LoginForm: React.FC = () => {
     const onSubmit = async (formData: LoginFormData) => {
         setLoading(true);
         const res = await loginUser(formData,loginType);
-
         if(res){
-            navigate("/home");
+            navigate(from,{replace:true});
         }
         setLoading(false);
     };
@@ -111,7 +113,7 @@ const LoginForm: React.FC = () => {
                                         <Input
                                             className="!ring-blue-400"
                                             placeholder="아이디를 입력해주세요" {...field}
-                                            value={field.value || ""}
+                                            value={field.value ?? ""}
                                         />
                                     </FormControl>
                                     <FormMessage/>
@@ -131,7 +133,7 @@ const LoginForm: React.FC = () => {
                                             type={showPassword ? "text" : "password"}
                                             placeholder="비밀번호를 입력해주세요"
                                             {...field}
-                                            value={field.value || ""}
+                                            value={field.value ?? ""}
                                         />
                                     </FormControl>
                                     <FormMessage/>

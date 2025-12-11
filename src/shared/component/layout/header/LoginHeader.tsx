@@ -7,13 +7,12 @@ import {MdArrowBackIos} from "react-icons/md";
 
 const LoginHeader: React.FC = () => {
     const location = useLocation();
-    const [loginCheck, isLoginCheck] = useState<boolean>();
+    const [loginCheck, setLoginCheck] = useState<boolean>();
     const isLoginInclude = location.pathname.includes("login");
 
     useEffect(() => {
-        isLoginCheck(isLoginInclude)
+        setLoginCheck(isLoginInclude)
     }, [isLoginInclude]);
-
 
     return (
         <header className="login-header">
@@ -25,13 +24,13 @@ const LoginHeader: React.FC = () => {
                 </div>
                 {
                     loginCheck ?
-                    <div className="login-right-section">
-                        <NavLink to="/signup" className="signup-button">
-                            <span>Sign Up</span>
-                            <FiLogIn className="signup-icon"/>
-                        </NavLink>
-                    </div>
-                        :<div>
+                        <div className="login-right-section">
+                            <NavLink to="/signup" className="signup-button">
+                                <span>Sign Up</span>
+                                <FiLogIn className="signup-icon"/>
+                            </NavLink>
+                        </div>
+                        : <div>
                             <NavLink to="/login" className="login-button">
                                 <MdArrowBackIos className="login-icon"/>
                                 <span>Login</span>
